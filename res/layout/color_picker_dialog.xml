@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="250dp"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    tools:context=".dialog.ColorPickerDialog" >
+
+    <org.holoeverywhere.widget.TextView
+        android:id="@+id/color_pick_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:text="@string/color_picker_title"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+    
+    <View
+        android:id="@+id/divider_line"
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_below="@id/color_pick_title"
+        android:layout_margin="5dp"
+        android:background="@color/holo_light_blue" />
+
+    <org.holoeverywhere.widget.SeekBar
+        android:id="@+id/red_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/divider_line"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="25dp"
+        android:max="255"
+        android:progress="255"
+        android:progressDrawable="@drawable/red_seek_bar" />
+
+    <org.holoeverywhere.widget.SeekBar
+        android:id="@+id/green_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/red_bar"
+        android:layout_centerHorizontal="true"
+        android:layout_margin="10dp"
+        android:max="255"
+        android:progress="255"
+        android:progressDrawable="@drawable/green_seek_bar" />
+
+    <org.holoeverywhere.widget.SeekBar
+        android:id="@+id/blue_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/green_bar"
+        android:layout_centerHorizontal="true"
+        android:layout_margin="10dp"
+        android:max="255"
+        android:progress="0"
+        android:progressDrawable="@drawable/blue_seek_bar" />
+
+    <ImageView
+        android:id="@+id/color_display"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_below="@id/blue_bar"
+        android:layout_centerHorizontal="true"
+        android:layout_margin="10dp"
+        android:contentDescription="@string/color_display_desc" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/color_display"
+        android:layout_marginBottom="10dp"
+        android:gravity="center"
+        android:orientation="horizontal" >
+
+        <org.holoeverywhere.widget.Button
+            android:id="@+id/ok_button"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginRight="10dp"
+            android:gravity="center"
+            android:text="@string/ok" />
+
+        <org.holoeverywhere.widget.Button
+            android:id="@+id/cancel_button"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:gravity="center"
+            android:text="@string/cancel" />
+    </LinearLayout>
+
+</RelativeLayout>

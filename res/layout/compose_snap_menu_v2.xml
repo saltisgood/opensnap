@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <org.holoeverywhere.widget.TextView
+        android:id="@+id/textView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:text="@string/compose_snap_menu_title"
+        android:textColor="@android:color/primary_text_light"
+        android:textSize="35sp"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <org.holoeverywhere.widget.Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textView1"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/std_button"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:gravity="bottom|right"
+        android:textColor="@android:color/black"
+        android:textSize="30sp"
+        android:lineSpacingExtra="-4dp"
+        android:paddingBottom="5dp"
+        android:paddingRight="5dp"
+        android:id="@+id/snap_cam_button"
+        android:text="@string/snap_cam_button_text" />
+    
+    <org.holoeverywhere.widget.Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/snap_cam_button"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/std_button"
+        android:gravity="bottom|right"
+        android:textColor="@android:color/black"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textSize="30sp"
+        android:lineSpacingExtra="-4dp"
+        android:paddingBottom="5dp"
+        android:paddingRight="5dp"
+        android:id="@+id/compose_snap_resend"
+        android:text="@string/resend_previous" />
+    
+    <org.holoeverywhere.widget.Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/compose_snap_resend"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/std_button"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:gravity="bottom|right"
+        android:textColor="@android:color/black"
+        android:textSize="30sp"
+        android:lineSpacingExtra="-4dp"
+        android:paddingBottom="5dp"
+        android:paddingRight="5dp"
+        android:id="@+id/compose_snap_select"
+        android:text="@string/compose_snap_select" />
+
+    <org.holoeverywhere.widget.Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/compose_snap_select"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/std_button"
+        android:gravity="bottom|right"
+        android:textColor="@android:color/black"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textSize="30sp"
+        android:lineSpacingExtra="-4dp"
+        android:paddingBottom="5dp"
+        android:paddingRight="5dp"
+        android:id="@+id/compose_snap_camera_button"
+        android:text="@string/compose_snap_camera" />
+    
+</RelativeLayout>

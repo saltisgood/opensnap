@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+    
+    <ImageView
+        android:id="@+id/logo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/heading"
+        android:contentDescription="@string/logo_desc"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true" />
+    
+    <org.holoeverywhere.widget.Button
+        android:id="@+id/newsnaps"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/std_button"
+        android:onClick="onNewSnapClick"
+        android:lineSpacingExtra="-4dp"
+        android:layout_below="@id/logo"
+        android:layout_marginTop="-20dp"
+        android:layout_centerHorizontal="true"
+        android:text="@string/new_snap_button"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:gravity="bottom|right"
+        android:textColor="@android:color/black"
+        android:textSize="30sp"
+        android:paddingBottom="5dp"
+        android:paddingRight="5dp" />
+    
+    <org.holoeverywhere.widget.Button
+        android:id="@+id/snaplist"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/std_button"
+        android:onClick="onSnapsClick"
+        android:lineSpacingExtra="-4dp"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/newsnaps"
+        android:layout_marginTop="10dp"
+        android:text="@string/snap_list"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:gravity="bottom|right"
+        android:textColor="@android:color/black"
+        android:textSize="30sp"
+        android:paddingBottom="5dp"
+        android:paddingRight="5dp" />
+    
+    <org.holoeverywhere.widget.TextView
+        android:id="@+id/new_snaps_notice"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_alignLeft="@id/snaplist"
+        android:layout_alignTop="@id/snaplist"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="22dp"
+        android:gravity="center"
+        android:background="@drawable/round_rect_red"
+        android:visibility="invisible"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+    
+    <org.holoeverywhere.widget.Button
+        android:id="@+id/contactlist"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/std_button"
+        android:onClick="onContactsClick"
+        android:lineSpacingExtra="-4dp"
+        android:layout_below="@id/snaplist"
+        android:layout_marginTop="10dp"
+        android:layout_centerHorizontal="true"
+        android:text="@string/contact_list"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:gravity="bottom|right"
+        android:textColor="@android:color/black"
+        android:textSize="30sp"
+        android:paddingBottom="5dp"
+        android:paddingRight="5dp" />
+    
+    <com.nickstephen.lib.gui.widget.AnimTextView
+        android:id="@+id/creator_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="24dp"
+        android:textSize="20sp"
+        android:textColor="@color/white_solid"
+        custom:textArray="@array/greetings_array"
+        custom:anim_dur_ms="1500"
+        custom:anim_waitDur_ms="7500"
+        custom:anim_shuffle="true" />
+
+</RelativeLayout>

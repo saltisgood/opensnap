@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="250dp"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:background="@android:color/black"
+    tools:context=".dialog.SDWarningDialog" >
+
+    <org.holoeverywhere.widget.TextView
+        android:id="@+id/sd_warning_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:gravity="left|center_vertical"
+        android:text="@string/sd_warning_title"
+        android:textColor="@android:color/white"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textSize="22sp" />
+    
+    <View
+        android:id="@+id/divider_line"
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_below="@id/sd_warning_title"
+        android:layout_margin="5dp"
+        android:background="@color/holo_light_blue" />
+    
+    <org.holoeverywhere.widget.TextView
+        android:id="@+id/textView1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/divider_line"
+        android:padding="5dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        android:text="@string/sd_warning_text"
+        android:textColor="@android:color/white"
+        android:textAppearance="@android:attr/textAppearanceMedium"
+        android:textSize="18sp" />
+    
+    <RelativeLayout 
+        android:id="@+id/content_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/textView1" >
+        
+        <org.holoeverywhere.widget.CheckBox
+            android:id="@+id/checkBox1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_margin="2dp" />
+        
+        <org.holoeverywhere.widget.TextView 
+            android:id="@+id/textView2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_toLeftOf="@id/checkBox1"
+            android:layout_centerVertical="true"
+            android:text="@string/sd_warning_prompt_message"
+            android:textColor="@android:color/white"
+            android:textAppearance="@android:attr/textAppearanceSmall"
+            android:textSize="14sp" />
+        
+    </RelativeLayout>
+
+    <org.holoeverywhere.widget.Button
+        android:id="@+id/ok_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/content_container"
+        android:gravity="center"
+        android:text="@string/ok"
+        android:textColor="@android:color/white" />
+
+</RelativeLayout>
