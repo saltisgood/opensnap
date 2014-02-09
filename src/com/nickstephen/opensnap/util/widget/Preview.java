@@ -75,14 +75,18 @@ public class Preview extends SurfaceView implements SurfaceHolder.Callback {
 		
 		// set preview size and make any resize, rotate or reformatting changes here
         mCameraParams.setPreviewSize(mPreviewHeight, mPreviewWidth);
-        mCamera.setParameters(mCameraParams);
+        try {
+            mCamera.setParameters(mCameraParams);
+        } catch (Exception e) {
+            Twig.debug("OpenSnap Preview", "Error setting camera params in surfaceChanged: " + e.getMessage());
+        }
 		
 		// start preview with new settings
 		try {
 			mCamera.setPreviewDisplay(this.mHolder);
 			mCamera.startPreview();
 		} catch (Exception e) {
-			Twig.debug("OpenSnap Preview", "Error starting mCamera preview: " + e.getMessage());
+			Twig.debug("OpenSnap Preview", "Error starting camera preview: " + e.getMessage());
 		}
 	}
 
