@@ -34,6 +34,8 @@ import android.os.Handler;
 import android.os.Message;
 import android.provider.MediaStore;
 import android.support.v4.app.ActionBarDrawerToggle;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.view.Menu;
@@ -63,6 +65,8 @@ import com.nickstephen.opensnap.global.LocalSnaps;
 import com.nickstephen.opensnap.global.Statistics;
 import com.nickstephen.opensnap.global.TempSnaps;
 import com.nickstephen.opensnap.gui.SnapEditorBaseFrag;
+import com.nickstephen.opensnap.main.tuts.TutorialIntroFrag;
+import com.nickstephen.opensnap.main.tuts.TutorialRootFrag;
 import com.nickstephen.opensnap.settings.Settings;
 import com.nickstephen.opensnap.settings.SettingsAccessor;
 import com.nickstephen.opensnap.util.Constants;
@@ -301,7 +305,11 @@ public class LaunchActivity extends Activity {
                 this.startActivity(devTent);
                 return true;
             case R.id.view_tut:
-                //TODO: Show the tutorial gubs again
+                this.getSupportFragmentManager().beginTransaction()
+                        .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                        .add(R.id.launch_container, new TutorialIntroFrag(), TutorialIntroFrag.FRAG_TAG)
+                        .addToBackStack(TutorialRootFrag.FRAG_TAG)
+                        .commit();
                 return true;
 			default:
 				return super.onOptionsItemSelected(item);
@@ -358,6 +366,10 @@ public class LaunchActivity extends Activity {
 	 */
 	@Override
 	public void onBackPressed() {
+        if (this.getSupportFragmentManager().popBackStackImmediate(TutorialRootFrag.FRAG_TAG, FragmentManager.POP_BACK_STACK_INCLUSIVE)) {
+            return;
+        }
+
 		Fragment frag = (Fragment)this.getSupportFragmentManager().findFragmentByTag(ComposerMenuFrag.FRAG_TAG);
 		if (frag != null && frag.isFocused()) {
 			frag.popFragment();

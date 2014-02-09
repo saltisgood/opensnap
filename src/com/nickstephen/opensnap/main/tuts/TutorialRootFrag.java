@@ -4,13 +4,17 @@ import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
+import android.widget.Toast;
 
 import com.nickstephen.lib.gui.Fragment;
+import com.nickstephen.lib.misc.StatMethods;
 
 /**
  * Created by Nick Stephen on 1/02/14.
  */
 public abstract class TutorialRootFrag extends Fragment {
+    public static final String FRAG_TAG = "com.nickstephen.opensnap.main.tuts.TutorialRootFrag";
+
     private AlphaAnimation mAnim;
 
     @Override
@@ -55,7 +59,10 @@ public abstract class TutorialRootFrag extends Fragment {
         }
     };
 
-    protected void finish() {
+    protected void finish(boolean showToast) {
         this.getFragmentManager().popBackStack();
+        if (showToast) {
+            StatMethods.hotBread(TutorialRootFrag.this.getActivity(), "Press the options button and \"View Tutorial\" to view again at any time!", Toast.LENGTH_SHORT);
+        }
     }
 }

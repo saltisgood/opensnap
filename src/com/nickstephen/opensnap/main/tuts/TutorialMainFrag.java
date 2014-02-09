@@ -24,7 +24,7 @@ public class TutorialMainFrag extends TutorialRootFrag{
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                finish();
+                finish(true);
             }
         });
 
@@ -37,7 +37,7 @@ public class TutorialMainFrag extends TutorialRootFrag{
     private final View.OnClickListener mNextClickL = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-            finish();
+            finish(false);
             MainFrag frag = (MainFrag) TutorialMainFrag.this.getFragmentManager()
                     .findFragmentByTag(MainFrag.FRAGTAG);
             if (frag != null) {
@@ -46,7 +46,7 @@ public class TutorialMainFrag extends TutorialRootFrag{
             TutorialMainFrag.this.getFragmentManager().beginTransaction()
                     .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
                     .add(R.id.launch_container, new TutorialSnapFrag(), TutorialSnapFrag.FRAG_TAG)
-                    .addToBackStack(TutorialSnapFrag.FRAG_TAG)
+                    .addToBackStack(TutorialRootFrag.FRAG_TAG)
                     .commit();
         }
     };

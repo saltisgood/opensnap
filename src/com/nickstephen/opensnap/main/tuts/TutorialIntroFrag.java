@@ -23,7 +23,7 @@ public class TutorialIntroFrag extends TutorialRootFrag {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                finish();
+                finish(true);
             }
         });
 
@@ -36,13 +36,11 @@ public class TutorialIntroFrag extends TutorialRootFrag {
     private final View.OnClickListener beginTutorial = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-            //TODO: Tutorial guff
-
-            finish();
+            finish(false);
             TutorialIntroFrag.this.getFragmentManager().beginTransaction()
                     .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
                     .add(R.id.launch_container, new TutorialMainFrag(), TutorialMainFrag.FRAG_TAG)
-                    .addToBackStack(TutorialMainFrag.FRAG_TAG).commit();
+                    .addToBackStack(TutorialRootFrag.FRAG_TAG).commit();
         }
     };
 }

@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 import com.nickstephen.lib.gui.Fragment;
 import com.nickstephen.opensnap.R;
 import com.nickstephen.opensnap.main.tuts.TutorialIntroFrag;
+import com.nickstephen.opensnap.main.tuts.TutorialRootFrag;
 
 /**
  * An extension of {@link Fragment} that is the main menu fragment container. This is an important
@@ -123,7 +124,7 @@ public class MainFrag extends Fragment {
             this.getFragmentManager().beginTransaction()
                     .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
                     .add(R.id.launch_container, new TutorialIntroFrag(), TutorialIntroFrag.FRAG_TAG)
-                    .addToBackStack(TutorialIntroFrag.FRAG_TAG)
+                    .addToBackStack(TutorialRootFrag.FRAG_TAG)
                     .commit();
         }
     }

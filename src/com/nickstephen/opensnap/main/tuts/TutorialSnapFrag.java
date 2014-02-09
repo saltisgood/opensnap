@@ -32,7 +32,7 @@ public class TutorialSnapFrag extends TutorialRootFrag {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                finish();
+                finish(true);
             }
         });
 
@@ -49,12 +49,12 @@ public class TutorialSnapFrag extends TutorialRootFrag {
     private final View.OnClickListener mNextClickL = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-            finish();
+            finish(false);
 
             TutorialSnapFrag.this.getFragmentManager().beginTransaction()
                     .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
                     .add(R.id.launch_container, new TutorialSnap2Frag(), TutorialSnap2Frag.FRAG_TAG)
-                    .addToBackStack(TutorialSnap2Frag.FRAG_TAG)
+                    .addToBackStack(TutorialRootFrag.FRAG_TAG)
                     .commit();
         }
     };

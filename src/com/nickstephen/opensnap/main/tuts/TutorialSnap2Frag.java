@@ -25,17 +25,12 @@ public class TutorialSnap2Frag extends TutorialRootFrag {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                finish();
+                finish(true);
             }
         });
 
         button = rootView.findViewById(R.id.yes_button);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
-            }
-        });
+        button.setOnClickListener(mNextClickL);
 
         return rootView;
     }
@@ -43,7 +38,7 @@ public class TutorialSnap2Frag extends TutorialRootFrag {
     private final View.OnClickListener mNextClickL = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-            finish();
+            finish(false);
             MainFrag frag = (MainFrag) TutorialSnap2Frag.this.getFragmentManager()
                     .findFragmentByTag(MainFrag.FRAGTAG);
             if (frag != null) {
@@ -53,7 +48,7 @@ public class TutorialSnap2Frag extends TutorialRootFrag {
             TutorialSnap2Frag.this.getFragmentManager().beginTransaction()
                     .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
                     .add(R.id.launch_container, new TutorialContactFrag(), TutorialContactFrag.FRAG_TAG)
-                    .addToBackStack(TutorialContactFrag.FRAG_TAG)
+                    .addToBackStack(TutorialRootFrag.FRAG_TAG)
                     .commit();
         }
     };

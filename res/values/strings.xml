@@ -146,6 +146,10 @@
     <string name="view_tut">View Tutorial</string>
     <string name="ready_to_view">Snap Downloaded</string>
     <string name="buy_premium">Access Premium Features</string>
+    <string name="tut_contacts">Here are your contacts.\n\nTap to view your conversations or as a
+    shortcut to sending them a snap.\n\nMore contact options will be added soon!\n\nAny red crossed
+    images mean the snap hasn\'t been saved, so remember to get premium to save them.</string>
+    <string name="buy_premium2">Get Premium</string>
 
     <string name="vid_low">Low Quality</string>
     <string name="vid_hi">High Quality</string>
