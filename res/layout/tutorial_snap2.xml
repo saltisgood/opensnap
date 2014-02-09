@@ -15,17 +15,13 @@
         android:layout_marginRight="20dp"
         android:layout_gravity="center_horizontal"/>
 
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:layout_marginTop="135dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:layout_gravity="center_horizontal">
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="80dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_gravity="center_horizontal"
             android:orientation="vertical">
 
             <TextView
@@ -73,9 +69,15 @@
                 android:gravity="center_vertical"
                 android:layout_marginBottom="10dp"/>
 
-        </LinearLayout>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableLeft="@drawable/check"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="@string/ready_to_view"
+                android:gravity="center_vertical" />
 
-    </ScrollView>
+        </LinearLayout>
 
 
     <LinearLayout

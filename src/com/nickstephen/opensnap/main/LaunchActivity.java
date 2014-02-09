@@ -589,6 +589,15 @@ public class LaunchActivity extends Activity {
 		
 		new BGLogin(this.getApplicationContext(), callback).execute("update", GlobalVars.getUsername(this), GlobalVars.getAuthToken(this));
 	}
+
+    public void performPurchase(IabHelper.OnIabPurchaseFinishedListener purchaseListener) {
+        if (mPlayHelper != null) {
+            if (purchaseListener == null) {
+                purchaseListener = mPurchaseListener;
+            }
+            mPlayHelper.launchPurchaseFlow(this, SKU.PREMIUM_FEATURES, SKU.REQUEST_PREMIUM, purchaseListener, null);
+        }
+    }
 	
 	/**
 	 * An extension of AsyncTask that is used to run a login on a background thread

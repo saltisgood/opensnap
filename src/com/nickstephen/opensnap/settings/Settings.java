@@ -59,43 +59,6 @@ public class Settings extends PreferenceActivity {
                     }
                 }
             });
-
-			/* final CheckBoxPreference check = (CheckBoxPreference)this.findPreference(this.getString(R.string.pref_preview_key));
-			final CheckBoxPreference check2 = (CheckBoxPreference)this.findPreference(this.getString(R.string.pref_time_key));
-			final CheckBoxPreference check3 = (CheckBoxPreference)this.findPreference(this.getString(R.string.pref_markopen_key));
-			final CheckBoxPreference check4 = (CheckBoxPreference)this.findPreference(this.getString(R.string.pref_addtolibrary_key));
-
-			//boolean allowSaves = SettingsAccessor.getAllowSaves(this);
-
-			if (mPremiumEnabled) {
-				check.setEnabled(true);
-				check2.setEnabled(true);
-				check3.setEnabled(true);
-				check4.setEnabled(true);
-			} */
-
-			//pref = (EditTextPreference)this.findPreference(this.getString(R.string.pref_allow_save_key));
-            /* CheckBoxPreference savePref = (CheckBoxPreference)this.findPreference(this.getString(R.string.pref_allow_save_key));
-			pref.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
-				@Override
-				public boolean onPreferenceChange(Preference arg0, Object arg1) {
-					if (SettingsAccessor.getAllowSaves(Settings.this, (String)arg1)) {
-						StatMethods.hotBread(Settings.this, "Authorisation successful!", Toast.LENGTH_LONG);
-						check.setEnabled(true);
-						check2.setEnabled(true);
-						check3.setEnabled(true);
-						check4.setEnabled(true);
-					}
-					else {
-						StatMethods.hotBread(Settings.this, "Authorisation failed. Better luck next time!", Toast.LENGTH_LONG);
-						check.setEnabled(false);
-						check2.setEnabled(false);
-						check3.setEnabled(false);
-						check4.setEnabled(false);
-					}
-					return true;
-				}
-			}); */
 			
 			ListPreference theme = (ListPreference)this.findPreference(this.getString(R.string.pref_theme_key));
 			theme.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {

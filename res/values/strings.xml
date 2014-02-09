@@ -135,18 +135,17 @@
     <string name="tut_hint">TIP: Press and hold the tutorials to see behind them!</string>
     <string name="next">Next</string>
     <string name="finish">Finish</string>
-    <string name="tut_snaps">This is your list of snaps, sent and received from anyone.\n
-    For received snaps simply tap to load and then tap again to view. Sent snaps can be tapped to viewed
-    whether or not you have access to premium features of OpenSnap.
-    \nWhen you view a snap in OpenSnap it will delete the snap by default but if you decide to purchase
-    Premium Features you will be able to save any and all snaps. It also helps support me, the developer!</string>
-    <string name="tut_snaps2">You can also long click on snaps to view more options.\n\nIcon Guide:</string>
+    <string name="tut_snaps">This is your list of snaps.\n\nTap to load, tap to view. Long click to view options.\n\nYou can always
+        view your sent snaps but need premium features to permanently save received snaps.</string>
+    <string name="tut_snaps2">Icon Guide:</string>
     <string name="rec_unopen">Received Unopened</string>
     <string name="rec_open">Received Opened</string>
     <string name="sent_unopen">Sent Unopened</string>
     <string name="sent_open">Sent Opened</string>
     <string name="movie">Video Snap</string>
     <string name="view_tut">View Tutorial</string>
+    <string name="ready_to_view">Snap Downloaded</string>
+    <string name="buy_premium">Access Premium Features</string>
 
     <string name="vid_low">Low Quality</string>
     <string name="vid_hi">High Quality</string>
