@@ -43,6 +43,7 @@ public class Settings extends PreferenceActivity {
 			
 			EditTextPreference pref = (EditTextPreference)this.findPreference(this.getString(R.string.pref_snapstokeep_key));
 			pref.getEditText().setInputType(InputType.TYPE_CLASS_NUMBER);
+            pref.setOnPreferenceChangeListener(mIntPrefCheckL);
 
             mPremiumEnabled = SettingsAccessor.getPremium(this);
 
@@ -71,6 +72,23 @@ public class Settings extends PreferenceActivity {
 			});
 		}
 	}
+
+    private final OnPreferenceChangeListener mIntPrefCheckL = new OnPreferenceChangeListener() {
+        @Override
+        public boolean onPreferenceChange(Preference preference, Object newValue) {
+            if (newValue instanceof String) {
+                try {
+                    //noinspection ResultOfMethodCallIgnored
+                    Integer.valueOf((String) newValue);
+                    return true;
+                } catch (NumberFormatException e) {
+                    // ignore and pass control to final return
+                }
+            }
+            StatMethods.hotBread(Settings.this, "Please enter a valid integer number", Toast.LENGTH_SHORT);
+            return false;
+        }
+    };
 	
 	@SuppressLint("NewApi")
 	public static class SettingsFrag extends PreferenceFragment {
@@ -84,6 +102,7 @@ public class Settings extends PreferenceActivity {
             this.addPreferencesFromResource(R.xml.preferences_honeycomb);
 			android.preference.EditTextPreference pref = (android.preference.EditTextPreference)this.findPreference(this.getString(R.string.pref_snapstokeep_key));
 			pref.getEditText().setInputType(InputType.TYPE_CLASS_NUMBER);
+            pref.setOnPreferenceChangeListener(mIntPrefCheckL);
 
             mPremiumEnabled = SettingsAccessor.getPremium(this.getActivity());
 
@@ -101,40 +120,6 @@ public class Settings extends PreferenceActivity {
                 }
             });
 			
-			/* final android.preference.CheckBoxPreference check = (android.preference.CheckBoxPreference)this.findPreference(this.getString(R.string.pref_preview_key));
-			final android.preference.CheckBoxPreference check2 = (android.preference.CheckBoxPreference)this.findPreference(this.getString(R.string.pref_time_key));
-			final android.preference.CheckBoxPreference check3 = (android.preference.CheckBoxPreference)this.findPreference(this.getString(R.string.pref_markopen_key));
-			final android.preference.CheckBoxPreference check4 = (android.preference.CheckBoxPreference)this.findPreference(this.getString(R.string.pref_addtolibrary_key));
-			//boolean allowSaves = SettingsAccessor.getAllowSaves(this.getActivity());
-			if (mPremiumEnabled) {
-				check.setEnabled(true);
-				check2.setEnabled(true);
-				check3.setEnabled(true);
-				check4.setEnabled(true);
-			} */
-			
-			/* pref = (android.preference.EditTextPreference)this.findPreference(this.getString(R.string.pref_allow_save_key));
-			pref.setOnPreferenceChangeListener(new android.preference.Preference.OnPreferenceChangeListener() {
-				@Override
-				public boolean onPreferenceChange(android.preference.Preference arg0, Object arg1) {
-					if (SettingsAccessor.getAllowSaves(SettingsFrag.this.getActivity(), (String)arg1)) {
-						StatMethods.hotBread(SettingsFrag.this.getActivity(), "Authorisation successful!", Toast.LENGTH_LONG);
-						check.setEnabled(true);
-						check2.setEnabled(true);
-						check3.setEnabled(true);
-						check4.setEnabled(true);
-					}
-					else {
-						StatMethods.hotBread(SettingsFrag.this.getActivity(), "Authorisation failed. Better luck next time!", Toast.LENGTH_LONG);
-						check.setEnabled(false);
-						check2.setEnabled(false);
-						check3.setEnabled(false);
-						check4.setEnabled(false);
-					}
-					return true;
-				}
-			}); */
-			
 			android.preference.ListPreference theme = (android.preference.ListPreference)this.findPreference(this.getString(R.string.pref_theme_key));
 			theme.setOnPreferenceChangeListener(new android.preference.Preference.OnPreferenceChangeListener() {
 				@Override
@@ -145,5 +130,22 @@ public class Settings extends PreferenceActivity {
 				}
 			});
 		}
+
+        private final android.preference.Preference.OnPreferenceChangeListener mIntPrefCheckL = new android.preference.Preference.OnPreferenceChangeListener() {
+            @Override
+            public boolean onPreferenceChange(android.preference.Preference preference, Object newValue) {
+                if (newValue instanceof String) {
+                    try {
+                        //noinspection ResultOfMethodCallIgnored
+                        Integer.valueOf((String) newValue);
+                        return true;
+                    } catch (NumberFormatException e) {
+                        // ignore and pass control to final return
+                    }
+                }
+                StatMethods.hotBread(SettingsFrag.this.getActivity(), "Please enter a valid integer number", Toast.LENGTH_SHORT);
+                return false;
+            }
+        };
 	}
 }
