@@ -14,9 +14,13 @@ import android.content.DialogInterface;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.os.Environment;
+import android.support.v4.app.FragmentTransaction;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.KeyEvent;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.Surface;
 import android.view.View;
@@ -33,6 +37,10 @@ import android.widget.TextView.OnEditorActionListener;
 
 import com.nickstephen.lib.gui.Fragment;
 import com.nickstephen.lib.misc.StatMethods;
+import com.nickstephen.opensnap.R;
+import com.nickstephen.opensnap.main.tuts.TutorialEditorFrag;
+import com.nickstephen.opensnap.main.tuts.TutorialRootFrag;
+import com.nickstephen.opensnap.settings.SettingsAccessor;
 import com.nickstephen.opensnap.util.misc.CameraUtil;
 
 public abstract class SnapEditorBaseFrag extends Fragment implements OnGlobalLayoutListener {
@@ -49,6 +57,7 @@ public abstract class SnapEditorBaseFrag extends Fragment implements OnGlobalLay
 	* A key used for deciding which editor to use. True for pictures, false for videos
 	*/
 	public static final String MEDIA_TYPE_KEY = "media_type";
+    public static final String FIRST_TIME_KEY = "first_timer";
 	
 	protected EditText mCaption;
 	private boolean moved = false;
@@ -61,13 +70,31 @@ public abstract class SnapEditorBaseFrag extends Fragment implements OnGlobalLay
 	private int mKeyboardLandHeight;
 	private boolean mIsPortraitMode;
 	private boolean mIsKeyboardBeingToggled = false;
+    private boolean mIsFirstTime = false;
 	
 	public static boolean isResendPicture(Context ctxt) {
 		SharedPreferences resendPref = (SharedPreferences) ctxt.getSharedPreferences(RESEND_INFO_KEY, Context.MODE_PRIVATE);
 		return resendPref.getBoolean(MEDIA_TYPE_KEY, true);
 	}
 
-	@Override
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        this.setHasOptionsMenu(true);
+
+        if (SettingsAccessor.getFirstTimeEdit(this.getActivity())) {
+            this.getFragmentManager().beginTransaction()
+                    .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                    .add(R.id.fragment_container, new TutorialEditorFrag(), TutorialEditorFrag.FRAG_TAG)
+                    .addToBackStack(TutorialRootFrag.FRAG_TAG)
+                    .commit();
+
+            mIsFirstTime = true;
+        }
+    }
+
+    @Override
 	public abstract View onCreateView(LayoutInflater inflater, ViewGroup root, Bundle savedInstanceState);
 	
 	protected abstract void setResendInfo(String fileName, int time);
@@ -139,8 +166,29 @@ public abstract class SnapEditorBaseFrag extends Fragment implements OnGlobalLay
 		
 		view.getViewTreeObserver().addOnGlobalLayoutListener(this);
 	}
-	
-	protected String getFilePath() {
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.view_tut, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.view_tut:
+                this.getFragmentManager().beginTransaction()
+                        .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                        .add(R.id.fragment_container, new TutorialEditorFrag(), TutorialEditorFrag.FRAG_TAG)
+                        .addToBackStack(TutorialRootFrag.FRAG_TAG)
+                        .commit();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    protected String getFilePath() {
 		if (isResend()) {
 			SharedPreferences resendPref = (SharedPreferences) this.getActivity().getSharedPreferences(RESEND_INFO_KEY, Context.MODE_PRIVATE);
 			if (!isResendPicture(this.getActivity())) {
@@ -172,6 +220,10 @@ public abstract class SnapEditorBaseFrag extends Fragment implements OnGlobalLay
 		}
 		return null;
 	}
+
+    protected final boolean isFirstTime() {
+        return mIsFirstTime;
+    }
 	
 	protected abstract void handleTextInput(String input);
 	

@@ -66,6 +66,7 @@ import com.nickstephen.opensnap.global.Statistics;
 import com.nickstephen.opensnap.global.TempSnaps;
 import com.nickstephen.opensnap.gui.SnapEditorBaseFrag;
 import com.nickstephen.opensnap.main.tuts.TutorialIntroFrag;
+import com.nickstephen.opensnap.main.tuts.TutorialMainFrag;
 import com.nickstephen.opensnap.main.tuts.TutorialRootFrag;
 import com.nickstephen.opensnap.settings.Settings;
 import com.nickstephen.opensnap.settings.SettingsAccessor;
@@ -307,7 +308,7 @@ public class LaunchActivity extends Activity {
             case R.id.view_tut:
                 this.getSupportFragmentManager().beginTransaction()
                         .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-                        .add(R.id.launch_container, new TutorialIntroFrag(), TutorialIntroFrag.FRAG_TAG)
+                        .add(R.id.launch_container, new TutorialMainFrag(), TutorialMainFrag.FRAG_TAG)
                         .addToBackStack(TutorialRootFrag.FRAG_TAG)
                         .commit();
                 return true;

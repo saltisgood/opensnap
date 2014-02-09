@@ -25,6 +25,7 @@ public class SettingsAccessor {
 	private static final String AUTH_KEY = "gimme784WEthose1837snaps93028baby90987364_dunno3940w0telsetoput";
 	private static final String GENERAL_SETTINGS_KEY = "misc_settings";
 	private static final String FIRST_TIME_KEY = "first_timer";
+    private static final String FIRST_TIME_EDIT_KEY = "first_edit_time";
 	
 	/**
 	 * Private hidden constructor. Shouldn't ever be called.
@@ -203,12 +204,27 @@ public class SettingsAccessor {
 	
 	public static boolean getFirstTimeStart(Context ctxt) {
 		SharedPreferences generalPrefs = ctxt.getSharedPreferences(GENERAL_SETTINGS_KEY, Context.MODE_PRIVATE);
-		return generalPrefs.getBoolean(FIRST_TIME_KEY, false);
+		return generalPrefs.getBoolean(FIRST_TIME_KEY, true);
 	}
 	
 	public static void setFirstTimeStart(Context ctxt, boolean val) {
 		ctxt.getSharedPreferences(GENERAL_SETTINGS_KEY, Context.MODE_PRIVATE).edit().putBoolean(FIRST_TIME_KEY, val).commit();
 	}
+
+    /**
+     * Get whether this is the first time running the snap editor
+     * @param context
+     * @return
+     */
+    public static boolean getFirstTimeEdit(Context context) {
+        SharedPreferences generalPrefs = context.getSharedPreferences(GENERAL_SETTINGS_KEY, Context.MODE_PRIVATE);
+        return generalPrefs.getBoolean(FIRST_TIME_EDIT_KEY, true);
+    }
+
+    public static void setFirstTimeEdit(Context context, boolean value) {
+        context.getSharedPreferences(GENERAL_SETTINGS_KEY, Context.MODE_PRIVATE).edit()
+                .putBoolean(FIRST_TIME_EDIT_KEY, value).commit();
+    }
 	
 	public static void cleanupCache(Context ctxt) {
 		File cacheDir = ctxt.getCacheDir();

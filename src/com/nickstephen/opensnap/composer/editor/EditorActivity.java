@@ -7,6 +7,7 @@ import android.annotation.TargetApi;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v4.app.FragmentManager;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
@@ -18,6 +19,7 @@ import com.nickstephen.lib.gui.ListFragment;
 import com.nickstephen.opensnap.R;
 import com.nickstephen.opensnap.gui.BaseContactSelectFrag;
 import com.nickstephen.opensnap.gui.SnapEditorBaseFrag;
+import com.nickstephen.opensnap.main.tuts.TutorialRootFrag;
 
 /**
  * An example full-screen activity that shows and hides the system UI (i.e.
@@ -192,6 +194,10 @@ public class EditorActivity extends Activity {
 	
 	@Override
 	public void onBackPressed() {
+        if (this.getSupportFragmentManager().popBackStackImmediate(TutorialRootFrag.FRAG_TAG, FragmentManager.POP_BACK_STACK_INCLUSIVE)) {
+            return;
+        }
+
 		ContactSelectFrag contacts = (ContactSelectFrag) this.getSupportFragmentManager().findFragmentByTag(ContactSelectFrag.FRAG_TAG);
 		if (contacts != null) {
 			if (contacts.isFocused()) {

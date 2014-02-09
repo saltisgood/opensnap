@@ -8,6 +8,7 @@ import android.widget.Toast;
 
 import com.nickstephen.lib.gui.Fragment;
 import com.nickstephen.lib.misc.StatMethods;
+import com.nickstephen.opensnap.settings.SettingsAccessor;
 
 /**
  * Created by Nick Stephen on 1/02/14.
@@ -59,9 +60,10 @@ public abstract class TutorialRootFrag extends Fragment {
         }
     };
 
-    protected void finish(boolean showToast) {
+    protected void finish(boolean isFinish) {
         this.getFragmentManager().popBackStack();
-        if (showToast) {
+        if (isFinish) {
+            SettingsAccessor.setFirstTimeStart(this.getActivity(), false);
             StatMethods.hotBread(TutorialRootFrag.this.getActivity(), "Press the options button and \"View Tutorial\" to view again at any time!", Toast.LENGTH_SHORT);
         }
     }
