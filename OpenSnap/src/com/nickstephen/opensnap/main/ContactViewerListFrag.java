@@ -2,6 +2,7 @@ package com.nickstephen.opensnap.main;
 
 import java.lang.ref.SoftReference;
 
+import org.holoeverywhere.LayoutInflater;
 import org.holoeverywhere.widget.ArrayAdapter;
 import org.holoeverywhere.widget.ListView;
 import org.holoeverywhere.widget.TextView;
@@ -13,7 +14,6 @@ import android.graphics.Shader.TileMode;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Build;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -40,7 +40,7 @@ public class ContactViewerListFrag extends ListFragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		setFocused(true);
 		
-		ListView v = (ListView)inflater.inflate(R.layout.contact_list, container, false);
+		ListView v = (ListView)inflater.inflate(R.layout.contact_list);
 		
 		switch (theme = SettingsAccessor.getThemePref(this.getActivity())) {
 			case ori:

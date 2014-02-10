@@ -1,8 +1,8 @@
 <component name="libraryTable">
-  <library name="Gradle: ComGithubCastorflexSmoothprogressbarLibrary020.aar">
+  <library name="ComGithubCastorflexSmoothprogressbarLibrary020.aar">
     <CLASSES>
-      <root url="file://$PROJECT_DIR$/ActionBar-PullToRefresh/ptrlibrary/build/exploded-bundles/ComGithubCastorflexSmoothprogressbarLibrary020.aar/res" />
       <root url="jar://$PROJECT_DIR$/ActionBar-PullToRefresh/ptrlibrary/build/exploded-bundles/ComGithubCastorflexSmoothprogressbarLibrary020.aar/classes.jar!/" />
+      <root url="file://$PROJECT_DIR$/ActionBar-PullToRefresh/ptrlibrary/build/exploded-bundles/ComGithubCastorflexSmoothprogressbarLibrary020.aar/res" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />

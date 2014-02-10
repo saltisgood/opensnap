@@ -2,12 +2,13 @@ package com.nickstephen.opensnap.main.tuts;
 
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.nickstephen.opensnap.R;
 import com.nickstephen.opensnap.main.MainFrag;
+
+import org.holoeverywhere.LayoutInflater;
 
 /**
  * Created by Nick Stephen on 1/02/14.
@@ -17,7 +18,7 @@ public class TutorialIntroFrag extends TutorialRootFrag {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.tutorial_main, null);
+        View rootView = inflater.inflate(R.layout.tutorial_main);
 
         View button = rootView.findViewById(R.id.no_button);
         button.setOnClickListener(new View.OnClickListener() {

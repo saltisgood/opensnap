@@ -14,17 +14,28 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="82ebcf6a-320f-4a5c-a2b6-efc14ca36796" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__ComAndroidSupportAppcompatV71901_aar.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__support_v4_19_0_1.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/ComGithubCastorflexSmoothprogressbarLibrary020_aar.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/google_play_services.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/httpclient_4_2_5.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/httpcore_4_2_4.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/httpmime_4_2_5.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/support_v4_19_1_0.xml" />
+      <change type="DELETED" beforePath="D:\AndroidStudioProjects\OpenSnapProjFixed\.idea\libraries\Gradle__ComAndroidSupportAppcompatV71901_aar.xml" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ActionBar-PullToRefresh" afterPath="$PROJECT_DIR$/ActionBar-PullToRefresh" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/HoloEverywhere" afterPath="$PROJECT_DIR$/HoloEverywhere" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/TheStephenAndroidLibrary" afterPath="$PROJECT_DIR$/TheStephenAndroidLibrary" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/OpenSnap/src/com/nickstephen/opensnap/main/ContactViewerListFrag.java" afterPath="$PROJECT_DIR$/OpenSnap/src/com/nickstephen/opensnap/main/ContactViewerListFrag.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__ComGithubCastorflexSmoothprogressbarLibrary020_aar.xml" afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__ComGithubCastorflexSmoothprogressbarLibrary020_aar.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/OpenSnap/OpenSnap.iml" afterPath="$PROJECT_DIR$/OpenSnap/OpenSnap.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/OpenSnap/src/com/nickstephen/opensnap/main/SnapViewerListFrag.java" afterPath="$PROJECT_DIR$/OpenSnap/src/com/nickstephen/opensnap/main/SnapViewerListFrag.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/OpenSnap/src/com/nickstephen/opensnap/main/tuts/TutorialIntroFrag.java" afterPath="$PROJECT_DIR$/OpenSnap/src/com/nickstephen/opensnap/main/tuts/TutorialIntroFrag.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build.gradle" afterPath="$PROJECT_DIR$/build.gradle" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/google-play-services_lib/google-play-services_lib.iml" afterPath="$PROJECT_DIR$/google-play-services_lib/google-play-services_lib.iml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/gradle.xml" afterPath="$PROJECT_DIR$/.idea/gradle.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/modules.xml" afterPath="$PROJECT_DIR$/.idea/modules.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/OpenSnap/project.properties" afterPath="$PROJECT_DIR$/OpenSnap/project.properties" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/settings.gradle" afterPath="$PROJECT_DIR$/settings.gradle" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MOVED" beforePath="D:\AndroidStudioProjects\OpenSnapProjFixed\.idea\libraries\Gradle__support_v4_19_0_1.xml" afterPath="$PROJECT_DIR$/.idea/libraries/library_2_4_0.xml" />
     </list>
     <ignored path="parent.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -103,6 +114,7 @@
         <entry key="" value="true" />
         <entry key=":OpenAndroid/HoloEverywhere/" value="true" />
         <entry key="HoloEverywhere/" value="true" />
+        <entry key="OpenSnapProjFixed/" value="true" />
       </map>
     </option>
     <option name="availableProjects">
@@ -123,10 +135,6 @@
               <ExternalProjectPojo>
                 <option name="name" value=":OpenSnap" />
                 <option name="path" value="$PROJECT_DIR$/OpenSnap" />
-              </ExternalProjectPojo>
-              <ExternalProjectPojo>
-                <option name="name" value=":ActionBar-PullToRefresh:extras:actionbarcompat" />
-                <option name="path" value="$PROJECT_DIR$/ActionBar-PullToRefresh/extras/actionbarcompat" />
               </ExternalProjectPojo>
               <ExternalProjectPojo>
                 <option name="name" value=":HoloEverywhere:addons" />
@@ -160,10 +168,6 @@
                 <option name="name" value=":HoloEverywhere:addons:preferences" />
                 <option name="path" value="$PROJECT_DIR$/HoloEverywhere/addons/preferences" />
               </ExternalProjectPojo>
-              <ExternalProjectPojo>
-                <option name="name" value=":ActionBar-PullToRefresh:extras" />
-                <option name="path" value="$PROJECT_DIR$/ActionBar-PullToRefresh/extras" />
-              </ExternalProjectPojo>
             </list>
           </value>
         </entry>
@@ -183,9 +187,9 @@
                 <option name="name" value="packageReleaseAidl" />
               </ExternalTaskPojo>
               <ExternalTaskPojo>
-                <option name="description" value="Prepare org.holoeverywhere:library:2.1.1-SNAPSHOT" />
+                <option name="description" value="Prepare OpenSnapProjFixed.HoloEverywhere:library:unspecified" />
                 <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
-                <option name="name" value="prepareOrgHoloeverywhereLibrary211SNAPSHOTLibrary" />
+                <option name="name" value="prepareOpenSnapProjFixedHoloEverywhereLibraryUnspecifiedLibrary" />
               </ExternalTaskPojo>
               <ExternalTaskPojo>
                 <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
@@ -210,11 +214,6 @@
                 <option name="name" value="classesJar" />
               </ExternalTaskPojo>
               <ExternalTaskPojo>
-                <option name="description" value="Uploads all artifacts belonging to configuration ':ActionBar-PullToRefresh:extras:actionbarcompat:archives'" />
-                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
-                <option name="name" value="uploadArchives" />
-              </ExternalTaskPojo>
-              <ExternalTaskPojo>
                 <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
                 <option name="name" value="packageRelease" />
               </ExternalTaskPojo>
@@ -225,15 +224,6 @@
               <ExternalTaskPojo>
                 <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
                 <option name="name" value="processDebugManifest" />
-              </ExternalTaskPojo>
-              <ExternalTaskPojo>
-                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
-                <option name="name" value="androidSourcesJar" />
-              </ExternalTaskPojo>
-              <ExternalTaskPojo>
-                <option name="description" value="Prepare com.github.chrisbanes.actionbarpulltorefresh:ptrlibrary:0.9.3" />
-                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
-                <option name="name" value="prepareComGithubChrisbanesActionbarpulltorefreshPtrlibrary093Library" />
               </ExternalTaskPojo>
               <ExternalTaskPojo>
                 <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
@@ -289,10 +279,6 @@
               </ExternalTaskPojo>
               <ExternalTaskPojo>
                 <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
-                <option name="name" value="signArchives" />
-              </ExternalTaskPojo>
-              <ExternalTaskPojo>
-                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
                 <option name="name" value="checkReleaseManifest" />
               </ExternalTaskPojo>
               <ExternalTaskPojo>
@@ -337,10 +323,6 @@
                 <option name="description" value="Runs lint on the Debug build" />
                 <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
                 <option name="name" value="lintDebug" />
-              </ExternalTaskPojo>
-              <ExternalTaskPojo>
-                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
-                <option name="name" value="androidJavadocsJar" />
               </ExternalTaskPojo>
               <ExternalTaskPojo>
                 <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
@@ -417,10 +399,6 @@
               </ExternalTaskPojo>
               <ExternalTaskPojo>
                 <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
-                <option name="name" value="androidJavadocs" />
-              </ExternalTaskPojo>
-              <ExternalTaskPojo>
-                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
                 <option name="name" value="validateDebugSigning" />
               </ExternalTaskPojo>
               <ExternalTaskPojo>
@@ -443,11 +421,6 @@
               <ExternalTaskPojo>
                 <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
                 <option name="name" value="copyDebugLint" />
-              </ExternalTaskPojo>
-              <ExternalTaskPojo>
-                <option name="description" value="Uploads all artifacts belonging to configuration ':ActionBar-PullToRefresh:ptrlibrary:archives'" />
-                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
-                <option name="name" value="uploadArchives" />
               </ExternalTaskPojo>
               <ExternalTaskPojo>
                 <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
@@ -541,6 +514,11 @@
                 <option name="name" value="copyReleaseLint" />
               </ExternalTaskPojo>
               <ExternalTaskPojo>
+                <option name="description" value="Prepare OpenSnapProjFixed.HoloEverywhere.addons:preferences:unspecified" />
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
+                <option name="name" value="prepareOpenSnapProjFixedHoloEverywhereAddonsPreferencesUnspecifiedLibrary" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
                 <option name="description" value="Runs all device checks using Device Providers and Test Servers." />
                 <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
                 <option name="name" value="deviceCheck" />
@@ -598,18 +576,13 @@
                 <option name="name" value="processDebugTestResources" />
               </ExternalTaskPojo>
               <ExternalTaskPojo>
-                <option name="description" value="Prepare org.holoeverywhere:preferences:2.1.1-SNAPSHOT" />
+                <option name="description" value="Prepare OpenSnapProjFixed.ActionBar-PullToRefresh:ptrlibrary:unspecified" />
                 <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
-                <option name="name" value="prepareOrgHoloeverywherePreferences211SNAPSHOTLibrary" />
+                <option name="name" value="prepareOpenSnapProjFixedActionBarPullToRefreshPtrlibraryUnspecifiedLibrary" />
               </ExternalTaskPojo>
               <ExternalTaskPojo>
                 <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
                 <option name="name" value="compileReleaseAidl" />
-              </ExternalTaskPojo>
-              <ExternalTaskPojo>
-                <option name="description" value="Prepare com.android.support:appcompat-v7:19.0.1" />
-                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
-                <option name="name" value="prepareComAndroidSupportAppcompatV71901Library" />
               </ExternalTaskPojo>
               <ExternalTaskPojo>
                 <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
@@ -743,18 +716,6 @@
                 <option name="name" value="androidDependencies" />
               </ExternalTaskPojo>
               <ExternalTaskPojo>
-                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/ActionBar-PullToRefresh/extras/actionbarcompat" />
-                <option name="name" value="androidJavadocs" />
-              </ExternalTaskPojo>
-              <ExternalTaskPojo>
-                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/ActionBar-PullToRefresh/extras/actionbarcompat" />
-                <option name="name" value="androidJavadocsJar" />
-              </ExternalTaskPojo>
-              <ExternalTaskPojo>
-                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/ActionBar-PullToRefresh/extras/actionbarcompat" />
-                <option name="name" value="androidSourcesJar" />
-              </ExternalTaskPojo>
-              <ExternalTaskPojo>
                 <option name="description" value="Assembles all variants of all applications and secondary packages." />
                 <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/ActionBar-PullToRefresh/extras/actionbarcompat" />
                 <option name="name" value="assemble" />
@@ -1069,19 +1030,14 @@
                 <option name="name" value="preReleaseBuild" />
               </ExternalTaskPojo>
               <ExternalTaskPojo>
-                <option name="description" value="Prepare com.android.support:appcompat-v7:19.0.1" />
-                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/ActionBar-PullToRefresh/extras/actionbarcompat" />
-                <option name="name" value="prepareComAndroidSupportAppcompatV71901Library" />
-              </ExternalTaskPojo>
-              <ExternalTaskPojo>
                 <option name="description" value="Prepare com.github.castorflex.smoothprogressbar:library:0.2.0" />
                 <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/ActionBar-PullToRefresh/extras/actionbarcompat" />
                 <option name="name" value="prepareComGithubCastorflexSmoothprogressbarLibrary020Library" />
               </ExternalTaskPojo>
               <ExternalTaskPojo>
-                <option name="description" value="Prepare com.github.chrisbanes.actionbarpulltorefresh:ptrlibrary:0.9.3" />
+                <option name="description" value="Prepare com.github.chrisbanes.actionbarpulltorefresh:ptrlibrary:unspecified" />
                 <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/ActionBar-PullToRefresh/extras/actionbarcompat" />
-                <option name="name" value="prepareComGithubChrisbanesActionbarpulltorefreshPtrlibrary093Library" />
+                <option name="name" value="prepareComGithubChrisbanesActionbarpulltorefreshPtrlibraryUnspecifiedLibrary" />
               </ExternalTaskPojo>
               <ExternalTaskPojo>
                 <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/ActionBar-PullToRefresh/extras/actionbarcompat" />
@@ -1090,6 +1046,11 @@
               <ExternalTaskPojo>
                 <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/ActionBar-PullToRefresh/extras/actionbarcompat" />
                 <option name="name" value="prepareDebugTestDependencies" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="description" value="Prepare org.holoeverywhere:library:unspecified" />
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/ActionBar-PullToRefresh/extras/actionbarcompat" />
+                <option name="name" value="prepareOrgHoloeverywhereLibraryUnspecifiedLibrary" />
               </ExternalTaskPojo>
               <ExternalTaskPojo>
                 <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/ActionBar-PullToRefresh/extras/actionbarcompat" />
@@ -1132,10 +1093,6 @@
                 <option name="name" value="processReleaseResources" />
               </ExternalTaskPojo>
               <ExternalTaskPojo>
-                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/ActionBar-PullToRefresh/extras/actionbarcompat" />
-                <option name="name" value="signArchives" />
-              </ExternalTaskPojo>
-              <ExternalTaskPojo>
                 <option name="description" value="Displays the signing info for each variant" />
                 <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/ActionBar-PullToRefresh/extras/actionbarcompat" />
                 <option name="name" value="signingReport" />
@@ -1149,11 +1106,6 @@
                 <option name="description" value="Uninstalls the Test build for the Debug build" />
                 <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/ActionBar-PullToRefresh/extras/actionbarcompat" />
                 <option name="name" value="uninstallDebugTest" />
-              </ExternalTaskPojo>
-              <ExternalTaskPojo>
-                <option name="description" value="Uploads all artifacts belonging to configuration ':ActionBar-PullToRefresh:extras:actionbarcompat:archives'" />
-                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/ActionBar-PullToRefresh/extras/actionbarcompat" />
-                <option name="name" value="uploadArchives" />
               </ExternalTaskPojo>
               <ExternalTaskPojo>
                 <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/ActionBar-PullToRefresh/extras/actionbarcompat" />
@@ -1171,18 +1123,6 @@
                 <option name="name" value="androidDependencies" />
               </ExternalTaskPojo>
               <ExternalTaskPojo>
-                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/ActionBar-PullToRefresh/ptrlibrary" />
-                <option name="name" value="androidJavadocs" />
-              </ExternalTaskPojo>
-              <ExternalTaskPojo>
-                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/ActionBar-PullToRefresh/ptrlibrary" />
-                <option name="name" value="androidJavadocsJar" />
-              </ExternalTaskPojo>
-              <ExternalTaskPojo>
-                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/ActionBar-PullToRefresh/ptrlibrary" />
-                <option name="name" value="androidSourcesJar" />
-              </ExternalTaskPojo>
-              <ExternalTaskPojo>
                 <option name="description" value="Assembles all variants of all applications and secondary packages." />
                 <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/ActionBar-PullToRefresh/ptrlibrary" />
                 <option name="name" value="assemble" />
@@ -1510,6 +1450,11 @@
                 <option name="name" value="prepareDebugTestDependencies" />
               </ExternalTaskPojo>
               <ExternalTaskPojo>
+                <option name="description" value="Prepare OpenSnapProjFixed.HoloEverywhere:library:unspecified" />
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/ActionBar-PullToRefresh/ptrlibrary" />
+                <option name="name" value="prepareOpenSnapProjFixedHoloEverywhereLibraryUnspecifiedLibrary" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
                 <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/ActionBar-PullToRefresh/ptrlibrary" />
                 <option name="name" value="prepareReleaseDependencies" />
               </ExternalTaskPojo>
@@ -1550,10 +1495,6 @@
                 <option name="name" value="processReleaseResources" />
               </ExternalTaskPojo>
               <ExternalTaskPojo>
-                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/ActionBar-PullToRefresh/ptrlibrary" />
-                <option name="name" value="signArchives" />
-              </ExternalTaskPojo>
-              <ExternalTaskPojo>
                 <option name="description" value="Displays the signing info for each variant" />
                 <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/ActionBar-PullToRefresh/ptrlibrary" />
                 <option name="name" value="signingReport" />
@@ -1567,11 +1508,6 @@
                 <option name="description" value="Uninstalls the Test build for the Debug build" />
                 <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/ActionBar-PullToRefresh/ptrlibrary" />
                 <option name="name" value="uninstallDebugTest" />
-              </ExternalTaskPojo>
-              <ExternalTaskPojo>
-                <option name="description" value="Uploads all artifacts belonging to configuration ':ActionBar-PullToRefresh:ptrlibrary:archives'" />
-                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/ActionBar-PullToRefresh/ptrlibrary" />
-                <option name="name" value="uploadArchives" />
               </ExternalTaskPojo>
               <ExternalTaskPojo>
                 <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/ActionBar-PullToRefresh/ptrlibrary" />
@@ -1937,9 +1873,9 @@
                 <option name="name" value="prepareDebugTestDependencies" />
               </ExternalTaskPojo>
               <ExternalTaskPojo>
-                <option name="description" value="Prepare org.holoeverywhere:library:2.1.1-SNAPSHOT" />
+                <option name="description" value="Prepare OpenSnapProjFixed.HoloEverywhere:library:unspecified" />
                 <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/HoloEverywhere/addons/preferences" />
-                <option name="name" value="prepareOrgHoloeverywhereLibrary211SNAPSHOTLibrary" />
+                <option name="name" value="prepareOpenSnapProjFixedHoloEverywhereLibraryUnspecifiedLibrary" />
               </ExternalTaskPojo>
               <ExternalTaskPojo>
                 <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/HoloEverywhere/addons/preferences" />
@@ -2750,11 +2686,6 @@
                 <option name="name" value="prepareComGithubCastorflexSmoothprogressbarLibrary020Library" />
               </ExternalTaskPojo>
               <ExternalTaskPojo>
-                <option name="description" value="Prepare com.github.chrisbanes.actionbarpulltorefresh:ptrlibrary:0.9.3" />
-                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/OpenSnap" />
-                <option name="name" value="prepareComGithubChrisbanesActionbarpulltorefreshPtrlibrary093Library" />
-              </ExternalTaskPojo>
-              <ExternalTaskPojo>
                 <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/OpenSnap" />
                 <option name="name" value="prepareDebugDependencies" />
               </ExternalTaskPojo>
@@ -2763,24 +2694,29 @@
                 <option name="name" value="prepareDebugTestDependencies" />
               </ExternalTaskPojo>
               <ExternalTaskPojo>
+                <option name="description" value="Prepare OpenSnapProjFixed.ActionBar-PullToRefresh:ptrlibrary:unspecified" />
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/OpenSnap" />
+                <option name="name" value="prepareOpenSnapProjFixedActionBarPullToRefreshPtrlibraryUnspecifiedLibrary" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
                 <option name="description" value="Prepare OpenSnapProjFixed:google-play-services_lib:unspecified" />
                 <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/OpenSnap" />
                 <option name="name" value="prepareOpenSnapProjFixedGooglePlayServices_libUnspecifiedLibrary" />
               </ExternalTaskPojo>
               <ExternalTaskPojo>
+                <option name="description" value="Prepare OpenSnapProjFixed.HoloEverywhere.addons:preferences:unspecified" />
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/OpenSnap" />
+                <option name="name" value="prepareOpenSnapProjFixedHoloEverywhereAddonsPreferencesUnspecifiedLibrary" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="description" value="Prepare OpenSnapProjFixed.HoloEverywhere:library:unspecified" />
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/OpenSnap" />
+                <option name="name" value="prepareOpenSnapProjFixedHoloEverywhereLibraryUnspecifiedLibrary" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
                 <option name="description" value="Prepare OpenSnapProjFixed:TheStephenAndroidLibrary:unspecified" />
                 <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/OpenSnap" />
                 <option name="name" value="prepareOpenSnapProjFixedTheStephenAndroidLibraryUnspecifiedLibrary" />
-              </ExternalTaskPojo>
-              <ExternalTaskPojo>
-                <option name="description" value="Prepare org.holoeverywhere:library:2.1.1-SNAPSHOT" />
-                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/OpenSnap" />
-                <option name="name" value="prepareOrgHoloeverywhereLibrary211SNAPSHOTLibrary" />
-              </ExternalTaskPojo>
-              <ExternalTaskPojo>
-                <option name="description" value="Prepare org.holoeverywhere:preferences:2.1.1-SNAPSHOT" />
-                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/OpenSnap" />
-                <option name="name" value="prepareOrgHoloeverywherePreferences211SNAPSHOTLibrary" />
               </ExternalTaskPojo>
               <ExternalTaskPojo>
                 <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/OpenSnap" />
@@ -3185,14 +3121,14 @@
                 <option name="name" value="prepareDebugTestDependencies" />
               </ExternalTaskPojo>
               <ExternalTaskPojo>
-                <option name="description" value="Prepare org.holoeverywhere:library:2.1.1-SNAPSHOT" />
+                <option name="description" value="Prepare OpenSnapProjFixed.HoloEverywhere.addons:preferences:unspecified" />
                 <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/TheStephenAndroidLibrary" />
-                <option name="name" value="prepareOrgHoloeverywhereLibrary211SNAPSHOTLibrary" />
+                <option name="name" value="prepareOpenSnapProjFixedHoloEverywhereAddonsPreferencesUnspecifiedLibrary" />
               </ExternalTaskPojo>
               <ExternalTaskPojo>
-                <option name="description" value="Prepare org.holoeverywhere:preferences:2.1.1-SNAPSHOT" />
+                <option name="description" value="Prepare OpenSnapProjFixed.HoloEverywhere:library:unspecified" />
                 <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/TheStephenAndroidLibrary" />
-                <option name="name" value="prepareOrgHoloeverywherePreferences211SNAPSHOTLibrary" />
+                <option name="name" value="prepareOpenSnapProjFixedHoloEverywhereLibraryUnspecifiedLibrary" />
               </ExternalTaskPojo>
               <ExternalTaskPojo>
                 <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/TheStephenAndroidLibrary" />
@@ -3653,7 +3589,6 @@
       <list>
         <option value="$PROJECT_DIR$/library/build.gradle" />
         <option value="$PROJECT_DIR$/OpenAndroid/src/main/res/menu/launch.xml" />
-        <option value="$PROJECT_DIR$/OpenSnap/build.gradle" />
         <option value="$PROJECT_DIR$/ActionBar-PullToRefresh/ptrlibrary/ptrlibrary.iml" />
         <option value="$PROJECT_DIR$/HoloEverywhere/library/library.iml" />
         <option value="$PROJECT_DIR$/HoloEverywhere/addons/preferences/preferences.iml" />
@@ -3662,9 +3597,21 @@
         <option value="$PROJECT_DIR$/TheStephenAndroidLibrary/AndroidManifest.xml" />
         <option value="$PROJECT_DIR$/OpenSnap/res/menu/frag_menu.xml" />
         <option value="$PROJECT_DIR$/OpenSnap/src/com/nickstephen/opensnap/main/SnapViewerListFrag.java" />
+        <option value="$PROJECT_DIR$/OpenSnap/build.gradle" />
+        <option value="$PROJECT_DIR$/OpenSnap/project.properties" />
+        <option value="$PROJECT_DIR$/ActionBar-PullToRefresh/ptrlibrary/project.properties" />
+        <option value="$PROJECT_DIR$/HoloEverywhere/library/build.gradle" />
+        <option value="$PROJECT_DIR$/build.gradle" />
+        <option value="$PROJECT_DIR$/HoloEverywhere/build.gradle" />
+        <option value="$PROJECT_DIR$/ActionBar-PullToRefresh/build.gradle" />
+        <option value="$PROJECT_DIR$/OpenSnap/src/com/nickstephen/opensnap/gui/BaseCaptureFrag.java" />
+        <option value="$PROJECT_DIR$/ActionBar-PullToRefresh/ptrlibrary/build.gradle" />
+        <option value="$PROJECT_DIR$/ActionBar-PullToRefresh/extras/actionbarcompat/build.gradle" />
+        <option value="$PROJECT_DIR$/HoloEverywhere/library/src/org/holoeverywhere/widget/NumberPicker.java" />
+        <option value="$PROJECT_DIR$/OpenSnap/src/com/nickstephen/opensnap/main/ContactViewerListFrag.java" />
+        <option value="$PROJECT_DIR$/OpenSnap/src/com/nickstephen/opensnap/main/tuts/TutorialIntroFrag.java" />
         <option value="$PROJECT_DIR$/.idea/modules.xml" />
         <option value="$PROJECT_DIR$/settings.gradle" />
-        <option value="$PROJECT_DIR$/ActionBar-PullToRefresh/extras/actionbarcompat/build.gradle" />
       </list>
     </option>
   </component>
@@ -3701,7 +3648,6 @@
     </navigator>
     <panes>
       <pane id="PackagesPane" />
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -3792,7 +3738,149 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
+              <option name="myItemId" value="OpenSnap" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="opensnap" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="tuts" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="OpenSnapProjFixed" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="OpenSnapProjFixed" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
               <option name="myItemId" value="ActionBar-PullToRefresh" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="OpenSnapProjFixed" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="OpenSnapProjFixed" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="ActionBar-PullToRefresh" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="ptrlibrary" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="OpenSnapProjFixed" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="OpenSnapProjFixed" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="ActionBar-PullToRefresh" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="ptrlibrary" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="actionbarpulltorefresh" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="library" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="OpenSnapProjFixed" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="OpenSnapProjFixed" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="ActionBar-PullToRefresh" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="ptrlibrary" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="actionbarpulltorefresh" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="library" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="viewdelegates" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="OpenSnapProjFixed" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="OpenSnapProjFixed" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="ActionBar-PullToRefresh" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="ptrlibrary" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="actionbarpulltorefresh" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="actionbarcompat" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -3846,12 +3934,39 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
+              <option name="myItemId" value="ActionBar-PullToRefresh" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="extras" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="actionbarcompat" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="OpenSnapProjFixed" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="OpenSnapProjFixed" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
               <option name="myItemId" value=".idea" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -3870,8 +3985,14 @@
     <property name="options.splitter.main.proportions" value="0.3" />
     <property name="options.splitter.details.proportions" value="0.2" />
     <property name="options.searchVisible" value="true" />
-    <property name="dir.diff.last.used.directory" value="$USER_HOME$/Programming/Android/HoloEverywhere Library" />
+    <property name="dir.diff.last.used.directory" value="$USER_HOME$/Programming/Android/HoloEverywhere Library/src" />
     <property name="FullScreen" value="false" />
+    <property name="restartRequiresConfirmation" value="true" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\AndroidStudioProjects\OpenSnapProjFixed\ActionBar-PullToRefresh\ptrlibrary\src\uk\co\senab\actionbarpulltorefresh\extras\actionbarcompat" />
+    </key>
   </component>
   <component name="RunManager" selected="Android Application.OpenSnap">
     <configuration default="false" name="HoloEverywhere [assemble]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
@@ -4076,63 +4197,6 @@
       <option name="SHOW_LOGCAT_AUTOMATICALLY" value="true" />
       <method />
     </configuration>
-    <configuration default="false" name="demo" type="AndroidRunConfigurationType" factoryName="Android Application">
-      <module name="demo" />
-      <option name="ACTIVITY_CLASS" value="" />
-      <option name="MODE" value="default_activity" />
-      <option name="DEPLOY" value="true" />
-      <option name="ARTIFACT_NAME" value="" />
-      <option name="TARGET_SELECTION_MODE" value="SHOW_DIALOG" />
-      <option name="USE_LAST_SELECTED_DEVICE" value="false" />
-      <option name="PREFERRED_AVD" value="" />
-      <option name="USE_COMMAND_LINE" value="true" />
-      <option name="COMMAND_LINE" value="" />
-      <option name="WIPE_USER_DATA" value="false" />
-      <option name="DISABLE_BOOT_ANIMATION" value="false" />
-      <option name="NETWORK_SPEED" value="full" />
-      <option name="NETWORK_LATENCY" value="none" />
-      <option name="CLEAR_LOGCAT" value="false" />
-      <option name="SHOW_LOGCAT_AUTOMATICALLY" value="true" />
-      <method />
-    </configuration>
-    <configuration default="false" name="issues" type="AndroidRunConfigurationType" factoryName="Android Application">
-      <module name="issues" />
-      <option name="ACTIVITY_CLASS" value="" />
-      <option name="MODE" value="default_activity" />
-      <option name="DEPLOY" value="true" />
-      <option name="ARTIFACT_NAME" value="" />
-      <option name="TARGET_SELECTION_MODE" value="SHOW_DIALOG" />
-      <option name="USE_LAST_SELECTED_DEVICE" value="false" />
-      <option name="PREFERRED_AVD" value="" />
-      <option name="USE_COMMAND_LINE" value="true" />
-      <option name="COMMAND_LINE" value="" />
-      <option name="WIPE_USER_DATA" value="false" />
-      <option name="DISABLE_BOOT_ANIMATION" value="false" />
-      <option name="NETWORK_SPEED" value="full" />
-      <option name="NETWORK_LATENCY" value="none" />
-      <option name="CLEAR_LOGCAT" value="false" />
-      <option name="SHOW_LOGCAT_AUTOMATICALLY" value="true" />
-      <method />
-    </configuration>
-    <configuration default="false" name="OpenAndroid" type="AndroidRunConfigurationType" factoryName="Android Application">
-      <module name="OpenAndroid" />
-      <option name="ACTIVITY_CLASS" value="" />
-      <option name="MODE" value="default_activity" />
-      <option name="DEPLOY" value="true" />
-      <option name="ARTIFACT_NAME" value="" />
-      <option name="TARGET_SELECTION_MODE" value="SHOW_DIALOG" />
-      <option name="USE_LAST_SELECTED_DEVICE" value="false" />
-      <option name="PREFERRED_AVD" value="" />
-      <option name="USE_COMMAND_LINE" value="true" />
-      <option name="COMMAND_LINE" value="" />
-      <option name="WIPE_USER_DATA" value="false" />
-      <option name="DISABLE_BOOT_ANIMATION" value="false" />
-      <option name="NETWORK_SPEED" value="full" />
-      <option name="NETWORK_LATENCY" value="none" />
-      <option name="CLEAR_LOGCAT" value="false" />
-      <option name="SHOW_LOGCAT_AUTOMATICALLY" value="true" />
-      <method />
-    </configuration>
     <configuration default="false" name="OpenSnap" type="AndroidRunConfigurationType" factoryName="Android Application">
       <module name="OpenSnap" />
       <option name="ACTIVITY_CLASS" value="" />
@@ -4152,19 +4216,16 @@
       <option name="SHOW_LOGCAT_AUTOMATICALLY" value="true" />
       <method />
     </configuration>
-    <list size="7">
-      <item index="0" class="java.lang.String" itemvalue="Android Application.demo" />
-      <item index="1" class="java.lang.String" itemvalue="Android Application.issues" />
-      <item index="2" class="java.lang.String" itemvalue="Android Application.OpenAndroid" />
-      <item index="3" class="java.lang.String" itemvalue="Gradle.HoloEverywhere [assemble]" />
-      <item index="4" class="java.lang.String" itemvalue="Gradle.HoloEverywhere [clean]" />
-      <item index="5" class="java.lang.String" itemvalue="Gradle.HoloEverywhere:OpenAndroid [assemble]" />
-      <item index="6" class="java.lang.String" itemvalue="Android Application.OpenSnap" />
+    <list size="4">
+      <item index="0" class="java.lang.String" itemvalue="Android Application.OpenSnap" />
+      <item index="1" class="java.lang.String" itemvalue="Gradle.HoloEverywhere [assemble]" />
+      <item index="2" class="java.lang.String" itemvalue="Gradle.HoloEverywhere [clean]" />
+      <item index="3" class="java.lang.String" itemvalue="Gradle.HoloEverywhere:OpenAndroid [assemble]" />
     </list>
     <recent_temporary>
       <list size="3">
-        <item index="0" class="java.lang.String" itemvalue="Gradle.HoloEverywhere:OpenAndroid [assemble]" />
-        <item index="1" class="java.lang.String" itemvalue="Gradle.HoloEverywhere [assemble]" />
+        <item index="0" class="java.lang.String" itemvalue="Gradle.HoloEverywhere [assemble]" />
+        <item index="1" class="java.lang.String" itemvalue="Gradle.HoloEverywhere:OpenAndroid [assemble]" />
         <item index="2" class="java.lang.String" itemvalue="Gradle.HoloEverywhere [clean]" />
       </list>
     </recent_temporary>
@@ -4182,6 +4243,9 @@
       <AnalysisUIOptions />
     </option>
   </component>
+  <component name="StructureViewFactory">
+    <option name="ACTIVE_ACTIONS" value=",ALPHA_COMPARATOR" />
+  </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
       <changelist id="82ebcf6a-320f-4a5c-a2b6-efc14ca36796" name="Default" comment="" />
@@ -4197,7 +4261,6 @@
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32960597" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -4210,7 +4273,7 @@
       <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Gradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.15015975" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24973376" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -4219,6 +4282,7 @@
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32960597" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
@@ -4242,225 +4306,326 @@
     <breakpoint-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/TheStephenAndroidLibrary/build.gradle">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="5" column="55" selection-start="202" selection-end="202" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="731">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/build.gradle">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="374">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/.idea/modules.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="4" column="65" selection-start="182" selection-end="182" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="255">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/.idea/modules.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="12" column="122" selection-start="1235" selection-end="1235" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="391">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/.idea/modules.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="12" column="122" selection-start="1235" selection-end="1235" vertical-scroll-proportion="0.0" vertical-offset="204" max-vertical-offset="391">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/.idea/modules.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="12" column="122" selection-start="1235" selection-end="1235" vertical-scroll-proportion="0.0" vertical-offset="204" max-vertical-offset="391">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/.idea/modules.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="11" column="122" selection-start="1054" selection-end="1054" vertical-scroll-proportion="0.0" vertical-offset="187" max-vertical-offset="374">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/README.md">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1139" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/LICENSE">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="829" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/gradlew.bat">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1632" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/local.properties">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="532" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/HoloEverywhere/settings.gradle">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="530">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/ActionBar-PullToRefresh/ptrlibrary/ptrlibrary.iml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="19" column="78" selection-start="1302" selection-end="1302" vertical-scroll-proportion="0.032882012" vertical-offset="306" max-vertical-offset="1394" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/OpenSnap/build.gradle">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="11" column="56" selection-start="428" selection-end="428" vertical-scroll-proportion="0.3528302" vertical-offset="0" max-vertical-offset="884">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/HoloEverywhere/addons/preferences/preferences.iml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="18" column="65" selection-start="1211" selection-end="1211" vertical-scroll-proportion="0.5918762" vertical-offset="0" max-vertical-offset="1428">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/build.gradle">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="842">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/HoloEverywhere/addons/preferences/build.gradle">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="8" column="36" selection-start="192" selection-end="192" vertical-scroll-proportion="0.24504505" vertical-offset="0" max-vertical-offset="555">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/TheStephenAndroidLibrary/build.gradle">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="11" column="25" selection-start="322" selection-end="322" vertical-scroll-proportion="0.33693695" vertical-offset="0" max-vertical-offset="731">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/HoloEverywhere/addons/preferences/AndroidManifest.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="555">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/TheStephenAndroidLibrary/AndroidManifest.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="17" column="0" selection-start="466" selection-end="466" vertical-scroll-proportion="0.5207207" vertical-offset="0" max-vertical-offset="555">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/OpenSnap/res/menu/compose_snap.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="555">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/OpenSnap/res/menu/dialog.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="555">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/OpenSnap/res/menu/frag_menu.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="35" column="22" selection-start="1207" selection-end="1207" vertical-scroll-proportion="0.66306305" vertical-offset="227" max-vertical-offset="867">
-          <folding>
-            <element signature="e#1207#1227#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/OpenSnap/res/menu/snap_edit.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="555">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/OpenSnap/res/menu/launch.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="187">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/OpenSnap/res/menu/video_cap.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="255">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/OpenSnap/res/menu/video_preview.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="555">
-          <folding />
-        </state>
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="555" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/OpenSnap/res/menu/view_tut.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="555">
-          <folding />
-        </state>
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="555" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/HoloEverywhere/library/library.iml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="19" column="65" selection-start="1359" selection-end="1359" vertical-scroll-proportion="0.37638375" vertical-offset="119" max-vertical-offset="1428">
+        <state line="19" column="65" selection-start="1359" selection-end="1359" vertical-scroll-proportion="0.37638375" vertical-offset="119" max-vertical-offset="1428" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/OpenSnap/build.gradle">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="12" column="68" selection-start="499" selection-end="499" vertical-scroll-proportion="0.24285714" vertical-offset="0" max-vertical-offset="901">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/ActionBar-PullToRefresh/extras/actionbarcompat/build.gradle">
+    <entry file="file://$PROJECT_DIR$/OpenSnap/project.properties">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="22" column="5" selection-start="604" selection-end="604" vertical-scroll-proportion="0.44523808" vertical-offset="0" max-vertical-offset="840">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/settings.gradle">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="157" selection-start="157" selection-end="157" vertical-scroll-proportion="-0.0" vertical-offset="0" max-vertical-offset="102">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/.idea/modules.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="15" column="108" selection-start="1958" selection-end="1958" vertical-scroll-proportion="0.3083434" vertical-offset="0" max-vertical-offset="827">
+        <state line="17" column="77" selection-start="818" selection-end="818" vertical-scroll-proportion="0.3440476" vertical-offset="0" max-vertical-offset="840">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/OpenSnap/src/com/nickstephen/opensnap/main/SnapViewerListFrag.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="23" column="30" selection-start="805" selection-end="805" vertical-scroll-proportion="-0.123337366" vertical-offset="493" max-vertical-offset="19295">
+        <state line="51" column="40" selection-start="1981" selection-end="1981" vertical-scroll-proportion="0.452237" vertical-offset="493" max-vertical-offset="19295">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ActionBar-PullToRefresh/gradle.properties">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="840" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ActionBar-PullToRefresh/settings.gradle">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="840" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ActionBar-PullToRefresh/ptrlibrary/project.properties">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="8" column="1" selection-start="325" selection-end="325" vertical-scroll-proportion="0.25660378" vertical-offset="0" max-vertical-offset="530" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ActionBar-PullToRefresh/ptrlibrary/src/uk/co/senab/actionbarpulltorefresh/library/InstanceCreationUtils.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="44" column="37" selection-start="1811" selection-end="1811" vertical-scroll-proportion="0.38490567" vertical-offset="102" max-vertical-offset="1292" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ActionBar-PullToRefresh/ptrlibrary/src/uk/co/senab/actionbarpulltorefresh/library/viewdelegates/WebViewDelegate.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="29" column="35" selection-start="921" selection-end="921" vertical-scroll-proportion="0.4490566" vertical-offset="0" max-vertical-offset="530" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/build.gradle">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="19" column="33" selection-start="480" selection-end="480" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="425">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/HoloEverywhere/library/build.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1734" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/HoloEverywhere/library/gradle.properties">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="840" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/HoloEverywhere/library/.project">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="840" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/HoloEverywhere/library/project.properties">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="840">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ActionBar-PullToRefresh/build.gradle">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="15" column="6" selection-start="243" selection-end="243" vertical-scroll-proportion="0.45945945" vertical-offset="0" max-vertical-offset="555">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/HoloEverywhere/build.gradle">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="13" column="6" selection-start="278" selection-end="278" vertical-scroll-proportion="0.3981982" vertical-offset="0" max-vertical-offset="555">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/HoloEverywhere/library/build.gradle">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="12" column="0" selection-start="331" selection-end="331" vertical-scroll-proportion="0.36756757" vertical-offset="0" max-vertical-offset="555">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ActionBar-PullToRefresh/extras/actionbarcompat/gradle.properties">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="555" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/HoloEverywhere/addons/preferences/project.properties">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="555">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/OpenSnap/src/com/nickstephen/opensnap/gui/BaseCaptureFrag.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="39" column="29" selection-start="1302" selection-end="1302" vertical-scroll-proportion="0.0" vertical-offset="663" max-vertical-offset="9622">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ActionBar-PullToRefresh/ptrlibrary/src/uk/co/senab/actionbarpulltorefresh/library/EnvironmentDelegate.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="24" column="17" selection-start="829" selection-end="829" vertical-scroll-proportion="0.27567568" vertical-offset="0" max-vertical-offset="555" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ActionBar-PullToRefresh/ptrlibrary/src/uk/co/senab/actionbarpulltorefresh/library/HeaderTransformer.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="27" column="22" selection-start="1005" selection-end="1005" vertical-scroll-proportion="0.33333334" vertical-offset="2" max-vertical-offset="1547" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ActionBar-PullToRefresh/ptrlibrary/src/uk/co/senab/actionbarpulltorefresh/library/ActionBarPullToRefresh.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="30" column="13" selection-start="979" selection-end="979" vertical-scroll-proportion="0.21081081" vertical-offset="2" max-vertical-offset="2006" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ActionBar-PullToRefresh/ptrlibrary/src/uk/co/senab/actionbarpulltorefresh/library/viewdelegates/AbsListViewDelegate.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="26" column="13" selection-start="817" selection-end="817" vertical-scroll-proportion="0.36756757" vertical-offset="0" max-vertical-offset="1394" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ActionBar-PullToRefresh/ptrlibrary/res/layout/default_header.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="850">
+          <folding />
+        </state>
+      </provider>
+      <provider editor-type-id="android-designer">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ActionBar-PullToRefresh/ptrlibrary/res/values/attrs.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1173">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ActionBar-PullToRefresh/ptrlibrary/res/values/colors.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="840">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ActionBar-PullToRefresh/ptrlibrary/res/values/dimens.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="840">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ActionBar-PullToRefresh/ptrlibrary/res/values/ids.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="840">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ActionBar-PullToRefresh/extras/actionbarcompat/AndroidManifest.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="555">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ActionBar-PullToRefresh/ptrlibrary/src/uk/co/senab/actionbarpulltorefresh/extras/actionbarcompat/AbcDefaultHeaderTransformer.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="33" column="13" selection-start="1173" selection-end="1173" vertical-scroll-proportion="0.27567568" vertical-offset="0" max-vertical-offset="3009" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ActionBar-PullToRefresh/ptrlibrary/src/uk/co/senab/actionbarpulltorefresh/extras/actionbarcompat/AbcPullToRefreshAttacher.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="18" column="0" selection-start="664" selection-end="664" vertical-scroll-proportion="-1.5837837" vertical-offset="947" max-vertical-offset="1513" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ActionBar-PullToRefresh/extras/actionbarcompat/build.gradle">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="25" column="34" selection-start="512" selection-end="512" vertical-scroll-proportion="0.50595236" vertical-offset="0" max-vertical-offset="840">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ActionBar-PullToRefresh/ptrlibrary/build.gradle">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="4" column="46" selection-start="162" selection-end="162" vertical-scroll-proportion="0.08095238" vertical-offset="0" max-vertical-offset="840">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ActionBar-PullToRefresh/extras/actionbarcompat/project.properties">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="555" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ActionBar-PullToRefresh/ptrlibrary/src/uk/co/senab/actionbarpulltorefresh/library/PullToRefreshLayout.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="241" column="51" selection-start="8099" selection-end="8099" vertical-scroll-proportion="0.6964286" vertical-offset="2951" max-vertical-offset="3791">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ActionBar-PullToRefresh/extras/actionbarcompat/src/uk/co/senab/actionbarpulltorefresh/extras/actionbarcompat/AbcDefaultHeaderTransformer.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="27" column="75" selection-start="1021" selection-end="1021" vertical-scroll-proportion="-0.28333333" vertical-offset="459" max-vertical-offset="3179">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/HoloEverywhere/library/src/org/holoeverywhere/widget/NumberPicker.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="1075" column="30" selection-start="44217" selection-end="44217" vertical-scroll-proportion="0.35357141" vertical-offset="16890" max-vertical-offset="22712" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/OpenSnap/src/com/nickstephen/opensnap/dialog/TimerPickerDialog.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="29" column="49" selection-start="893" selection-end="893" vertical-scroll-proportion="0.32380953" vertical-offset="0" max-vertical-offset="1122">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/OpenSnap/src/com/nickstephen/opensnap/main/ContactViewerListFrag.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="32" column="24" selection-start="1079" selection-end="1079" vertical-scroll-proportion="0.39056832" vertical-offset="221" max-vertical-offset="2618">
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/TheStephenAndroidLibrary/src/com/nickstephen/lib/gui/ListFragment.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="17" column="69" selection-start="561" selection-end="561" vertical-scroll-proportion="0.16190477" vertical-offset="0" max-vertical-offset="840">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/HoloEverywhere/library/src/org/holoeverywhere/app/ListFragment.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="16" column="37" selection-start="445" selection-end="445" vertical-scroll-proportion="0.10119048" vertical-offset="0" max-vertical-offset="3417">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/HoloEverywhere/library/src/org/holoeverywhere/app/Fragment.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="15" column="37" selection-start="415" selection-end="415" vertical-scroll-proportion="0.10119048" vertical-offset="0" max-vertical-offset="2278">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/HoloEverywhere/library/src/android/support/v4/app/_HoloFragment.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="122" column="17" selection-start="3759" selection-end="3759" vertical-scroll-proportion="0.7083333" vertical-offset="1020" max-vertical-offset="2669">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/OpenSnap/src/com/nickstephen/opensnap/main/tuts/TutorialIntroFrag.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="43" column="45" selection-start="1550" selection-end="1550" vertical-scroll-proportion="0.7285714" vertical-offset="0" max-vertical-offset="840">
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/settings.gradle">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="815">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.idea/workspace.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="71706">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.idea/modules.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="6" column="116" selection-start="551" selection-end="551" vertical-scroll-proportion="0.18819188" vertical-offset="0" max-vertical-offset="542">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/OpenSnap/src/com/nickstephen/opensnap/main/tuts/TutorialSnap2Frag.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="16" column="13" selection-start="419" selection-end="419" vertical-scroll-proportion="0.21441442" vertical-offset="0" max-vertical-offset="748">
           <folding />
         </state>
       </provider>
@@ -4517,7 +4682,7 @@
       </state>
       <state key="ModuleStructureConfigurable.UI">
         <settings>
-          <last-edited>library</last-edited>
+          <last-edited>OpenSnap</last-edited>
           <splitter-proportions>
             <option name="proportions">
               <list>
@@ -4529,7 +4694,7 @@
       </state>
       <state key="ProjectLibrariesConfigurable.UI">
         <settings>
-          <last-edited>Gradle: ComGoogleAndroidGmsPlayServices3225.aar</last-edited>
+          <last-edited>Gradle: ComGithubCastorflexSmoothprogressbarLibrary020.aar</last-edited>
           <splitter-proportions>
             <option name="proportions">
               <list>

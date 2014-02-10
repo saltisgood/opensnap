@@ -3,9 +3,11 @@
 buildscript {
     repositories {
         mavenCentral()
+        maven { url = 'http://oss.sonatype.org/content/repositories/releases/' }
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:0.8.+'
+        classpath 'org.holoeverywhere:plugin:0.2.11'
     }
 }
 
@@ -14,3 +16,5 @@ allprojects {
         mavenCentral()
     }
 }
+
+apply plugin: 'android-reporting'
