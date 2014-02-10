@@ -2,6 +2,10 @@
 /bin
 /gen
 /OpenSnap/build
+/OpenSnap/bin
+/OpenSnap/gen
 /google-play-services_lib/build
+/google-play-services_lib/bin
+/google-play-services_lib/gen
 /.gradle
 *.bin
