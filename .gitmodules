@@ -4,3 +4,6 @@
 [submodule "TheStephenAndroidLibrary"]
 	path = TheStephenAndroidLibrary
 	url = https://github.com/saltisgood/salt-android-library
+[submodule "ActionBar-PullToRefresh"]
+	path = ActionBar-PullToRefresh
+	url = https://github.com/saltisgood/ActionBar-PullToRefresh.git

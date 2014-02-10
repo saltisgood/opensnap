@@ -9,7 +9,7 @@ dependencies {
     compile fileTree(dir: 'libs', include: '*.jar')
     compile project(':google-play-services_lib')
     compile project(':TheStephenAndroidLibrary')
-    compile project(':ActionBarPTR-library')
+    compile project(':ActionBar-PullToRefresh:ptrlibrary')
 }
 
 android {

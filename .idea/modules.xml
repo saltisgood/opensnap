@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/ActionBar-PullToRefresh/ActionBar-PullToRefresh.iml" filepath="$PROJECT_DIR$/ActionBar-PullToRefresh/ActionBar-PullToRefresh.iml" />
       <module fileurl="file://$PROJECT_DIR$/HoloEverywhere/HoloEverywhere.iml" filepath="$PROJECT_DIR$/HoloEverywhere/HoloEverywhere.iml" />
       <module fileurl="file://$PROJECT_DIR$/OpenSnap/OpenSnap.iml" filepath="$PROJECT_DIR$/OpenSnap/OpenSnap.iml" />
       <module fileurl="file://$PROJECT_DIR$/OpenSnapProjFixed.iml" filepath="$PROJECT_DIR$/OpenSnapProjFixed.iml" />
@@ -10,6 +11,7 @@
       <module fileurl="file://$PROJECT_DIR$/google-play-services_lib/google-play-services_lib.iml" filepath="$PROJECT_DIR$/google-play-services_lib/google-play-services_lib.iml" />
       <module fileurl="file://$PROJECT_DIR$/HoloEverywhere/library/library.iml" filepath="$PROJECT_DIR$/HoloEverywhere/library/library.iml" />
       <module fileurl="file://$PROJECT_DIR$/HoloEverywhere/addons/preferences/preferences.iml" filepath="$PROJECT_DIR$/HoloEverywhere/addons/preferences/preferences.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ActionBar-PullToRefresh/ptrlibrary/ptrlibrary.iml" filepath="$PROJECT_DIR$/ActionBar-PullToRefresh/ptrlibrary/ptrlibrary.iml" />
     </modules>
   </component>
 </project>

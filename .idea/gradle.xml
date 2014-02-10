@@ -8,6 +8,15 @@
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
+            <option value="$PROJECT_DIR$/ActionBar-PullToRefresh" />
+            <option value="$PROJECT_DIR$/ActionBar-PullToRefresh/ptrlibrary" />
+            <option value="$PROJECT_DIR$/HoloEverywhere" />
+            <option value="$PROJECT_DIR$/HoloEverywhere/addons" />
+            <option value="$PROJECT_DIR$/HoloEverywhere/addons/preferences" />
+            <option value="$PROJECT_DIR$/HoloEverywhere/library" />
+            <option value="$PROJECT_DIR$/OpenSnap" />
+            <option value="$PROJECT_DIR$/TheStephenAndroidLibrary" />
+            <option value="$PROJECT_DIR$/google-play-services_lib" />
           </set>
         </option>
       </GradleProjectSettings>

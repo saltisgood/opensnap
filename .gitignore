@@ -1,3 +1,7 @@
 /build
 /bin
 /gen
+/OpenSnap/build
+/google-play-services_lib/build
+/.gradle
+*.bin
