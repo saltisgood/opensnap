@@ -1,1 +1,1 @@
-include ':HoloEverywhere:addons:preferences', ':HoloEverywhere:library',':OpenSnap',':TheStephenAndroidLibrary',':google-play-services_lib',':ActionBar-PullToRefresh:ptrlibrary'
+include ':ActionBar-PullToRefresh:ptrlibrary', ':ActionBar-PullToRefresh:extras:actionbarcompat', ':google-play-services_lib', ':HoloEverywhere:library', ':HoloEverywhere:addons:preferences', ':OpenSnap', ':TheStephenAndroidLibrary'

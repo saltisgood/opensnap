@@ -75,6 +75,8 @@
     <orderEntry type="library" exported="" name="Gradle: httpcore-4.2.4" level="project" />
     <orderEntry type="library" exported="" name="Gradle: httpclient-4.2.5" level="project" />
     <orderEntry type="library" exported="" name="Gradle: library-2.4.0" level="project" />
+    <orderEntry type="library" exported="" name="Gradle: httpmime-4.2.5" level="project" />
+    <orderEntry type="library" exported="" name="Gradle: google-play-services" level="project" />
   </component>
 </module>
 
