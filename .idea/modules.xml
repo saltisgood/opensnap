@@ -2,15 +2,12 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/HoloEverywhere.iml" filepath="$PROJECT_DIR$/HoloEverywhere.iml" />
-      <module fileurl="file://$PROJECT_DIR$/OpenAndroid/OpenAndroid.iml" filepath="$PROJECT_DIR$/OpenAndroid/OpenAndroid.iml" />
-      <module fileurl="file://$PROJECT_DIR$/TheStephenAndroidLibrary/TheStephenAndroidLibrary.iml" filepath="$PROJECT_DIR$/TheStephenAndroidLibrary/TheStephenAndroidLibrary.iml" />
-      <module fileurl="file://$PROJECT_DIR$/addons/addons.iml" filepath="$PROJECT_DIR$/addons/addons.iml" />
-      <module fileurl="file://$PROJECT_DIR$/demo/demo.iml" filepath="$PROJECT_DIR$/demo/demo.iml" />
-      <module fileurl="file://$PROJECT_DIR$/issues/issues.iml" filepath="$PROJECT_DIR$/issues/issues.iml" />
-      <module fileurl="file://$PROJECT_DIR$/library/library.iml" filepath="$PROJECT_DIR$/library/library.iml" />
-      <module fileurl="file://$PROJECT_DIR$/addons/preferences/preferences.iml" filepath="$PROJECT_DIR$/addons/preferences/preferences.iml" />
-      <module fileurl="file://$PROJECT_DIR$/addons/slider/slider.iml" filepath="$PROJECT_DIR$/addons/slider/slider.iml" />
+      <module fileurl="file://$PROJECT_DIR$/HoloEverywhere/HoloEverywhere.iml" filepath="$PROJECT_DIR$/HoloEverywhere/HoloEverywhere.iml" />
+      <module fileurl="file://$PROJECT_DIR$/OpenSnap/OpenSnap.iml" filepath="$PROJECT_DIR$/OpenSnap/OpenSnap.iml" />
+      <module fileurl="file://$PROJECT_DIR$/OpenSnapProjFixed.iml" filepath="$PROJECT_DIR$/OpenSnapProjFixed.iml" />
+      <module fileurl="file://$PROJECT_DIR$/HoloEverywhere/addons/addons.iml" filepath="$PROJECT_DIR$/HoloEverywhere/addons/addons.iml" />
+      <module fileurl="file://$PROJECT_DIR$/HoloEverywhere/library/library.iml" filepath="$PROJECT_DIR$/HoloEverywhere/library/library.iml" />
+      <module fileurl="file://$PROJECT_DIR$/HoloEverywhere/addons/preferences/preferences.iml" filepath="$PROJECT_DIR$/HoloEverywhere/addons/preferences/preferences.iml" />
     </modules>
   </component>
 </project>
