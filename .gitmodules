@@ -1,3 +1,6 @@
 [submodule "HoloEverywhere"]
 	path = HoloEverywhere
 	url = https://github.com/saltisgood/HoloEverywhere.git
+[submodule "TheStephenAndroidLibrary"]
+	path = TheStephenAndroidLibrary
+	url = https://github.com/saltisgood/salt-android-library
