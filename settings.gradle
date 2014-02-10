@@ -1,1 +1,1 @@
-include ':OpenSnap',':library',':addons:preferences'
+include ':google-play-services_lib', ':HoloEverywhere:addons:preferences', ':HoloEverywhere:library', ':OpenSnap'

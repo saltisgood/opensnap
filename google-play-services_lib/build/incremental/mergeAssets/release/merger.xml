@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merger>
+
+    <dataSet config="main" >
+        <source path="D:\AndroidStudioProjects\OpenSnapProj\google-play-services_lib\assets" />
+    </dataSet>
+    <dataSet config="release" >
+        <source path="D:\AndroidStudioProjects\OpenSnapProj\google-play-services_lib\build-types\release\assets" />
+    </dataSet>
+
+</merger>

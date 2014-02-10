@@ -14,21 +14,6 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="82ebcf6a-320f-4a5c-a2b6-efc14ca36796" name="Default" comment="">
-      <change type="DELETED" beforePath="D:\AndroidStudioProjects\OpenSnapProjFixed\.idea\libraries\ComGoogleAndroidGmsPlayServices3225_aar.xml" afterPath="" />
-      <change type="DELETED" beforePath="D:\AndroidStudioProjects\OpenSnapProjFixed\.idea\libraries\Gradle__ComGoogleAndroidGmsPlayServices3225_aar.xml" afterPath="" />
-      <change type="DELETED" beforePath="D:\AndroidStudioProjects\OpenSnapProjFixed\.idea\libraries\Gradle__annotations.xml" afterPath="" />
-      <change type="DELETED" beforePath="D:\AndroidStudioProjects\OpenSnapProjFixed\.idea\libraries\Gradle__httpmime_4_2_5.xml" afterPath="" />
-      <change type="DELETED" beforePath="D:\AndroidStudioProjects\OpenSnapProjFixed\.idea\libraries\Gradle__library_2_4_0.xml" afterPath="" />
-      <change type="DELETED" beforePath="D:\AndroidStudioProjects\OpenSnapProjFixed\.idea\libraries\Gradle__support_v4_19_1_0.xml" afterPath="" />
-      <change type="DELETED" beforePath="D:\AndroidStudioProjects\OpenSnapProjFixed\.idea\libraries\annotations.xml" afterPath="" />
-      <change type="DELETED" beforePath="D:\AndroidStudioProjects\OpenSnapProjFixed\.idea\libraries\httpmime_4_2_5.xml" afterPath="" />
-      <change type="DELETED" beforePath="D:\AndroidStudioProjects\OpenSnapProjFixed\.idea\libraries\library_2_4_0.xml" afterPath="" />
-      <change type="DELETED" beforePath="D:\AndroidStudioProjects\OpenSnapProjFixed\.idea\libraries\support_v4_19_1_0.xml" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/.name" afterPath="$PROJECT_DIR$/.idea/.name" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/OpenSnap/OpenSnap.iml" afterPath="$PROJECT_DIR$/OpenSnap/OpenSnap.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/OpenSnapProjFixed.iml" afterPath="$PROJECT_DIR$/OpenSnapProjFixed.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/encodings.xml" afterPath="$PROJECT_DIR$/.idea/encodings.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/gradle.xml" afterPath="$PROJECT_DIR$/.idea/gradle.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/modules.xml" afterPath="$PROJECT_DIR$/.idea/modules.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/OpenSnap/project.properties" afterPath="$PROJECT_DIR$/OpenSnap/project.properties" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/settings.gradle" afterPath="$PROJECT_DIR$/settings.gradle" />
@@ -96,10 +81,19 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="modules.xml" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="modules.xml" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/.idea/modules.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="14" column="0" selection-start="989" selection-end="989" vertical-scroll-proportion="0.46034816" vertical-offset="0" max-vertical-offset="517">
+            <state line="12" column="14" selection-start="1157" selection-end="1157" vertical-scroll-proportion="-8.16" vertical-offset="0" max-vertical-offset="357">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="settings.gradle" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/settings.gradle">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="0" column="113" selection-start="113" selection-end="113" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="530">
               <folding />
             </state>
           </provider>
@@ -157,6 +151,7 @@
         <option value="$PROJECT_DIR$/TheStephenAndroidLibrary/AndroidManifest.xml" />
         <option value="$PROJECT_DIR$/OpenAndroid/src/main/res/menu/launch.xml" />
         <option value="$PROJECT_DIR$/.idea/modules.xml" />
+        <option value="$PROJECT_DIR$/settings.gradle" />
       </list>
     </option>
   </component>
@@ -240,6 +235,20 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="addons" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="OpenSnapProjFixed" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="OpenSnapProjFixed" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="google-play-services_lib" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -682,13 +691,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/settings.gradle">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="187">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/local.properties">
       <provider selected="true" editor-type-id="text-editor">
         <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="532" />
@@ -696,7 +698,14 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/.idea/modules.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="14" column="0" selection-start="989" selection-end="989" vertical-scroll-proportion="0.46034816" vertical-offset="0" max-vertical-offset="517">
+        <state line="12" column="14" selection-start="1157" selection-end="1157" vertical-scroll-proportion="-8.16" vertical-offset="0" max-vertical-offset="357">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/settings.gradle">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="113" selection-start="113" selection-end="113" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="530">
           <folding />
         </state>
       </provider>
