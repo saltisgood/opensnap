@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="?android:attr/listPreferredItemHeight"
+    android:minHeight="?android:attr/listPreferredItemHeight" >
+    
+    <ImageView 
+        android:layout_width="40dp"
+        android:layout_height="wrap_content" 
+        android:id="@+id/drawer_icon"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
+        android:contentDescription="@string/hello_world" />
+    
+    <org.holoeverywhere.widget.TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/drawer_text"
+        android:layout_toRightOf="@id/drawer_icon"
+        android:layout_centerVertical="true"
+        android:gravity="center_vertical"
+        android:textColor="@color/white_solid"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+</RelativeLayout>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="?android:listPreferredItemHeight"
+    android:minHeight="?android:listPreferredItemHeight">
+            
+    <include layout="@layout/snap_text_base" />
+    
+    <org.holoeverywhere.widget.ProgressBar
+        android:id="@+id/progressBar1"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_toLeftOf="@id/right_icon"
+        android:layout_centerVertical="true"
+        android:visibility="gone" />
+    
+    <ImageView
+        android:id="@+id/snap_status_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toLeftOf="@id/right_icon"
+        android:layout_centerVertical="true"
+        android:visibility="gone"
+        android:contentDescription="@string/hello_world" />
+
+    <org.holoeverywhere.widget.ProgressBar
+        android:id="@+id/progressBar2"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="match_parent"
+        android:layout_height="4dp"
+        android:layout_alignParentBottom="true"
+        android:max="100"
+        android:visibility="invisible" />
+
+</RelativeLayout>
+

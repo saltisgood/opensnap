@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:ptr="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+    
+	<!-- <com.handmark.pulltorefresh.library.PullToRefreshListView
+	    android:layout_width="match_parent"
+	    android:layout_height="match_parent" 
+	    android:textSize="20sp"
+	    android:animateLayoutChanges="true"
+	    android:id="@+id/refresh_list"
+	    android:divider="@drawable/list_divider_dark"
+	    android:dividerHeight="4dp"
+	    ptr:ptrHeaderTextColor="#ffffffff"
+	    ptr:ptrHeaderBackground="@drawable/round_rect_grey"/> -->
+	
+	<org.holoeverywhere.widget.TextView
+	    android:id="@+id/empty_list_text"
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:text="@string/no_snaps"
+	    android:textAppearance="?android:attr/textAppearanceLarge"
+	    android:background="@android:color/transparent"
+	    android:textSize="40sp" 
+	    android:visibility="gone"
+	    android:layout_gravity="center"
+	    android:gravity="center" />
+
+</FrameLayout>

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android" 
+    xmlns:opensnap="http://schemas.android.com/apk/res-auto" >
+    
+
+
+    <item
+        android:id="@+id/refresh_menu"
+        android:title="@string/update"
+        android:icon="@drawable/ic_menu_refresh"
+        android:orderInCategory="2"
+        opensnap:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/action_settings"
+        android:icon="@drawable/cog_settings"
+        android:title="@string/action_settings"
+        android:orderInCategory="3"
+        opensnap:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/purchase_premium"
+        android:title="@string/purchase_premium_menu"
+        android:orderInCategory="4"
+        opensnap:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/clear_feed_menu"
+        android:title="@string/clear_feed_menu"
+        android:orderInCategory="50"
+        opensnap:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/view_tut"
+        android:title="@string/view_tut"
+        android:orderInCategory="52"
+        opensnap:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/other_apps"
+        android:title="@string/other_apps"
+        android:orderInCategory="55"
+        opensnap:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/sign_out_menu"
+        android:title="@string/sign_out"
+        android:orderInCategory="100"
+        opensnap:showAsAction="ifRoom" />
+
+</menu>

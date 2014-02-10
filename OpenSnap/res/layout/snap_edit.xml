@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/editor_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="center"
+    android:gravity="center" >
+    
+    <ImageView
+        android:id="@+id/snap_img"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:contentDescription="@string/snap_img_text"
+        android:focusable="true" />
+    
+    <ImageView
+        android:id="@+id/snap_edit_draw_surface"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:contentDescription="@string/snap_draw_desc" />
+    
+    <org.holoeverywhere.widget.EditText
+        android:id="@+id/snap_caption"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="30dp"
+        android:layout_alignParentTop="true"
+        android:background="@color/black_half_solid"
+        android:gravity="center"
+        android:imeOptions="actionDone"
+        android:inputType="text|textAutoCorrect|textImeMultiLine"
+        android:textColor="@color/white_solid"
+        android:visibility="invisible" />
+    
+    <ImageView
+        android:id="@+id/color_pick_button"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:src="@drawable/pencil_disabled"
+        android:contentDescription="@string/color_picker_title"
+        android:layout_margin="10dp" />
+
+    <org.holoeverywhere.widget.Button
+        android:id="@+id/send_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="10dp"
+        android:layout_alignParentRight="true"
+        android:text="@string/send_prompt" />
+    
+    <org.holoeverywhere.widget.TextView
+        android:id="@+id/pick_time_choice"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_margin="10dp"
+        android:textSize="30sp"
+        android:gravity="center"
+        android:background="@drawable/round_rect_grey"
+        android:textColor="@android:color/white" />
+    
+    <ImageView
+        android:id="@+id/back_button"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_margin="10dp"
+        android:contentDescription="@string/hello_world"
+        android:src="@drawable/ic_menu_revert" />
+    
+    <ImageView
+        android:id="@+id/save_button"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_margin="10dp"
+        android:layout_alignParentBottom="true"
+        android:layout_toRightOf="@id/pick_time_choice"
+        android:contentDescription="@string/hello_world"
+        android:src="@drawable/ic_action_save" />
+    
+</RelativeLayout>

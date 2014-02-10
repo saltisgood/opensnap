@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<org.holoeverywhere.widget.ListView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent" 
-    android:textSize="20sp"
-    android:id="@android:id/list"
-    android:divider="@drawable/list_divider_dark"
-    android:dividerHeight="4dp" />
