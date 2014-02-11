@@ -9,3 +9,4 @@
 /google-play-services_lib/gen
 /.gradle
 *.bin
+/.idea
