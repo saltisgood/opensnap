@@ -8,11 +8,10 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ImageView;
 
-import com.nickstephen.lib.gui.ListFragment;
 import com.nickstephen.opensnap.R;
 
+import org.holoeverywhere.app.ListFragment;
 import org.holoeverywhere.LayoutInflater;
 import org.holoeverywhere.widget.ArrayAdapter;
 import org.holoeverywhere.widget.TextView;

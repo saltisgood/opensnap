@@ -6,6 +6,7 @@ import java.lang.ref.SoftReference;
 import java.util.List;
 
 import org.holoeverywhere.LayoutInflater;
+import org.holoeverywhere.app.ListFragment;
 import org.holoeverywhere.util.SparseArray;
 import org.holoeverywhere.widget.ArrayAdapter;
 import org.holoeverywhere.widget.ProgressBar;
@@ -34,7 +35,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.nickstephen.lib.Twig;
-import com.nickstephen.lib.gui.ListFragment;
 import com.nickstephen.lib.misc.StatMethods;
 import com.nickstephen.opensnap.R;
 import com.nickstephen.opensnap.global.GlobalVars;

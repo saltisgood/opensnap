@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.holoeverywhere.LayoutInflater;
 import org.holoeverywhere.app.Activity;
+import org.holoeverywhere.app.ListFragment;
 import org.holoeverywhere.preference.SharedPreferences;
 import org.holoeverywhere.widget.Button;
 import org.holoeverywhere.widget.EditText;
@@ -48,7 +49,6 @@ import android.widget.RelativeLayout;
 
 import com.nickstephen.lib.Twig;
 import com.nickstephen.lib.gui.Fragment;
-import com.nickstephen.lib.gui.ListFragment;
 import com.nickstephen.lib.misc.StatMethods;
 import com.nickstephen.lib.play.IabHelper;
 import com.nickstephen.lib.play.IabResult;

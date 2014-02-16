@@ -3,6 +3,7 @@ package com.nickstephen.opensnap.main;
 import java.lang.ref.SoftReference;
 
 import org.holoeverywhere.LayoutInflater;
+import org.holoeverywhere.app.ListFragment;
 import org.holoeverywhere.widget.ArrayAdapter;
 import org.holoeverywhere.widget.ListView;
 import org.holoeverywhere.widget.TextView;
@@ -18,7 +19,6 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 
-import com.nickstephen.lib.gui.ListFragment;
 import com.nickstephen.lib.misc.StatMethods;
 import com.nickstephen.opensnap.R;
 import com.nickstephen.opensnap.global.Contacts;

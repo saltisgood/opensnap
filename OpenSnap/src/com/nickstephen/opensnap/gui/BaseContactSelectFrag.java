@@ -12,6 +12,7 @@ import java.util.Random;
 
 import org.holoeverywhere.LayoutInflater;
 import org.holoeverywhere.app.Activity;
+import org.holoeverywhere.app.ListFragment;
 import org.holoeverywhere.preference.SharedPreferences;
 import org.holoeverywhere.preference.SharedPreferences.Editor;
 import org.holoeverywhere.widget.ArrayAdapter;
@@ -48,7 +49,6 @@ import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
-import com.nickstephen.lib.gui.ListFragment;
 import com.nickstephen.lib.misc.BitmapUtil;
 import com.nickstephen.lib.misc.FileIO;
 import com.nickstephen.lib.misc.StatMethods;
