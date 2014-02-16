@@ -1,6 +1,7 @@
 package com.nickstephen.opensnap.main;
 
 import org.holoeverywhere.LayoutInflater;
+import org.holoeverywhere.app.Fragment;
 import org.holoeverywhere.widget.ViewPager;
 
 import android.os.Bundle;
@@ -13,7 +14,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.nickstephen.lib.gui.Fragment;
 import com.nickstephen.opensnap.R;
 import com.nickstephen.opensnap.main.tuts.TutorialIntroFrag;
 import com.nickstephen.opensnap.main.tuts.TutorialRootFrag;

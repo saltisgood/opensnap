@@ -33,7 +33,6 @@ import android.widget.RelativeLayout;
 
 import com.nickstephen.lib.Twig;
 import com.nickstephen.lib.bgtasks.LazyThumbLoader;
-import com.nickstephen.lib.gui.Fragment;
 import com.nickstephen.lib.misc.StatMethods;
 import com.nickstephen.opensnap.R;
 import com.nickstephen.opensnap.global.GlobalVars;

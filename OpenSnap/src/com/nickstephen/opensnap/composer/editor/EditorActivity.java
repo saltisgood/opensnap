@@ -1,6 +1,7 @@
 package com.nickstephen.opensnap.composer.editor;
 
 import org.holoeverywhere.app.Activity;
+import org.holoeverywhere.app.Fragment;
 import org.holoeverywhere.app.ListFragment;
 import org.holoeverywhere.widget.FrameLayout;
 
@@ -15,7 +16,6 @@ import android.view.View;
 import android.view.View.OnLongClickListener;
 
 import com.nickstephen.lib.SystemUiHider;
-import com.nickstephen.lib.gui.Fragment;
 import com.nickstephen.opensnap.R;
 import com.nickstephen.opensnap.gui.BaseContactSelectFrag;
 import com.nickstephen.opensnap.gui.SnapEditorBaseFrag;

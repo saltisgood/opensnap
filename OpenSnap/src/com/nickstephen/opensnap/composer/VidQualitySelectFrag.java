@@ -16,8 +16,6 @@ import org.holoeverywhere.LayoutInflater;
 import org.holoeverywhere.widget.ArrayAdapter;
 import org.holoeverywhere.widget.TextView;
 
-import java.util.List;
-
 /**
  * Created by Nick on 13/01/14.
  */

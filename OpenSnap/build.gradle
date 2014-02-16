@@ -10,6 +10,7 @@ dependencies {
     compile project(':google-play-services_lib')
     compile project(':TheStephenAndroidLibrary')
     compile project(':ActionBar-PullToRefresh:ptrlibrary')
+    compile project(':HoloEverywhere:addons:preferences')
 }
 
 android {

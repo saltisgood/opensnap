@@ -9,7 +9,6 @@ import android.text.InputType;
 import com.nickstephen.lib.misc.StatMethods;
 import com.nickstephen.opensnap.R;
 
-import org.holoeverywhere.preference.CheckBoxPreference;
 import org.holoeverywhere.preference.EditTextPreference;
 import org.holoeverywhere.preference.ListPreference;
 import org.holoeverywhere.preference.Preference;

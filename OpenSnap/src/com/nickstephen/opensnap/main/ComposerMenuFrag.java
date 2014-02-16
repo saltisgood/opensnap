@@ -4,6 +4,7 @@ import java.io.File;
 
 import org.holoeverywhere.LayoutInflater;
 import org.holoeverywhere.app.Activity;
+import org.holoeverywhere.app.Fragment;
 import org.holoeverywhere.preference.SharedPreferences;
 import org.holoeverywhere.widget.Button;
 import org.holoeverywhere.widget.TextView;
@@ -25,7 +26,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
-import com.nickstephen.lib.gui.Fragment;
 import com.nickstephen.lib.misc.FileIO;
 import com.nickstephen.lib.misc.StatMethods;
 import com.nickstephen.opensnap.R;

@@ -10,3 +10,4 @@
 /.gradle
 *.bin
 /.idea
+.idea/libraries/

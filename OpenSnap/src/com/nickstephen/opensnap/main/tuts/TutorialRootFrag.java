@@ -6,9 +6,10 @@ import android.view.View;
 import android.view.animation.AlphaAnimation;
 import android.widget.Toast;
 
-import com.nickstephen.lib.gui.Fragment;
 import com.nickstephen.lib.misc.StatMethods;
 import com.nickstephen.opensnap.settings.SettingsAccessor;
+
+import org.holoeverywhere.app.Fragment;
 
 /**
  * Created by Nick Stephen on 1/02/14.

@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.util.List;
 
 import org.holoeverywhere.LayoutInflater;
+import org.holoeverywhere.app.Fragment;
 import org.holoeverywhere.widget.Button;
 import org.holoeverywhere.widget.FrameLayout;
 import org.holoeverywhere.widget.Toast;
@@ -48,14 +49,13 @@ import android.view.ViewGroup;
 import com.nickstephen.lib.Twig;
 import com.nickstephen.lib.anim.IOnAnimationCompletion;
 import com.nickstephen.lib.anim.OrientationListener;
-import com.nickstephen.lib.gui.Fragment;
 import com.nickstephen.lib.gui.widget.PieProgressView;
+import com.nickstephen.lib.gui.widget.Preview;
 import com.nickstephen.lib.misc.StatMethods;
 import com.nickstephen.opensnap.R;
 import com.nickstephen.opensnap.composer.CaptureActivity;
 import com.nickstephen.opensnap.composer.VidQualitySelectFrag;
 import com.nickstephen.opensnap.util.misc.CameraUtil;
-import com.nickstephen.opensnap.util.widget.Preview;
 
 public abstract class BaseCaptureFrag extends Fragment {
 	public static final String FRAG_TAG = "CAPTURE_FRAG";

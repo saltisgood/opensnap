@@ -4,8 +4,8 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.holoeverywhere.LayoutInflater;
 import org.holoeverywhere.app.Activity;
+import org.holoeverywhere.app.Fragment;
 import org.holoeverywhere.app.ListFragment;
 import org.holoeverywhere.preference.SharedPreferences;
 import org.holoeverywhere.widget.Button;
@@ -48,7 +48,6 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import com.nickstephen.lib.Twig;
-import com.nickstephen.lib.gui.Fragment;
 import com.nickstephen.lib.misc.StatMethods;
 import com.nickstephen.lib.play.IabHelper;
 import com.nickstephen.lib.play.IabResult;
@@ -65,7 +64,6 @@ import com.nickstephen.opensnap.global.LocalSnaps;
 import com.nickstephen.opensnap.global.Statistics;
 import com.nickstephen.opensnap.global.TempSnaps;
 import com.nickstephen.opensnap.gui.SnapEditorBaseFrag;
-import com.nickstephen.opensnap.main.tuts.TutorialIntroFrag;
 import com.nickstephen.opensnap.main.tuts.TutorialMainFrag;
 import com.nickstephen.opensnap.main.tuts.TutorialRootFrag;
 import com.nickstephen.opensnap.settings.Settings;

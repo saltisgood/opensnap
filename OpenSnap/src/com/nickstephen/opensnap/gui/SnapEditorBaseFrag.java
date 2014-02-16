@@ -5,6 +5,7 @@ import java.io.File;
 import org.holoeverywhere.LayoutInflater;
 import org.holoeverywhere.app.Activity;
 import org.holoeverywhere.app.AlertDialog;
+import org.holoeverywhere.app.Fragment;
 import org.holoeverywhere.preference.PreferenceManager;
 import org.holoeverywhere.preference.SharedPreferences;
 import org.holoeverywhere.widget.EditText;
@@ -35,7 +36,6 @@ import android.widget.RelativeLayout.LayoutParams;
 import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
 
-import com.nickstephen.lib.gui.Fragment;
 import com.nickstephen.lib.misc.StatMethods;
 import com.nickstephen.opensnap.R;
 import com.nickstephen.opensnap.main.tuts.TutorialEditorFrag;

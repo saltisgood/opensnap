@@ -1,6 +1,7 @@
 package com.nickstephen.opensnap.main;
 
 import org.holoeverywhere.LayoutInflater;
+import org.holoeverywhere.app.Fragment;
 import org.holoeverywhere.widget.TextView;
 import org.holoeverywhere.widget.Toast;
 
@@ -17,7 +18,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
-import com.nickstephen.lib.gui.Fragment;
 import com.nickstephen.lib.gui.widget.AnimTextView;
 import com.nickstephen.lib.misc.StatMethods;
 import com.nickstephen.opensnap.R;

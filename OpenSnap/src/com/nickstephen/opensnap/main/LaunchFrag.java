@@ -1,6 +1,7 @@
 package com.nickstephen.opensnap.main;
 
 import org.holoeverywhere.LayoutInflater;
+import org.holoeverywhere.app.Fragment;
 import org.holoeverywhere.widget.Button;
 import org.holoeverywhere.widget.EditText;
 import org.holoeverywhere.widget.TextView;
@@ -14,7 +15,6 @@ import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView.OnEditorActionListener;
 
-import com.nickstephen.lib.gui.Fragment;
 import com.nickstephen.opensnap.R;
 import com.nickstephen.opensnap.global.GlobalVars;
 
