@@ -356,23 +356,34 @@ public abstract class SnapEditorPicFrag extends SnapEditorBaseFrag {
 	protected abstract void onSendCallback(Bundle args);
 	
 	private boolean writeFile(File outFile, boolean permaSave) {
+        RelativeLayout newRel = new RelativeLayout(this.getActivity());
+
 		RelativeLayout rel = (RelativeLayout)SnapEditorPicFrag.this.getView().findViewById(R.id.editor_layout);
+        newRel.setLayoutParams(rel.getLayoutParams());
+
 		Bitmap bitmap = Bitmap.createBitmap(rel.getWidth(), rel.getHeight(), Bitmap.Config.ARGB_8888);
-		View[] removeViews = new View[5];
-		LayoutParams[] params = new LayoutParams[5];
-		for (int i = 0; i < 5; i++) {
-			removeViews[i] = rel.getChildAt(3 + i);
-			params[i] = removeViews[i].getLayoutParams();
-		}
-		rel.removeViews(3, 5);
+
+        View[] views = new View[3];
+        LayoutParams[] viewParams = new LayoutParams[3];
+        for (int i = 0; i < 3; i++) {
+            views[i] = rel.getChildAt(i);
+            viewParams[i] = views[i].getLayoutParams();
+        }
+        rel.removeViews(0, 3);
+        for (int i = 0; i < 3; i++) {
+            newRel.addView(views[i], i, viewParams[i]);
+        }
+
 		Canvas canvas = new Canvas(bitmap);
 		mCaption.setCursorVisible(false);
-        rel.invalidate();
-		rel.draw(canvas);
+        newRel.invalidate();
+        newRel.draw(canvas);
 		mCaption.setCursorVisible(true);
-		for (int i = 0; i < 5; i++) {
-			rel.addView(removeViews[i], 3 + i, params[i]);
-		}
+        newRel.removeViews(0, 3);
+
+        for (int i = 0; i < 3; i++) {
+            rel.addView(views[i], i, viewParams[i]);
+        }
 		
 		FileOutputStream fs;
 		try {
