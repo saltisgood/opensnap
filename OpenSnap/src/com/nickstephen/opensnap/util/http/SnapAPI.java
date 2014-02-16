@@ -10,7 +10,6 @@ import java.security.InvalidKeyException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import javax.crypto.BadPaddingException;
@@ -44,7 +43,6 @@ import com.nickstephen.lib.http.IWriteListener;
 import com.nickstephen.lib.http.MultipartEntityWithPb;
 import com.nickstephen.lib.http.NetException;
 import com.nickstephen.lib.misc.StatMethods;
-import com.nickstephen.opensnap.global.GlobalVars;
 import com.nickstephen.opensnap.util.misc.CustomJSON;
 
 public class SnapAPI {
@@ -129,14 +127,12 @@ public class SnapAPI {
 	
 	private static List<NameValuePair> paramsToList(Bundle params) {
 		List<NameValuePair> nvpList = new ArrayList<NameValuePair>(params.size());
-		Iterator<String> bundleIterator = params.keySet().iterator();
-		while (bundleIterator.hasNext()) {
-			String key = bundleIterator.next();
-			Object obj = params.get(key);
-			if (obj != null) {
-				nvpList.add(new BasicNameValuePair(key, obj.toString()));
-			}
-		}
+        for (String key : params.keySet()) {
+            Object obj = params.get(key);
+            if (obj != null) {
+                nvpList.add(new BasicNameValuePair(key, obj.toString()));
+            }
+        }
 		return nvpList;
 	}
 	
@@ -346,7 +342,7 @@ public class SnapAPI {
 	
 	/**
 	 * The key to use for decryption/encryption of data
-	 * @see {@link #DecryptBlob(String, String, String)} 
+	 * @see {@link #decryptBlob(String, String, String, com.nickstephen.lib.http.IWriteListener, int)}
 	 */
 	private static final String AESKEY1 = "M02cnQ51Ji97vwT4";
 	
@@ -391,9 +387,10 @@ public class SnapAPI {
 		} catch (BadPaddingException e) {
 			e.printStackTrace();
 			return null;
-		}
-		
-		buff = null;
+		} catch (RuntimeException e) {
+            e.printStackTrace();
+            return null;
+        }
 		
 		return result;
 	}
@@ -571,64 +568,6 @@ public class SnapAPI {
 		CustomJSON rtVal = postData(nvps, "/ph/send", authToken);
 		if (rtVal == null)
 			return -1;
-		return 0;
-	}
-	
-	public static int markAsOpened(String mediaID, String username, String authToken) {
-		String tStamp = makeTimeStamp();
-		String tok = createToken(authToken, tStamp);
-		
-		List<NameValuePair> data = new ArrayList<NameValuePair>();
-		data.add(new BasicNameValuePair("timestamp", tStamp));
-		data.add(new BasicNameValuePair("username", username));
-		data.add(new BasicNameValuePair("req_token", tok));
-		data.add(new BasicNameValuePair("json", "{\"" + mediaID + "\":{\"c\":0,\"t\":0}}"));
-		
-		HttpClient client = new DefaultHttpClient();
-		
-		HttpPost post = new HttpPost(API_URL + "/ph/sync");
-		HttpResponse response;
-		try {
-			post.setEntity(new UrlEncodedFormEntity(data));
-			response = client.execute(post);
-		} catch (UnsupportedEncodingException e) {
-			e.printStackTrace();
-			return -3;
-		} catch (ClientProtocolException e) {
-			e.printStackTrace();
-			return -3;
-		} catch (IOException e) {
-			e.printStackTrace();
-			return -3;
-		}
-		
-		if (response.getStatusLine().getStatusCode() == 401) {
-			return -4;
-		} else if (response.getStatusLine().getStatusCode() != 200) {
-			return -5;
-		} else {
-			return 0;
-		}
-	}
-
-	/**
-	 * Send a message to the SnapChat server to mark a Snap as opened
-	 * @param mediaID The ID of the media file
-	 * @param pCtxt The context to use for whatever
-	 * @return Status value. -1 indicates error. 0 on success.
-	 */
-	public static int markAsOpened(String mediaID, Context pCtxt) {
-		return markAsOpened(mediaID, GlobalVars.getUsername(pCtxt), GlobalVars.getAuthToken(pCtxt));
-	}
-
-	public static int clearFeed(String username, String authtoken) {
-		List<NameValuePair> nvps = new ArrayList<NameValuePair>();
-		nvps.add(new BasicNameValuePair("username", username));
-		CustomJSON result = postData(nvps, "/ph/clear", authtoken);
-		
-		if (result == null) {
-			return -1;
-		}
 		return 0;
 	}
 }

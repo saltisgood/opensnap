@@ -19,7 +19,6 @@ public class EditorPicFrag extends SnapEditorPicFrag {
 		contactFrag.setArguments(args);
 		this.getFragmentManager().beginTransaction()
 			.setCustomAnimations(R.anim.push_left_in, R.anim.push_left_out, R.anim.push_right_in, R.anim.push_right_out)
-			//.add(R.id.fragment_container, contactFrag, BaseContactSelectFrag.FRAG_TAG)
                 .replace(R.id.fragment_container, contactFrag, BaseContactSelectFrag.FRAG_TAG)
                 .addToBackStack(null).commit();
 	}

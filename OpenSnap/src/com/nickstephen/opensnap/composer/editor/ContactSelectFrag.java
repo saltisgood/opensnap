@@ -52,7 +52,8 @@ public class ContactSelectFrag extends BaseContactSelectFrag {
 		if (Build.VERSION.SDK_INT < 11) {
 			((EditorActivity)this.getActivity()).getSupportActionBar().show();
 		} else {
-			((EditorActivity)this.getActivity()).getActionBar().show();
+            //noinspection ConstantConditions
+            this.getActivity().getActionBar().show();
 		}
 		return super.onCreateView(inflater, container, savedInstanceState);
 	}
@@ -85,7 +86,8 @@ public class ContactSelectFrag extends BaseContactSelectFrag {
 		if (Build.VERSION.SDK_INT < 11) {
 			((Activity)this.getActivity()).getSupportActionBar().hide();
 		} else {
-			((Activity)this.getActivity()).getActionBar().hide();
+            //noinspection ConstantConditions
+            ((Activity)this.getActivity()).getActionBar().hide();
 		}
 		
 		super.popFragment();
@@ -97,7 +99,8 @@ public class ContactSelectFrag extends BaseContactSelectFrag {
 		
 		File file = new File(filePath);
 		if (file.exists()) {
-			file.delete();
+            //noinspection ResultOfMethodCallIgnored
+            file.delete();
 		}
 	}
 }

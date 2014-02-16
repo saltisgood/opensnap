@@ -18,6 +18,7 @@ import org.holoeverywhere.widget.TextView;
 
 /**
  * Created by Nick on 13/01/14.
+ * A little frag that's used for selecting the video quality
  */
 public class VidQualitySelectFrag extends ListFragment {
     public static final String FRAG_TAG = "VidQualitySelectFrag";
@@ -68,6 +69,7 @@ public class VidQualitySelectFrag extends ListFragment {
                 mQualList = new boolean[2];
                 for (int i = 0; i < 2; i++) {
                     try {
+                        //noinspection UnusedDeclaration
                         CamcorderProfile profile = CamcorderProfile.get(i);
                         mQualList[i] = true;
                     } catch (Exception e) {
@@ -78,6 +80,7 @@ public class VidQualitySelectFrag extends ListFragment {
                 mQualList = new boolean[2];
                 for (int i = 0; i < 2; i++) {
                     try {
+                        //noinspection UnusedDeclaration
                         CamcorderProfile profile = CamcorderProfile.get(mCurrentCamera, i);
                         mQualList[i] = true;
                     } catch (Exception e) {

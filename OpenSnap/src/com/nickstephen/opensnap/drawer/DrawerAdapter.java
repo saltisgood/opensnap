@@ -38,7 +38,8 @@ public class DrawerAdapter extends BaseExpandableListAdapter {
 			LayoutInflater inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 			convertView = inflater.inflate(R.layout.drawer_subitem, null);
 		}
-		TextView txt = (TextView) convertView.findViewById(R.id.drawer_text);
+        //noinspection ConstantConditions
+        TextView txt = (TextView) convertView.findViewById(R.id.drawer_text);
 		ImageView img = (ImageView)convertView.findViewById(R.id.drawer_icon);
 		switch (childPosition) {
 			case 0:

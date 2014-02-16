@@ -47,12 +47,13 @@ public class CaptureFrag extends BaseCaptureFrag {
 			case CAPTURE_EDIT_REQUEST_CODE:
 				File file = new File(this.getActivity().getCacheDir(), CAM_FILENAME);
 				if (file.exists()) {
-					file.delete();
+                    //noinspection ResultOfMethodCallIgnored
+                    file.delete();
 				}
 				file = new File(Environment.getExternalStorageDirectory() + CameraUtil.ROOT_PATH, VID_FILENAME);
-				//file = new File(this.getActivity().getCacheDir(), VID_FILENAME);
 				if (file.exists()) {
-					file.delete();
+                    //noinspection ResultOfMethodCallIgnored
+                    file.delete();
 				}
 				if (resultCode == Activity.RESULT_OK) {
 					this.getActivity().setResult(Activity.RESULT_OK);

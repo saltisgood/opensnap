@@ -1,9 +1,0 @@
-<component name="libraryTable">
-  <library name="Gradle: httpclient-4.2.5">
-    <CLASSES>
-      <root url="jar://$PROJECT_DIR$/OpenSnap/libs/httpclient-4.2.5.jar!/" />
-    </CLASSES>
-    <JAVADOC />
-    <SOURCES />
-  </library>
-</component>
