@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <!-- Title of confirmation dialog informing user that they need to install
         Google Play services (from Play Store) [CHAR LIMIT=40] -->
@@ -38,16 +39,20 @@
     <string name="common_google_play_services_update_text" msgid="9053896323427875356">This app won\'t run unless you update Google Play services.</string>
 
     <!-- Title of confirmation dialog informing the user that a network error occurred. [CHAR LIMIT=40] -->
-    <string name="common_google_play_services_network_error_title">Network Error</string>
+    <string name="common_google_play_services_network_error_title"
+        tools:ignore="MissingTranslation">Network Error</string>
 
     <!-- Message in confirmation dialog informing the user that a network error occurred. [CHAR LIMIT=NONE] -->
-    <string name="common_google_play_services_network_error_text">A data connection is required to connect to Google Play services.</string>
+    <string name="common_google_play_services_network_error_text"
+        tools:ignore="MissingTranslation">A data connection is required to connect to Google Play services.</string>
 
     <!-- Title of confirmation dialog informing the user that they provided an invalid account. [CHAR LIMIT=40] -->
-    <string name="common_google_play_services_invalid_account_title">Invalid Account</string>
+    <string name="common_google_play_services_invalid_account_title"
+        tools:ignore="MissingTranslation">Invalid Account</string>
 
     <!-- Message in confirmation dialog informing the user that they provided an invalid account. [CHAR LIMIT=NONE] -->
-    <string name="common_google_play_services_invalid_account_text">The specified account does not exist on this device. Please choose a different account.</string>
+    <string name="common_google_play_services_invalid_account_text"
+        tools:ignore="MissingTranslation">The specified account does not exist on this device. Please choose a different account.</string>
 
     <!-- Message in confirmation dialog informing user there is an unknown issue in Google Play
         services [CHAR LIMIT=NONE] -->
