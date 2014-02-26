@@ -47,6 +47,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
+import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.nickstephen.lib.Twig;
 import com.nickstephen.lib.misc.StatMethods;
 import com.nickstephen.lib.play.IabHelper;
@@ -110,6 +111,9 @@ public class LaunchActivity extends Activity {
             public void onIabSetupFinished(IabResult result) {
                 if (!result.isSuccess()) {
                     Twig.debug("OpenSnap Vending", "Problem setting up IAB: " + result);
+                    if (result.getResponse() == IabHelper.BILLING_RESPONSE_RESULT_BILLING_UNAVAILABLE) {
+                        SettingsAccessor.setPlaySupported(LaunchActivity.this, false);
+                    }
                 } else {
                     List<String> additionalSkuList = new ArrayList<String>();
                     additionalSkuList.add(SKU.PREMIUM_FEATURES);
@@ -292,9 +296,15 @@ public class LaunchActivity extends Activity {
             case R.id.purchase_premium:
                 if (SettingsAccessor.getPremium(this)) {
                     StatMethods.hotBread(this, "Premium access already purchased!", Toast.LENGTH_SHORT);
+                } else if (!SettingsAccessor.getPlaySupported(this)) {
+                    StatMethods.hotBread(this, "Sorry! It seems Google Play services are not supported by your device!", Toast.LENGTH_SHORT);
                 } else {
                     if (mPlayHelper != null) {
-                        mPlayHelper.launchPurchaseFlow(this, SKU.PREMIUM_FEATURES, SKU.REQUEST_PREMIUM, mPurchaseListener, null);
+                        try {
+                            mPlayHelper.launchPurchaseFlow(this, SKU.PREMIUM_FEATURES, SKU.REQUEST_PREMIUM, mPurchaseListener, null);
+                        } catch (RuntimeException e) {
+                            StatMethods.hotBread(this, "Sorry! Google Play services encountered an error with your request!", Toast.LENGTH_SHORT);
+                        }
                     }
                 }
                 return true;
@@ -322,7 +332,6 @@ public class LaunchActivity extends Activity {
 	@Override
 	protected void onResume() {
 		super.onResume();
-		checkPlayServices();
 		mIsRunning = true;
 	}
 	
@@ -344,7 +353,7 @@ public class LaunchActivity extends Activity {
 	}
 	
 	private boolean checkPlayServices() {
-		
+        GooglePlayServicesUtil.isGooglePlayServicesAvailable(this);
 		//int resultCode = GooglePlayServicesUtil.isGooglePlayServicesAvailable(this);
 		return false;
 	}
@@ -441,8 +450,14 @@ public class LaunchActivity extends Activity {
 						this.recreate();
 					}
 				} else if (resultCode == Settings.RESULT_PURCHASE_PREMIUM) {
-                    if (mPlayHelper != null) {
-                        mPlayHelper.launchPurchaseFlow(this, SKU.PREMIUM_FEATURES, SKU.REQUEST_PREMIUM, mPurchaseListener, null);
+                    if (!SettingsAccessor.getPlaySupported(this)) {
+                        StatMethods.hotBread(this, "Sorry! It seems Google Play services are not supported by your device!", Toast.LENGTH_SHORT);
+                    } else if (mPlayHelper != null) {
+                        try {
+                            mPlayHelper.launchPurchaseFlow(this, SKU.PREMIUM_FEATURES, SKU.REQUEST_PREMIUM, mPurchaseListener, null);
+                        } catch (RuntimeException e) {
+                            StatMethods.hotBread(this, "Sorry! Google Play services encountered an error with your request!", Toast.LENGTH_SHORT);
+                        }
                     }
                 }
 				break;

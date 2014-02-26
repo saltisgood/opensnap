@@ -155,6 +155,7 @@
      and long click to choose a colour</string>
     <string name="tut_contactselect">Tap on a contact to send to one person\n\nTick the boxes to
         select multiple recipients\n\nAfter selecting contacts, long click button to save for later</string>
+    <string name="play_supported_key">play_supported_key</string>
 
     <string name="vid_low">Low Quality</string>
     <string name="vid_hi">High Quality</string>

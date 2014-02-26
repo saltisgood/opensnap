@@ -15,6 +15,8 @@ import com.nickstephen.opensnap.gui.Theme;
 import com.nickstephen.opensnap.util.http.SnapAPI;
 import com.nickstephen.opensnap.util.play.SKU;
 
+import org.holoeverywhere.preference.Preference;
+
 /**
  * A static abstraction of the Settings for easy access 
  * @author Nick Stephen (a.k.a. saltisgood)
@@ -249,4 +251,18 @@ public class SettingsAccessor {
 	public static boolean getSaveLocalFeed(Context ctxt) {
 		return PreferenceManager.getDefaultSharedPreferences(ctxt).getBoolean(ctxt.getString(R.string.pref_local_feed_save_key), true);
 	}
+
+    /**
+     * Get whether Play services are supported
+     * @param ctxt
+     * @return
+     */
+    public static boolean getPlaySupported(Context ctxt) {
+        return PreferenceManager.getDefaultSharedPreferences(ctxt).getBoolean(ctxt.getString(R.string.play_supported_key), true);
+    }
+
+    public static void setPlaySupported(Context ctxt, boolean val) {
+        PreferenceManager.getDefaultSharedPreferences(ctxt).edit()
+                .putBoolean(ctxt.getString(R.string.play_supported_key), val).commit();
+    }
 }
