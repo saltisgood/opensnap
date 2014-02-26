@@ -4,7 +4,7 @@
     android:layout_height="wrap_content"
     android:background="#111" >
     
-    <org.holoeverywhere.widget.TextView
+    <TextView
         android:id="@+id/textView1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -13,8 +13,8 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:textStyle="bold"
         android:text="@string/time_picker_title" />
-    
-    <org.holoeverywhere.widget.NumberPicker
+
+    <NumberPicker
         android:id="@+id/no_picker_time"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -32,7 +32,7 @@
         android:layout_below="@id/no_picker_time"
         android:layout_centerHorizontal="true" >
         
-        <org.holoeverywhere.widget.Button 
+        <Button
             android:id="@+id/cancel_button"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -40,7 +40,7 @@
             android:text="@string/cancel"
             android:textAppearance="?android:attr/textAppearanceMedium" />
         
-        <org.holoeverywhere.widget.Button
+        <Button
             android:id="@+id/ok_button" 
             android:layout_width="0dp"
             android:layout_height="wrap_content"

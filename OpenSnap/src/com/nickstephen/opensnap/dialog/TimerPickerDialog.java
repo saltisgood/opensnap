@@ -27,7 +27,7 @@ public class TimerPickerDialog extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		
-		this.setContentView(R.layout.time_picker_dialog);
+		this.setContentView(R.layout.time_pick_dialog);
 		
 		Display display = this.getWindowManager().getDefaultDisplay();
 		int width;

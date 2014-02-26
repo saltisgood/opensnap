@@ -565,7 +565,11 @@ public abstract class BaseCaptureFrag extends Fragment {
 		@Override
 		protected void onPostExecute(Camera camera) {
 			if (camera != null && mCameraContainer != null) {
-                mPreviewWidget = new Preview(BaseCaptureFrag.this.getActivity(), camera);
+                try {
+                    mPreviewWidget = new Preview(BaseCaptureFrag.this.getActivity(), camera);
+                } catch (RuntimeException e) {
+                    return;
+                }
                 mPreviewWidget.setKeepScreenOn(true);
                 mCameraContainer.addView(mPreviewWidget);
                 FrameLayout.LayoutParams previewParams = (android.widget.FrameLayout.LayoutParams) mPreviewWidget.getLayoutParams();
