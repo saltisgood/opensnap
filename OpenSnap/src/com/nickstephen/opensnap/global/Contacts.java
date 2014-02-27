@@ -17,6 +17,8 @@ import android.content.Context;
 
 import com.nickstephen.lib.misc.BitConverter;
 import com.nickstephen.lib.misc.StatMethods;
+import com.nickstephen.opensnap.util.http.ServerFriend;
+import com.nickstephen.opensnap.util.http.ServerResponse;
 import com.nickstephen.opensnap.util.misc.CustomJSON;
 
 /**
@@ -154,6 +156,25 @@ public class Contacts {
 			}
 		}
 	}
+
+    public static void sync(ServerResponse response) {
+        sThis.Contacts = new ArrayList<Contact>();
+        for (ServerFriend friend : response.friends) {
+            sThis.Contacts.add(new Contact(friend));
+        }
+        sThis.sortThis();
+
+        if (response.bests != null) {
+            for (String besty : response.bests) {
+                for (Contact ct : sThis.Contacts) {
+                    if (ct._userName.compareTo(besty) == 0) {
+                        ct._besty = true;
+                        break;
+                    }
+                }
+            }
+        }
+    }
 	
 	/**
 	 * Save the Contacts to file
@@ -477,6 +498,8 @@ public class Contacts {
 		 * The friend type as read from the JSONNode.
 		 */
 		private Float _type = null;
+        //TODO: Remove ^^^
+        private int type;
 		/**
 		 * An enum version of {@link #_type}
 		 */
@@ -503,6 +526,13 @@ public class Contacts {
 			_displayName = (String)jnode.GetValue(DISPLAYKEY);
 			_type = (Float)jnode.GetValue(TYPEKEY);
 		}
+
+        public Contact(ServerFriend friend) {
+            _userName = friend.name;
+            _displayName = friend.display;
+            type = friend.type;
+            _type = (float) type;
+        }
 
 		/**
 		 * The third constructor. sThis one is used when reading from the config file.

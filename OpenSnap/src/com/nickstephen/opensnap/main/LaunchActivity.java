@@ -69,6 +69,7 @@ import com.nickstephen.opensnap.main.tuts.TutorialMainFrag;
 import com.nickstephen.opensnap.main.tuts.TutorialRootFrag;
 import com.nickstephen.opensnap.settings.Settings;
 import com.nickstephen.opensnap.settings.SettingsAccessor;
+import com.nickstephen.opensnap.util.Broadcast;
 import com.nickstephen.opensnap.util.Constants;
 import com.nickstephen.opensnap.util.gcm.GCMUtil;
 import com.nickstephen.opensnap.util.gcm.NotificationReceiver;
@@ -79,6 +80,7 @@ import com.nickstephen.opensnap.util.misc.CustomJSON;
 import com.nickstephen.opensnap.util.misc.FileIO;
 import com.nickstephen.opensnap.util.play.SKU;
 import com.nickstephen.opensnap.util.tasks.ClearFeedTask;
+import com.nickstephen.opensnap.util.tasks.LoginTask;
 import com.nickstephen.opensnap.util.tasks.LogoutTask;
 
 
@@ -103,6 +105,8 @@ public class LaunchActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+
+        Broadcast.registerLaunchActivity(this);
 
         // Play Stuff
         mPlayHelper = new IabHelper(this, SKU.retrieveB64());
@@ -344,6 +348,9 @@ public class LaunchActivity extends Activity {
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
+
+        Broadcast.unregisterLaunchActivity();
+
 		TempSnaps.write(this);
 
         if (mPlayHelper != null) {
@@ -500,7 +507,8 @@ public class LaunchActivity extends Activity {
 		loginButton.setVisibility(View.INVISIBLE);
 		ProgressBar pb1 = (ProgressBar)this.findViewById(R.id.progressBar1);
 		pb1.setVisibility(View.VISIBLE);
-		new BGLogin(this.getApplicationContext(), null).execute("login", login, pWord);
+		//new BGLogin(this.getApplicationContext(), null).execute("login", login, pWord);
+        new LoginTask(this.getApplicationContext(), login, pWord).execute();
 	}
 	
 	/**
@@ -615,6 +623,21 @@ public class LaunchActivity extends Activity {
 		
 		new BGLogin(this.getApplicationContext(), callback).execute("update", GlobalVars.getUsername(this), GlobalVars.getAuthToken(this));
 	}
+
+    public void onLoginComplete(boolean wasSuccessful) {
+        if (wasSuccessful) {
+            if (GCMUtil.checkPlayServices(this)) {
+                new SnapGCMRegistrar(this).setupGoogleCloudManager(true);
+            }
+
+            LoadMenu(3, 1);
+        } else {
+            ProgressBar pb = (ProgressBar)this.findViewById(R.id.progressBar1);
+            pb.setVisibility(View.INVISIBLE);
+            Button butt = (Button)this.findViewById(R.id.button1);
+            butt.setVisibility(View.VISIBLE);
+        }
+    }
 
     public void performPurchase(IabHelper.OnIabPurchaseFinishedListener purchaseListener) {
         if (mPlayHelper != null) {

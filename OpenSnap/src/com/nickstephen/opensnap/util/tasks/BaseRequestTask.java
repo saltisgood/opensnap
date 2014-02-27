@@ -19,6 +19,7 @@ public abstract class BaseRequestTask extends AsyncTask<String, Void, ServerResp
 	protected String mResultJson;
 	private long mStartMillis;
 	private int mStatusCode;
+    protected boolean mReuseAuthToken = true;
 
 	public BaseRequestTask(Context paramContext)
 	{
@@ -27,16 +28,22 @@ public abstract class BaseRequestTask extends AsyncTask<String, Void, ServerResp
 
 	protected ServerResponse doInBackground(String... paramArrayOfString)
 	{
+        String authToken = null;
+        if (mReuseAuthToken) {
+            authToken = GlobalVars.getAuthToken(mContext);
+        }
+
 		GlobalVars.lockNetwork(-1);
 		Bundle localBundle;
 		try {
-			localBundle = SnapAPI.postData(getPath(), getParams(), GlobalVars.getAuthToken(mContext));
+			localBundle = SnapAPI.postData(getPath(), getParams(), authToken);
 		} catch (NetException e) {
 			this.mStatusCode = e.getStatusCode();
 			this.mFailureMessage = e.getMessage();
 			return null;
-		}
-		GlobalVars.releaseNetwork();
+		} finally {
+            GlobalVars.releaseNetwork();
+        }
 		
 		//Bundle localBundle = SnapchatServer.makeRequest(getPath(), getParams(), 2, this.mContext);
 		this.mResultJson = localBundle.getString(com.nickstephen.opensnap.util.http.ServerResponse.RESULT_DATA_KEY);
@@ -46,7 +53,9 @@ public abstract class BaseRequestTask extends AsyncTask<String, Void, ServerResp
 				mEmptyResponse = true;
 				return null;
 			} else {
-				return ServerResponse.getResponseFromString(mResultJson);
+                ServerResponse response = ServerResponse.getResponseFromString((mResultJson));
+                onSuccessAsync(response);
+				return response;
 			}
 		} else if (mStatusCode == 401) {
 			this.m401Error = true;
@@ -80,9 +89,9 @@ public abstract class BaseRequestTask extends AsyncTask<String, Void, ServerResp
 	{
 	}
 
-	protected void onPostExecute(ServerResponse paramServerResponse)
+	protected final void onPostExecute(ServerResponse response)
 	{
-		Twig.info("OpenSnap RequestTask", getTaskName() + " completed in " + Integer.valueOf((int)(System.currentTimeMillis() - this.mStartMillis)) + " milliseconds");
+		Twig.info("OpenSnap RequestTask", getTaskName() + " completed in " + (int) (System.currentTimeMillis() - this.mStartMillis) + " milliseconds");
 		if (getTaskName().equalsIgnoreCase("GetProfileInfoTask")) {
 			if (this.mStatusCode == 200) {
 				onSuccessBFF(this.mResultJson);
@@ -96,7 +105,7 @@ public abstract class BaseRequestTask extends AsyncTask<String, Void, ServerResp
 			return;
 		}
 		if (StatMethods.IsStringNullOrEmpty(mFailureMessage)) {
-			onSuccess(paramServerResponse);
+			onSuccess(response);
 		} else {
 			onFail(this.mFailureMessage);
 		}
@@ -108,11 +117,11 @@ public abstract class BaseRequestTask extends AsyncTask<String, Void, ServerResp
 		this.mStartMillis = System.currentTimeMillis();
 	}
 
-	protected void onSuccess(ServerResponse paramServerResponse)
+	protected void onSuccess(ServerResponse response)
 	{
 	}
 
-	protected void onSuccessAsync(ServerResponse paramServerResponse)
+	protected void onSuccessAsync(ServerResponse response)
 	{
 	}
 

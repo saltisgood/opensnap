@@ -8,6 +8,7 @@ import java.io.IOException;
 import android.content.Context;
 
 import com.nickstephen.lib.misc.BitConverter;
+import com.nickstephen.opensnap.util.http.ServerResponse;
 import com.nickstephen.opensnap.util.misc.CustomJSON;
 
 /**
@@ -128,6 +129,22 @@ public class Statistics {
 		
 		return sThis.write(ctxt);
 	}
+
+    public static int Sync(ServerResponse response, Context context) {
+        sThis = new Statistics();
+
+        sThis.mSnapPhoneNumber = response.snapchat_phone_number;
+        sThis.mReceivedSnaps = response.received;
+        sThis.mSentSnaps = response.sent;
+        sThis.mDeviceToken = response.device_token;
+        sThis.mEmail = response.email;
+        sThis.mLastUpdate = System.currentTimeMillis();
+        sThis.mLastUpdate = response.last_updated;
+        sThis.mMobileVerification = response.mobile_verification_key;
+        sThis.mMobileNumber = response.mobile;
+        
+        return sThis.write(context);
+    }
 	
 	/**
 	 * Get the SnapChat phone number

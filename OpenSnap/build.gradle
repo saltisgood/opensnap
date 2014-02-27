@@ -11,6 +11,7 @@ dependencies {
     compile project(':TheStephenAndroidLibrary')
     compile project(':ActionBar-PullToRefresh:ptrlibrary')
     compile project(':HoloEverywhere:addons:preferences')
+    compile files('libs/gson-2.2.4.jar')
 }
 
 android {

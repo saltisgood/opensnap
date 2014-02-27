@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
 import com.nickstephen.lib.Twig;
 import com.nickstephen.lib.misc.StatMethods;
 import com.nickstephen.opensnap.global.Contacts;
@@ -71,13 +72,29 @@ public class FriendTask extends BaseRequestTask {
     }
 
     @Override
-    protected void onSuccess(ServerResponse paramServerResponse) {
+    protected void onSuccess(ServerResponse response) {
+        Gson gson = new Gson();
+        Test test = gson.fromJson(this.mResultJson, Test.class);
         if (mAction == FriendAction.DISPLAY) {
             Contacts.setDisplayName(mFriend, mFriendDisplay);
             Contacts.sort();
             StatMethods.hotBread(mContext, "Name changed successfully", Toast.LENGTH_SHORT);
         }
         Broadcast.refreshContactViewer();
+        test = null;
+    }
+
+    public class Test {
+        private boolean logged;
+        private String message;
+        private TestContact object;
+    }
+
+    public class TestContact {
+        private boolean can_see_custom_stories;
+        private String name;
+        private String display;
+        private int type;
     }
 
     public enum FriendAction {

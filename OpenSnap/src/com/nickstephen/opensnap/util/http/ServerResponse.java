@@ -4,6 +4,8 @@ import java.util.List;
 
 import android.os.Bundle;
 
+import com.google.gson.Gson;
+
 public class ServerResponse {
 	public static final String KEY_LOGGED_USER = "logged";
 	public static final String RESULT_DATA_KEY = "resultData";
@@ -26,22 +28,23 @@ public class ServerResponse {
 	}
 	
 	public static ServerResponse getResponseFromString(String result) {
-		ServerResponse response = new ServerResponse();
-		
-		// TODO: Implement
-		
-		return response;
+		Gson gson = new Gson();
+        return gson.fromJson(result, ServerResponse.class);
 	}
 
-	//public List<ServerFriend> added_friends;
+	public List<ServerFriend> added_friends;
 	public long added_friends_timestamp;
 	public String auth_token;
 	public List<String> bests;
 	public List<String> broken_cameras;
 	public boolean can_view_mature_content;
+    public long current_timestamp;
+    public String device_token;
 	public String email;
-	//public List<FriendStoryBook> friend_stories;
-	//public List<ServerFriend> friends;
+	public List<FriendStoryBook> friend_stories;
+	public List<ServerFriend> friends;
+    public String image_caption;
+    public boolean is_beta;
 	//public PostStoryTask.PostStoryJsonResponse json;
 	public long last_updated;
 	public boolean logged;
@@ -49,18 +52,25 @@ public class ServerResponse {
 	public String message;
 	public String mobile;
 	public String mobile_verification_key;
-	//public List<StoryLogbook> my_stories;
-	//public ServerFriend object;
+	public List<StoryLogbook> my_stories;
+    public String notification_sound_setting;
+    public int number_of_best_stories;
+	public ServerFriend object;
+    public String param;
 	public int received;
 	public List<String> recents;
-	//public List<ServerFriend> results;
+    public List<ServerFriend> requests;
+	public List<ServerFriend> results;
+    public int score;
 	public int sent;
+    public boolean should_send_text_to_verify_number;
 	public int snap_p;
-	//public SnapOrStoryDoublePostResponse snap_response;
+	public SnapOrStoryDoublePostResponse snap_response;
 	public String snapchat_phone_number;
-	//public List<ServerSnap> snaps;
+	public List<ServerSnap> snaps;
 	public String story_privacy;
-	//public SnapOrStoryDoublePostResponse story_response;
+	public SnapOrStoryDoublePostResponse story_response;
+    public String token;
 	public String username;
 
 	public String toString()

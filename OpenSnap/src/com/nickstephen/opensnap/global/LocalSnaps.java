@@ -20,6 +20,7 @@ import android.text.format.DateUtils;
 import com.nickstephen.lib.misc.BitConverter;
 import com.nickstephen.lib.misc.StatMethods;
 import com.nickstephen.opensnap.settings.SettingsAccessor;
+import com.nickstephen.opensnap.util.http.ServerSnap;
 import com.nickstephen.opensnap.util.misc.CameraUtil;
 import com.nickstephen.opensnap.util.misc.CustomJSON;
 
@@ -520,6 +521,13 @@ public class LocalSnaps {
 			}
 		}
 	}
+
+    public LocalSnaps(List<ServerSnap> snaps) {
+        Snaps = new ArrayList<LocalSnap>();
+        for (ServerSnap snap : snaps) {
+            Snaps.add(new LocalSnap(snap));
+        }
+    }
 	
 	/**
 	* Get the time for the snap to be displayed at a certain position in the list.
@@ -962,6 +970,29 @@ public class LocalSnaps {
 		 * of milliseconds since the epoch.
 		 */
 		private long TimeStamp;
+
+        public LocalSnap(ServerSnap snap) {
+            SnapID = snap.id;
+            Sender = snap.sn;
+            TimeStamp = snap.ts;
+            SentTimeStamp = snap.sts;
+            ConvID = snap.c_id;
+            Recipient = snap.rp;
+            DisplayTime = snap.t;
+            captionText = snap.cap_text;
+            captionOrientation = snap.cap_ori;
+            captionLocation = snap.cap_pos;
+            Media = MediaType.getType(snap.m);
+            State = SnapStatus.getType(snap.st);
+
+            if (Sender != null) {
+                IO = IOType.RECEIVED;
+                SenderCon = Contacts.getContactWithName(Sender);
+            } else {
+                IO = IOType.SENT;
+                RecipCon = Contacts.getContactWithName(Recipient);
+            }
+        }
 		
 		/**
 		 * Construct a Snap with a JSONNode. Normally used when syncing from the server.
