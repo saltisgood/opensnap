@@ -109,6 +109,8 @@ public abstract class BaseRequestTask extends AsyncTask<String, Void, ServerResp
 		} else {
 			onFail(this.mFailureMessage);
 		}
+
+        onFinish();
 	}
 
 	protected void onPreExecute()
@@ -128,4 +130,10 @@ public abstract class BaseRequestTask extends AsyncTask<String, Void, ServerResp
 	protected void onSuccessBFF(String paramString)
 	{
 	}
+
+    /**
+     * This method is called after all other methods in onPostExecute and is just used to clean up
+     * / finish things regardless of whether an error occurred or not
+     */
+    protected void onFinish() {    }
 }

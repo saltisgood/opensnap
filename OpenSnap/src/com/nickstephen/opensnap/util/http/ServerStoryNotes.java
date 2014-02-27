@@ -6,7 +6,7 @@ package com.nickstephen.opensnap.util.http;
 public class ServerStoryNotes {
     private String viewer;
     private boolean screenshotted;
-    private int timestamp;
+    private long timestamp;
     private StoryPointer storypointer;
 
     public static class StoryPointer {

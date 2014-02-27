@@ -10,7 +10,7 @@ public class ServerFriend {
     public String name;
     public String display;
     public int type;
-    public int ts;
+    public long ts;
     public List<String> best_friends;
     public int score;
 

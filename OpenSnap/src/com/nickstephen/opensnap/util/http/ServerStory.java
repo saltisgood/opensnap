@@ -17,6 +17,6 @@ public class ServerStory {
     private String thumbnail_url;
     private float time;
     private int time_left;
-    private int timestamp;
+    private long timestamp;
     private String username;
 }

@@ -1,6 +1,7 @@
 package com.nickstephen.opensnap.util.tasks;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.widget.Toast;
 
@@ -15,16 +16,19 @@ import com.nickstephen.opensnap.settings.SettingsAccessor;
 import com.nickstephen.opensnap.util.Broadcast;
 import com.nickstephen.opensnap.util.http.ServerResponse;
 
+import org.holoeverywhere.app.AlertDialog;
+
 /**
  * Created by Nick Stephen on 27/02/14.
  */
 public class LoginTask extends BaseRequestTask {
     private static final String NAME = "LoginTask";
 
-    private final String mUsername;
-    private final String mPassword;
-    private int mNewSnaps;
-    private boolean mError = false;
+    protected final String mUsername;
+    protected final String mPassword;
+    protected int mNewSnaps;
+    protected boolean mError = false;
+    protected boolean mIsUserRun = true;
 
     public LoginTask(Context paramContext, String username, String password) {
         super(paramContext);
@@ -32,6 +36,12 @@ public class LoginTask extends BaseRequestTask {
         mUsername = username;
         mPassword = password;
         mReuseAuthToken = false;
+    }
+
+    public LoginTask(Context paramContext, String username, String password, boolean IsUserRun) {
+        this(paramContext, username, password);
+
+        mIsUserRun = IsUserRun;
     }
 
     @Override
@@ -62,7 +72,9 @@ public class LoginTask extends BaseRequestTask {
 
         GlobalVars.setAuthToken(mContext, response.auth_token);
         GlobalVars.setUsername(mContext, mUsername);
-        GlobalVars.setPassword(mContext, mPassword);
+        if (mPassword != null) {
+            GlobalVars.setPassword(mContext, mPassword);
+        }
 
         Contacts.sync(response);
         try {
@@ -89,8 +101,23 @@ public class LoginTask extends BaseRequestTask {
     @Override
     protected void onSuccess(ServerResponse response) {
         if (!response.logged) {
-            StatMethods.hotBread(mContext, "Login failed:\nIncorrect username or password", Toast.LENGTH_LONG);
-            Broadcast.loginComplete(false);
+            if (mIsUserRun) {
+                StatMethods.hotBread(mContext, "Login failed:\nIncorrect username or password", Toast.LENGTH_LONG);
+                Broadcast.loginComplete(false);
+            } else {
+                AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+                builder.setTitle("Login Failed!")
+                        .setMessage("Login of cached username and password has failed! This is normally " +
+                                "because your password has changed since you last logged in with OpenSnap. " +
+                                "You will have to sign out and sign in with your new password before you can " +
+                                "send or receive snaps.")
+                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        }).create().show();
+            }
         } else if (mError) {
 
         } else {
@@ -107,7 +134,16 @@ public class LoginTask extends BaseRequestTask {
             if (LocalSnaps.getNumberOfSnaps() >= SettingsAccessor.getCloudSnapListSize(mContext) && LocalSnaps.shouldClear()) {
                 new ClearFeedTask(mContext, GlobalVars.getUsername(mContext)).execute();
             }
-            Broadcast.loginComplete(true);
+            if (mIsUserRun) {
+                Broadcast.loginComplete(true);
+            } else {
+
+            }
         }
+    }
+
+    @Override
+    protected void onFinish() {
+        Broadcast.finishUpdate();
     }
 }

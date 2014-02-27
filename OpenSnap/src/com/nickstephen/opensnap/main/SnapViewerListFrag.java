@@ -47,10 +47,13 @@ import com.nickstephen.opensnap.preview.MediaPreview;
 import com.nickstephen.opensnap.preview.PreviewConstants;
 import com.nickstephen.opensnap.preview.VideoPreview;
 import com.nickstephen.opensnap.settings.SettingsAccessor;
+import com.nickstephen.opensnap.util.Broadcast;
+import com.nickstephen.opensnap.util.IRefresh;
 import com.nickstephen.opensnap.util.notify.Notifications;
 import com.nickstephen.opensnap.util.tasks.OpenSnapTask;
 import com.nickstephen.opensnap.util.tasks.SnapDownload;
 import com.nickstephen.opensnap.util.tasks.SnapUpload;
+import com.nickstephen.opensnap.util.tasks.UpdateTask;
 
 import uk.co.senab.actionbarpulltorefresh.extras.actionbarcompat.AbcDefaultHeaderTransformer;
 import uk.co.senab.actionbarpulltorefresh.library.ActionBarPullToRefresh;
@@ -63,7 +66,7 @@ import uk.co.senab.actionbarpulltorefresh.library.listeners.OnRefreshListener;
  * can then be clicked on to view more detailed stuff
  * @author Nick Stephen (a.k.a. saltisgood)
  */
-public class SnapViewerListFrag extends ListFragment {
+public class SnapViewerListFrag extends ListFragment implements IRefresh {
 	public static final String FRAGTAG = "SnapViewerListFrag";
 	
 	private static final int RETURN_AND_DELETE = 0x100;
@@ -77,6 +80,13 @@ public class SnapViewerListFrag extends ListFragment {
 	public SnapViewerListFrag() {
 		mActiveAnims = new SparseArray<ValueAnimator>();
 	}
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        Broadcast.registerSnapViewerListFrag(this);
+    }
 
     @SuppressLint("NewApi")
     @Override
@@ -100,12 +110,11 @@ public class SnapViewerListFrag extends ListFragment {
                 .listener(new OnRefreshListener() {
                     @Override
                     public void onRefreshStarted(View view) {
-                        ((LaunchActivity) SnapViewerListFrag.this.getActivity()).update(new BGFinishedCallback() {
-                            @Override
-                            public void onCompleted() {
-                                mPTRLayout.setRefreshComplete();
-                            }
-                        });
+                        if (StatMethods.isNetworkAvailable(SnapViewerListFrag.this.getActivity(), true)) {
+                            new UpdateTask(SnapViewerListFrag.this.getSupportApplication(),
+                                    GlobalVars.getUsername(SnapViewerListFrag.this.getActivity()))
+                                        .execute();
+                        }
                     }
                 })
                 .setup(mPTRLayout);
@@ -414,6 +423,8 @@ public class SnapViewerListFrag extends ListFragment {
 	public void onDestroy() {
 		super.onDestroy();
 
+        Broadcast.unregisterSnapViewerListFrag();
+
 		mHandler.removeMessages(GuiHandler.REFRESH_VIEW);
 		mHandler.removeMessages(GuiHandler.REPEAT_REFRESH_VIEW);
 		mHandler.removeMessages(GuiHandler.REFRESH_WHOLE_LIST);
@@ -441,31 +452,22 @@ public class SnapViewerListFrag extends ListFragment {
 		return this.getListView().getLastVisiblePosition() - this.getListView().getFirstVisiblePosition();
 	}
 
-	@SuppressWarnings("unchecked")
-	public void refreshList() {
-		ArrayAdapter<LocalSnaps.LocalSnap> adapter;
-		if ((adapter = (ArrayAdapter<LocalSnaps.LocalSnap>) this.getListAdapter()) != null) {
+	private void refreshList() {
+		ArrayAdapter adapter;
+		if ((adapter = (ArrayAdapter) this.getListAdapter()) != null) {
 			adapter.notifyDataSetChanged();
 		}
-		
-		/* if ((TempSnaps.getCount() + LocalSnaps.getNumberOfSnaps()) == 0) {
-			if (emptyListView.getVisibility() != View.VISIBLE) {
-				emptyListView.setVisibility(View.VISIBLE);
-			}
-            // TODO: refresh list stuff
-			if (list.getVisibility() == View.VISIBLE) {
-				list.setVisibility(View.INVISIBLE);
-			}
-		} else {
-			if (emptyListView.getVisibility() == View.VISIBLE) {
-				emptyListView.setVisibility(View.INVISIBLE);
-			}
-            // TODO: refresh list stuff
-			if (list.getVisibility() != View.VISIBLE) {
-				list.setVisibility(View.VISIBLE);
-			}
-		} */
 	}
+
+    public void refresh() {
+        refreshList();
+    }
+
+    public void onUpdateComplete() {
+        mPTRLayout.setRefreshComplete();
+
+        refresh();
+    }
 	
 	/**
 	 * An extension to {@link ArrayAdapter} that feeds mSnaps to a list view
@@ -852,16 +854,7 @@ public class SnapViewerListFrag extends ListFragment {
                                         break;
                                 }
 
-                                if (SnapViewerListFrag.this.getFragmentManager() != null) {
-                                    List<android.support.v4.app.Fragment> frags = SnapViewerListFrag.this.getFragmentManager().getFragments();
-                                    if (frags != null) {
-                                        for (android.support.v4.app.Fragment frag : frags) {
-                                            if (frag instanceof MainMenuFrag) {
-                                                ((MainMenuFrag) frag).setUpdateText(LocalSnaps.getUnseenSnaps());
-                                            }
-                                        }
-                                    }
-                                }
+                                Broadcast.refreshMainMenuFrag();
                             } else {
                                 // Not yet opened, repeat the message later
                                 this.sendMessageDelayed(this.obtainMessage(msg.what, msg.arg1, msg.arg2, msg.obj), 400);

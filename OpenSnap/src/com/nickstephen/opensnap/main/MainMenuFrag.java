@@ -24,6 +24,7 @@ import com.nickstephen.opensnap.R;
 import com.nickstephen.opensnap.global.LocalSnaps;
 import com.nickstephen.opensnap.gui.DragTouchListener;
 import com.nickstephen.opensnap.settings.SettingsAccessor;
+import com.nickstephen.opensnap.util.Broadcast;
 
 /**
  * An extension to {@link Fragment} that just has the main menu text and buttons and whatnot
@@ -33,12 +34,19 @@ public class MainMenuFrag extends Fragment {
 	public static final String FRAG_TAG = "MainMenuFrag";
 	
 	private int easterEggCount = 0;
-	private TextView unseenText;
+	private TextView mUnseenText;
 	private AnimTextView mGreetingText;
 	
 	public MainMenuFrag() {}
-	
-	@SuppressWarnings("deprecation")
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        Broadcast.registerMainMenuFrag(this);
+    }
+
+    @SuppressWarnings("deprecation")
 	@Override
     @SuppressLint("NewApi")
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -76,12 +84,13 @@ public class MainMenuFrag extends Fragment {
 				}
 				break;
 		}
+
+        mUnseenText = (TextView)v.findViewById(R.id.new_snaps_notice);
 		
 		Integer noUnseen;
-		if ((noUnseen = LocalSnaps.getUnseenSnaps()) > 0) { 
-			unseenText = (TextView)v.findViewById(R.id.new_snaps_notice);
-			unseenText.setText(noUnseen.toString());
-			unseenText.setVisibility(View.VISIBLE);
+		if ((noUnseen = LocalSnaps.getUnseenSnaps()) > 0) {
+			mUnseenText.setText(noUnseen.toString());
+			mUnseenText.setVisibility(View.VISIBLE);
 		}
 		
 		mGreetingText = (AnimTextView) v.findViewById(R.id.creator_text);
@@ -102,6 +111,15 @@ public class MainMenuFrag extends Fragment {
 		
 		return v;
 	}
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        if (mGreetingText != null && !mGreetingText.isAnimationRunning()) {
+            mGreetingText.startAnimation(true);
+        }
+    }
 	
 	@Override
 	public void onPause() {
@@ -111,40 +129,39 @@ public class MainMenuFrag extends Fragment {
 			mGreetingText.pauseAnimation();
 		}
 	}
-	
-	@Override
-	public void onResume() {
-		super.onResume();
-		
-		if (mGreetingText != null && !mGreetingText.isAnimationRunning()) {
-			mGreetingText.startAnimation(true);
-		}
-	}
-	
-	@Override
-	public void onViewCreated(View view, Bundle savedInstanceState) {
-		super.onViewCreated(view, savedInstanceState);
-		
-		view.invalidate();
-	}
-	
-	public void setUpdateText(Integer updates) {
-        if (unseenText == null) {
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+
+        mGreetingText = null;
+        mUnseenText = null;
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+
+        Broadcast.unregisterMainMenuFrag();
+    }
+
+    public void setUpdateText(Integer updates) {
+        if (mUnseenText == null) {
             View rootView = this.getView();
             if (rootView != null) {
-                unseenText = (TextView) rootView.findViewById(R.id.new_snaps_notice);
+                mUnseenText = (TextView) rootView.findViewById(R.id.new_snaps_notice);
             }
         }
 
-		if (unseenText != null) {
+		if (mUnseenText != null) {
 			if (updates > 0) {
-				unseenText.setText(updates.toString());
-				if (unseenText.getVisibility() != View.VISIBLE) {
-					unseenText.setVisibility(View.VISIBLE);
+				mUnseenText.setText(updates.toString());
+				if (mUnseenText.getVisibility() != View.VISIBLE) {
+					mUnseenText.setVisibility(View.VISIBLE);
 				}
 			} else {
-				if (unseenText.getVisibility() == View.VISIBLE) {
-					unseenText.setVisibility(View.INVISIBLE);
+				if (mUnseenText.getVisibility() == View.VISIBLE) {
+					mUnseenText.setVisibility(View.INVISIBLE);
 				}
 			}
 		}

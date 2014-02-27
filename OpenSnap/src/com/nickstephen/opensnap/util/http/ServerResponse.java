@@ -38,6 +38,7 @@ public class ServerResponse {
 	public List<String> bests;
 	public List<String> broken_cameras;
 	public boolean can_view_mature_content;
+    public String country_code;
     public long current_timestamp;
     public String device_token;
 	public String email;

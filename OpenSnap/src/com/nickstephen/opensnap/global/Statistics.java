@@ -142,6 +142,7 @@ public class Statistics {
         sThis.mLastUpdate = response.last_updated;
         sThis.mMobileVerification = response.mobile_verification_key;
         sThis.mMobileNumber = response.mobile;
+        sThis.mCountryCode = response.country_code;
         
         return sThis.write(context);
     }

@@ -101,7 +101,7 @@ public class ContactViewerListFrag extends ListFragment implements IRefresh {
     }
 
     @Override
-    public void Refresh() {
+    public void refresh() {
         ArrayAdapter adapter;
         if ((adapter = (ArrayAdapter)this.getListAdapter()) != null) {
             adapter.notifyDataSetChanged();

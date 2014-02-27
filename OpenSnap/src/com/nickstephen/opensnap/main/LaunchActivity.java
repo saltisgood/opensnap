@@ -82,6 +82,7 @@ import com.nickstephen.opensnap.util.play.SKU;
 import com.nickstephen.opensnap.util.tasks.ClearFeedTask;
 import com.nickstephen.opensnap.util.tasks.LoginTask;
 import com.nickstephen.opensnap.util.tasks.LogoutTask;
+import com.nickstephen.opensnap.util.tasks.UpdateTask;
 
 
 /**
@@ -174,24 +175,8 @@ public class LaunchActivity extends Activity {
 			
 			if (this.getIntent() != null && this.getIntent().getBooleanExtra(NotificationReceiver.LAUNCH_GOTO_FEED, false)
 					|| (SettingsAccessor.getAutoRefreshPref(this) 
-							&& System.currentTimeMillis() - Statistics.getLastUpdate() >= SettingsAccessor.getRefreshTimeLong(this))) {
-				update(new BGFinishedCallback() {
-					@Override
-					public void onCompleted() {
-						if (LaunchActivity.this.getSupportFragmentManager() != null) {
-							List<android.support.v4.app.Fragment> frags = LaunchActivity.this.getSupportFragmentManager().getFragments();
-							if (frags != null) {
-								for (android.support.v4.app.Fragment frag : frags) {
-									if (frag instanceof SnapViewerListFrag) {
-										((SnapViewerListFrag) frag).refreshList();
-									} else if (frag instanceof MainMenuFrag) {
-										((MainMenuFrag) frag).setUpdateText(LocalSnaps.getUnseenSnaps());
-									}
-								}
-							}
-						}
-					}
-				});
+					&& System.currentTimeMillis() - Statistics.getLastUpdate() >= SettingsAccessor.getRefreshTimeLong(this))) {
+                new UpdateTask(this, GlobalVars.getUsername(this)).execute();
 			}
 		}
 		
@@ -248,21 +233,9 @@ public class LaunchActivity extends Activity {
 				return true;
 			case R.id.refresh_menu:
 				mRefreshItem = item;
-				//Update(null);
-				update(new BGFinishedCallback() {
-					@Override
-					public void onCompleted() {
-						List<android.support.v4.app.Fragment> frags = LaunchActivity.this.getSupportFragmentManager().getFragments();
-						for (android.support.v4.app.Fragment frag : frags) {
-							if (frag instanceof SnapViewerListFrag) {
-								((SnapViewerListFrag)frag).refreshList();
-							}
-							if (frag instanceof MainMenuFrag) {
-								((MainMenuFrag)frag).setUpdateText(LocalSnaps.getUnseenSnaps());
-							}
-						}
-					}
-				});
+                if (StatMethods.isNetworkAvailable(this, true)) {
+				    new UpdateTask(this, GlobalVars.getUsername(this)).execute();
+                }
 				return true;
 			case R.id.clear_feed_menu:
 				if (!StatMethods.isNetworkAvailable(this, true)) {
@@ -280,18 +253,8 @@ public class LaunchActivity extends Activity {
 								
 								if (!saveLocal) {
 									LocalSnaps.reset(LaunchActivity.this);
-									try {
-										List<android.support.v4.app.Fragment> frags = LaunchActivity.this.getSupportFragmentManager().getFragments();
-										for (android.support.v4.app.Fragment frag : frags) {
-											if (frag instanceof SnapViewerListFrag) {
-												((SnapViewerListFrag) frag).refreshList();
-											} else if (frag instanceof MainMenuFrag) {
-												((MainMenuFrag) frag).setUpdateText(0);
-											}
-										}
-									} catch (Exception e) {
-										
-									}
+                                    Broadcast.refreshSnapViewerListFrag();
+                                    Broadcast.refreshMainMenuFrag();
 								}
 							}
 						}, 
@@ -605,24 +568,14 @@ public class LaunchActivity extends Activity {
 			}
 		}
 	}
-	
-	/**
-	 * Update helper method. If the network is connected then the program will attempt
-	 * to update the snap/contact info.
-	 */
-	public void update(BGFinishedCallback callback) {
-		if (!StatMethods.isNetworkAvailable(this, true))
-			return;		
-		
-		mHandler.sendEmptyMessage(CustomHandler.ANIMATE_REFRESH_ICON);
-		/* if (mRefreshItem != null) {
-			mRefreshItem.setIcon(R.drawable.custom_progress);
-			AnimationDrawable drawable = (AnimationDrawable)mRefreshItem.getIcon();
-			drawable.start();
-		} */
-		
-		new BGLogin(this.getApplicationContext(), callback).execute("update", GlobalVars.getUsername(this), GlobalVars.getAuthToken(this));
-	}
+
+    public void onUpdateStart() {
+        mHandler.sendEmptyMessage(CustomHandler.ANIMATE_REFRESH_ICON);
+    }
+
+    public void onUpdateFinish() {
+        mHandler.sendEmptyMessage(CustomHandler.STOP_ANIMATE_REFRESH_ICON);
+    }
 
     public void onLoginComplete(boolean wasSuccessful) {
         if (wasSuccessful) {
@@ -647,201 +600,6 @@ public class LaunchActivity extends Activity {
             mPlayHelper.launchPurchaseFlow(this, SKU.PREMIUM_FEATURES, SKU.REQUEST_PREMIUM, purchaseListener, null);
         }
     }
-	
-	/**
-	 * An extension of AsyncTask that is used to run a login on a background thread
-	 * @author Nick Stephen (a.k.a. saltisgood)
-	 */
-	private class BGLogin extends AsyncTask <String, Void, Integer> {
-		private String type;
-		private Context context;
-		private BGFinishedCallback onFinishedCallback;
-		
-		public BGLogin(Context ctxt, BGFinishedCallback callback) {
-			context = ctxt;
-			onFinishedCallback = callback;
-		}
-		
-		/**
-		 * The method to be executed on the background thread
-		 * @param args
-		 * 0: The type of login (either "login" or "update"),
-		 * 1: username,
-		 * 2: password or authorisation token
-		 * @return An exit state
-		 */
-		@Override
-		protected Integer doInBackground(String... args) {
-			GlobalVars.lockNetwork(0);
-			
-			if (args.length < 3 || args[0] == null || args[1] == null || args[2] == null)
-				throw new NullPointerException();
-			type = args[0];
-			CustomJSON jsonderulo;
-			if (type.compareTo("login") == 0) {
-				jsonderulo = SnapAPI.login(args[1], args[2]);
-				if (jsonderulo == null)
-					return -1;
-				if (!jsonderulo.CheckKeyExists("logged") || jsonderulo.GetType("logged").compareTo("Boolean") != 0 || 
-						!(Boolean)jsonderulo.GetValue("logged"))
-					return -10;
-			}
-			else {
-				jsonderulo = SnapAPI.update(args[1], args[2]);
-				if (jsonderulo == null)
-					return -2;
-				else if (jsonderulo.CheckKeyExists("logged") && jsonderulo.GetType("logged").compareTo("Boolean") == 0 && !(Boolean)jsonderulo.GetValue("logged"))
-					return -3;
-			}
-			
-			if (!jsonderulo.CheckKeyExists(GlobalVars.AUTH_TOKEN_KEY) || jsonderulo.GetType(GlobalVars.AUTH_TOKEN_KEY).compareTo("String") != 0) {
-				return -6;
-			} else {
-				GlobalVars.setAuthToken(context, (String)jsonderulo.GetValue(GlobalVars.AUTH_TOKEN_KEY));
-			}
-			
-			if (type.compareTo("login") == 0) {
-				GlobalVars.setUsername(context, args[1]);
-				GlobalVars.setPassword(context, args[2]);
-			}
-			
-			try {
-				Contacts.sync(jsonderulo);
-				Contacts.saveToFile(context);
-			} catch (Exception e) {
-				e.printStackTrace();
-				return -5;
-			}
-			
-			int newsnaps;
-			try {
-				newsnaps = LocalSnaps.sync(new LocalSnaps(jsonderulo));
-				LocalSnaps.writeToFile(context);
-			} catch (JSONException e) {
-				e.printStackTrace();
-				return -4;
-			} catch (Exception e) {
-				e.printStackTrace();
-				return -8;
-			}
-			
-			if (Statistics.Sync(jsonderulo, context) < 0)
-				return -9;
-			
-			return newsnaps;
-		}
-		
-		@Override
-		protected void onCancelled() {
-			GlobalVars.releaseNetwork();
-		}
-			
-		@Override
-		protected void onPostExecute(Integer result){
-			GlobalVars.releaseNetwork();
-			
-			if (type.compareTo("login") == 0) {
-				if (result < 0) {
-					switch (result) {
-						case -1:
-							StatMethods.hotBread(context, "Login failed:\nCouldn't read response data", Toast.LENGTH_LONG);
-							break;
-						case -2:
-							StatMethods.hotBread(context, "Update failed:\nCouldn't read response data", Toast.LENGTH_LONG);
-							break;
-						case -3:
-							StatMethods.hotBread(context, "Update failed:\nMissing or invalid \"logged\" attribute", Toast.LENGTH_LONG);
-							break;
-						case -4:
-							StatMethods.hotBread(context, "Update failed:\nError parsing snaps", Toast.LENGTH_LONG);
-							break;
-						case -5:
-							StatMethods.hotBread(context, "Update failed:\nError parsing friends", Toast.LENGTH_LONG);
-							break;
-						case -6:
-							StatMethods.hotBread(context, "Update failed:\nMissing authorisation token", Toast.LENGTH_LONG);
-							break;
-						case -9:
-							StatMethods.hotBread(context, "Stats update failed", Toast.LENGTH_LONG);
-							break;
-						case -10:
-							StatMethods.hotBread(context, "Login failed:\nIncorrect username or password", Toast.LENGTH_LONG);
-							break;
-						default:
-							StatMethods.hotBread(context, "Update failed:\nUnknown error", Toast.LENGTH_LONG);
-							break;
-					}
-					
-					if (mIsRunning) {
-						if ((LaunchActivity.this.getSupportFragmentManager().findFragmentByTag(LaunchFrag.FRAGTAG)) != null) {
-							ProgressBar pb = (ProgressBar)LaunchActivity.this.findViewById(R.id.progressBar1);
-							pb.setVisibility(View.INVISIBLE);
-							Button butt = (Button)LaunchActivity.this.findViewById(R.id.button1);
-							butt.setVisibility(View.VISIBLE);
-						}
-					}
-					//TODO: Fix login
-					if (mHandler != null) {
-						mHandler.sendEmptyMessage(CustomHandler.STOP_ANIMATE_REFRESH_ICON);
-					}
-					/* if (mRefreshItem != null) {
-						mRefreshItem.setIcon(R.drawable.ic_menu_refresh);
-					} */
-					
-					context = null;
-					
-					return;
-				} else { // <- if (result < 0)
-					if (GCMUtil.checkPlayServices(LaunchActivity.this) && context != null) {
-						new SnapGCMRegistrar(context).setupGoogleCloudManager(true);
-					}
-					MainFrag fragg = (MainFrag)LaunchActivity.this.getSupportFragmentManager().findFragmentByTag(MainFrag.FRAGTAG);
-					if (fragg == null) {
-						LoadMenu(3, 1);
-					}
-				}
-			} else if (result == -3){
-				StatMethods.hotBread(context, "Login expired. Attempting to re-login", Toast.LENGTH_SHORT);
-				new BGLogin(context, onFinishedCallback).execute("login", GlobalVars.getUsername(context), GlobalVars.getPassword(context));
-				GlobalVars.setLoggedIn(context, false);
-				
-				context = null;
-				
-				return;
-			}
-			
-			if (SettingsAccessor.getUpdateToastPref(context)) {
-				if (result == 0) {
-					StatMethods.hotBread(context, "No new snaps :(", Toast.LENGTH_SHORT);
-				} else if (result == 1) {
-					StatMethods.hotBread(context, "1 new snap!", Toast.LENGTH_SHORT);
-				} else if (result > 1) {
-					StatMethods.hotBread(context, result + " new snaps!", Toast.LENGTH_SHORT);
-				}
-			}
-			
-			if (LocalSnaps.getNumberOfSnaps() >= SettingsAccessor.getCloudSnapListSize(context) && LocalSnaps.shouldClear()) {
-				new ClearFeedTask(context, GlobalVars.getUsername(context)).execute();
-			}
-			
-			TempSnaps.resetLite(context);
-			
-			GlobalVars.setLoggedIn(context, true);
-			if (mHandler != null) {
-				mHandler.sendEmptyMessage(CustomHandler.STOP_ANIMATE_REFRESH_ICON);
-			}
-			/* if (mRefreshItem != null) {
-				//LoadMenu(0, 1);
-				mRefreshItem.setIcon(R.drawable.ic_menu_refresh);
-			} */
-			
-			if (onFinishedCallback != null) {
-				onFinishedCallback.onCompleted();
-			}
-			
-			context = null;
-		}
-	}
 	
 	private OnChildClickListener drawerOnChildClickListener = new OnChildClickListener() {
 		@Override
@@ -974,7 +732,9 @@ public class LaunchActivity extends Activity {
 				break;
 			case 5: // Refresh
 				mDrawerLayout.closeDrawer(mDrawerFrame);
-				update(null);
+                if (StatMethods.isNetworkAvailable(LaunchActivity.this, true)) {
+				    new UpdateTask(LaunchActivity.this, GlobalVars.getUsername(LaunchActivity.this)).execute();
+                }
 				break;
 			case 6: // Sign Out
 				mDrawerLayout.closeDrawer(mDrawerFrame);
