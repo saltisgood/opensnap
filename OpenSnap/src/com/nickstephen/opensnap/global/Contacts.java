@@ -6,6 +6,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
@@ -138,7 +139,7 @@ public class Contacts {
 		for (CustomJSON.JSONNode node : jnodes) {
 			sThis.Contacts.add(new Contact(node));
 		}
-		sThis.sortContacts();
+		sThis.sortThis();
 		
 		if (json.CheckKeyExists(BESTS_KEY) && json.GetType(BESTS_KEY).compareTo(LIST_STRING_TYPE) == 0) {
 			@SuppressWarnings("unchecked")
@@ -190,6 +191,38 @@ public class Contacts {
 	public static boolean isBesty(int position) {
 		return sThis.Contacts.get(position)._besty;
 	}
+
+    /**
+     * Sets the display name of a contact
+     * @param user The username of the contact to change
+     * @param newDisplay The new display name for that contact to have
+     * @return False if the contact couldn't be found with that username, true on success
+     */
+    public static boolean setDisplayName(String user, String newDisplay) {
+        Contact contact = getContactWithName(user);
+        if (contact == null) {
+            return false;
+        }
+
+        contact._displayName = newDisplay;
+        return true;
+    }
+
+    /**
+     * Sets the display name of a contact given a position in the list of contacts
+     * @param position The position of the contact in the list
+     * @param newDisplay The new display name for that contact to have
+     */
+    public static void setDisplayName(int position, String newDisplay) {
+        sThis.Contacts.get(position)._displayName = newDisplay;
+    }
+
+    /**
+     * Sort the contacts into alphabetical order of display name first, then username
+     */
+    public static void sort() {
+        sThis.sortThis();
+    }
 	
 	/**
 	 * Get a Contact object
@@ -382,7 +415,7 @@ public class Contacts {
 	 * Sort the contacts into username alphabetical order. Should only really be 
 	 * called when the contact list changes otherwise it's a waste of time.
 	 */
-	private void sortContacts() {
+	private void sortThis() {
 		Contact[] tmpCt = Contacts.toArray(new Contact[Contacts.size()]);
 		Arrays.sort(tmpCt, new Comparator<Contact>() {
 			@Override
@@ -392,9 +425,7 @@ public class Contacts {
 		});
 		
 		Contacts = new ArrayList<Contact>();
-		for (Contact ct : tmpCt) {
-			Contacts.add(ct);
-		}
+        Collections.addAll(Contacts, tmpCt);
 	}
 	
 	/**

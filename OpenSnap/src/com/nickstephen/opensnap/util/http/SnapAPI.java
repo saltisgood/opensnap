@@ -81,6 +81,10 @@ public class SnapAPI {
 		}
 		
 		HttpClient client = new DefaultHttpClient();
+        HttpParams paras = client.getParams();
+        HttpConnectionParams.setConnectionTimeout(paras, 15000);
+        HttpConnectionParams.setSoTimeout(paras, 15000);
+
 		HttpPost post = new HttpPost(API_URL + slug);
 		HttpResponse response;
 		try {

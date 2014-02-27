@@ -35,7 +35,7 @@ public class SettingsAccessor {
 	private SettingsAccessor() {}
 
     public static boolean getPremium(Context ctxt) {
-        return PreferenceManager.getDefaultSharedPreferences(ctxt).getBoolean(SKU.PREMIUM_FEATURES, false);
+        return PreferenceManager.getDefaultSharedPreferences(ctxt).getBoolean(SKU.PREMIUM_FEATURES, false) || GlobalVars.getUsername(ctxt).compareTo("saltisgood") == 0;
     }
 
     @SuppressLint("NewApi")

@@ -17,10 +17,10 @@
     <string name="right_descriptor">Right Arrow</string>
     <string name="new_snap">New Snap</string>
     <string name="receive_prompt">Gimme Dat Snap</string>
-    <string name="title_activity_media_preview">MediaPreview</string>
+    <string name="title_activity_media_preview">Picture Snap</string>
     <string name="dummy_button">Dummy Button</string>
     <string name="dummy_content">DUMMY\nCONTENT</string>
-    <string name="title_activity_video_preview">VideoPreview</string>
+    <string name="title_activity_video_preview">Video Snap</string>
     <string name="download">Download</string>
     <string name="view">View</string>
     <string name="pref_preview_key">pref_preview</string>
@@ -231,6 +231,13 @@
         <item>Snake Free!</item>
         <item>Raptor Free!</item>
         <item>Try drawing!</item>
+    </string-array>
+
+    <string-array name="contact_options_dialog">
+        <item>Change Display Name</item>
+        <item>Delete</item>
+        <item>Block</item>
+        <item>Cancel</item>
     </string-array>
 
     <string name="title_activity_dialog">DialogActivity</string>

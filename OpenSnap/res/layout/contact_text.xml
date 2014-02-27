@@ -3,9 +3,7 @@
         android:id="@+id/contact_text_container"
         android:layout_width="match_parent"
         android:layout_height="?android:listPreferredItemHeight"
-        android:orientation="vertical"
-        android:clickable="true"
-        android:focusable="true" >
+        android:orientation="vertical" >
         
     <org.holoeverywhere.widget.TextView
         android:id="@+id/contact_textview"
@@ -15,15 +13,13 @@
         android:padding="10dp"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:textColor="@android:color/black"
-        android:textIsSelectable="false"
-        android:focusable="false" />
+        android:textIsSelectable="false" />
         
     <org.holoeverywhere.widget.TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textIsSelectable="false"
         android:id="@+id/contact_displaytext"
-        android:focusable="false"
         android:textAppearance="?android:attr/textAppearanceSmall" />
         
 </LinearLayout>
