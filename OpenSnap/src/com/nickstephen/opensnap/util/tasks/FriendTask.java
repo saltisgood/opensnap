@@ -76,8 +76,8 @@ public class FriendTask extends BaseRequestTask {
         Gson gson = new Gson();
         Test test = gson.fromJson(this.mResultJson, Test.class);
         if (mAction == FriendAction.DISPLAY) {
-            Contacts.setDisplayName(mFriend, mFriendDisplay);
-            Contacts.sort();
+            Contacts.getInstanceUnsafe().setDisplayName(mFriend, mFriendDisplay);
+            Contacts.getInstanceUnsafe().sort();
             StatMethods.hotBread(mContext, "Name changed successfully", Toast.LENGTH_SHORT);
         }
         Broadcast.refreshContactViewer();

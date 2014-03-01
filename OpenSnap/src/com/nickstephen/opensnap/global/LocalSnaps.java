@@ -12,8 +12,6 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
-import org.json.JSONException;
-
 import android.content.Context;
 import android.os.Environment;
 import android.text.format.DateUtils;
@@ -25,7 +23,6 @@ import com.nickstephen.opensnap.settings.SettingsAccessor;
 import com.nickstephen.opensnap.util.Broadcast;
 import com.nickstephen.opensnap.util.http.ServerSnap;
 import com.nickstephen.opensnap.util.misc.CameraUtil;
-import com.nickstephen.opensnap.util.misc.CustomJSON;
 import com.nickstephen.opensnap.util.tasks.IOnObjectReady;
 
 /**
@@ -34,15 +31,6 @@ import com.nickstephen.opensnap.util.tasks.IOnObjectReady;
  * @author Nick Stephen (a.k.a. saltisgood)
  */
 public class LocalSnaps {
-	/**
-	 * The key for the snap data in the SnapChat JSON file
-	 */
-	private static final String SNAP_KEY = "snaps";
-	/**
-	 * The type that snaps are in the CustomJSON.JSONNode
-	 */
-	private static final String SNAP_TYPE = "List<JSONNode>";
-	private static final String EMPTY_SNAP_TYPE = "List<String>";
 	/**
 	 * The filename of the config file that holds all the snaps data
 	 */
@@ -126,33 +114,6 @@ public class LocalSnaps {
 	 */
 	private LocalSnaps(Context ctxt) throws Exception {
 		readFromFile(ctxt);
-	}
-	
-	/**
-	 * Constructor when syncing from the SnapChat server's JSON
-	 * @param json The JSON to sync with
-	 * @throws JSONException Missing snap keys, etc
-	 */
-	public LocalSnaps(CustomJSON json) throws JSONException {
-		if (!json.CheckKeyExists(SNAP_KEY)) {
-			throw new JSONException("Snaps data missing in JSON");
-		} else if (json.GetType(SNAP_KEY).compareTo(EMPTY_SNAP_TYPE) == 0) {
-			mSnaps = new ArrayList<LocalSnap>();
-			return;
-		} else if (json.GetType(SNAP_KEY).compareTo(SNAP_TYPE) != 0) {
-			throw new JSONException("Invalid snap data type in JSON");
-		}
-		
-		@SuppressWarnings("unchecked")
-		List<CustomJSON.JSONNode> nodes = (List<CustomJSON.JSONNode>)json.GetValue(SNAP_KEY);
-		mSnaps = new ArrayList<LocalSnap>();
-		for (CustomJSON.JSONNode node : nodes) {
-			try {
-				mSnaps.add(new LocalSnap(node));
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
 	}
 
     public LocalSnaps(List<ServerSnap> snaps) {
@@ -425,63 +386,6 @@ public class LocalSnaps {
 	 */
 	public static class LocalSnap {
 		/**
-		 * A key that is used to identify the caption mCameraOrientation from a SnapChat JSON
-		 */
-		private static final String CAPTION_ORI_KEY = "cap_ori";
-		/**
-		 * A key that is used to identify the caption position from a SnapChat JSON
-		 */
-		private static final String CAPTION_POS_KEY = "cap_pos";
-		/**
-		 * A key that is used to identify the caption text from a SnapChat JSON
-		 */
-		private static final String CAPTION_TEXT_KEY = "cap_text";
-		/**
-		 * A key that is used to identify the convo id from a SnapChat JSON
-		 */
-		private static final String CONVID_KEY= "c_id";
-		/**
-		 * A key that is used to identify the display time from a SnapChat JSON
-		 */
-		private static final String DISPLAY_TIME_KEY = "t";
-		/**
-		 * A value used to check for the float type when querying a CustomJSON value type
-		 */
-		private static final String FLOAT_TYPE = "Float";
-		/**
-		 * A key that is used to identify the snap id from a SnapChat JSON
-		 */
-		private static final String ID_KEY = "id";
-		/**
-		 * A key that is used to identify the media type from a SnapChat JSON
-		 */
-		private static final String MEDIA_KEY = "m";
-		/**
-		 * A key that is used to identify the recipient from a SnapChat JSON
-		 */
-		private static final String RECIP_KEY = "rp";
-		/**
-		 * A key that is used to identify the sending timestamp from a SnapChat JSON
-		 */
-		private static final String SEND_TIMESTAMP_KEY = "sts";
-		/**
-		 * A key that is used to identify the sender from a SnapChat JSON
-		 */
-		private static final String SENDER_KEY = "sn";
-		/**
-		 * A key that is used to identify the media state from a SnapChat JSON
-		 */
-		private static final String STATE_KEY = "st";
-		/**
-		 * A value used to check for the string type when querying a CustomJSON value type
-		 */
-		private static final String STR_TYPE = "String";
-		/**
-		 * A key that is used to identify the timestamp from a SnapChat JSON
-		 */
-		private static final String TIMESTAMP_KEY = "ts";
-		
-		/**
 		 * The location of the caption to be displayed over the snap
 		 */
 		private float captionLocation; 
@@ -575,127 +479,12 @@ public class LocalSnaps {
 
             if (Sender != null) {
                 IO = IOType.RECEIVED;
-                SenderCon = Contacts.getContactWithName(Sender);
+                SenderCon = Contacts.getInstanceUnsafe().getContactWithName(Sender);
             } else {
                 IO = IOType.SENT;
-                RecipCon = Contacts.getContactWithName(Recipient);
+                RecipCon = Contacts.getInstanceUnsafe().getContactWithName(Recipient);
             }
         }
-		
-		/**
-		 * Construct a Snap with a JSONNode. Normally used when syncing from the server.
-		 * @param jnode Da node wid da info
-		 * @throws JSONException On an invalid JSON
-		 * @throws Exception Invalid enums, etc
-		 */
-		public LocalSnap(CustomJSON.JSONNode jnode) throws Exception {
-			List<String> keys = jnode.GetKeys();
-			for (String key : keys) {
-				if (key.compareTo(ID_KEY) == 0) {
-					if (jnode.GetType(key).compareTo(STR_TYPE) != 0)
-						throw new JSONException("Invalid JSON value type");
-					SnapID = (String)jnode.GetValue(key); 
-				} else if (key.compareTo(SENDER_KEY) == 0) {
-					if (jnode.GetType(key).compareTo(STR_TYPE) != 0)
-						throw new JSONException("Invalid JSON value type");
-					Sender = (String)jnode.GetValue(key);
-					IO = IOType.RECEIVED;
-				} else if (key.compareTo(TIMESTAMP_KEY) == 0) {
-					if (jnode.GetType(key).compareTo(FLOAT_TYPE) != 0)
-						throw new JSONException("Invalid JSON value type");
-					TimeStamp = ((Float)jnode.GetValue(key)).longValue();
-				} else if (key.compareTo(SEND_TIMESTAMP_KEY) == 0) {
-					if (jnode.GetType(key).compareTo(FLOAT_TYPE) != 0)
-						throw new JSONException("Invalid JSON value type");
-					SentTimeStamp = ((Float)jnode.GetValue(key)).longValue();
-				} else if (key.compareTo(CONVID_KEY) == 0) {
-					if (jnode.GetType(key).compareTo(STR_TYPE) != 0)
-						throw new JSONException("Invalid JSON value type");
-					ConvID = (String)jnode.GetValue(key);
-				} else if (key.compareTo(MEDIA_KEY) == 0) {
-					if (jnode.GetType(key).compareTo(FLOAT_TYPE) != 0)
-						throw new JSONException("Invalid JSON value type");
-					int val = ((Float)jnode.GetValue(key)).intValue();
-					switch (val) {
-						case 0:
-							Media = MediaType.PHOTO;
-							break;
-						case 1:
-							Media = MediaType.VIDEO;
-							break;
-						case 2:
-							Media = MediaType.VIDEO_NOAUDIO;
-							break;
-						case 3:
-							Media = MediaType.FRIEND_REQ;
-							break;
-						case 4:
-							Media = MediaType.FRIEND_REQ_IMAGE;
-							break;
-						case 5:
-							Media = MediaType.FRIEND_REQ_VIDEO;
-							break;
-						case 6:
-							Media = MediaType.FRIEND_REQ_VIDEO_NOAUDIO;
-							break;
-						default:
-							throw new Exception("Invalid MEDIA enum: " + val);
-					}
-				} else if (key.compareTo(STATE_KEY) == 0) {
-					if (jnode.GetType(key).compareTo(FLOAT_TYPE) != 0)
-						throw new JSONException("Invalid JSON value type");
-					int val = ((Float)jnode.GetValue(key)).intValue();
-					switch (val) {
-						case 0:
-							State = SnapStatus.SENT;
-							break;
-						case 1:
-							State = SnapStatus.DELIVERED;
-							break;
-						case 2:
-							State = SnapStatus.OPENED;
-							break;
-						case 3:
-							State = SnapStatus.SCREENSHOT;
-							break;
-						default:
-							throw new Exception("Invalid State enum: " + val);
-					}
-				} else if (key.compareTo(RECIP_KEY) == 0) {
-					if (jnode.GetType(key).compareTo(STR_TYPE) != 0)
-						throw new JSONException("Invalid JSON value type");
-					Recipient = (String)jnode.GetValue(key);
-					IO = IOType.SENT;
-				} else if (key.compareTo(DISPLAY_TIME_KEY) == 0) {
-					if (jnode.GetType(key).compareTo(FLOAT_TYPE) != 0)
-						throw new JSONException("Invalid JSON value type");
-					DisplayTime = ((Float)jnode.GetValue(key)).intValue();
-				} else if (key.compareTo(CAPTION_TEXT_KEY) == 0) {
-					if (jnode.GetType(key).compareTo(STR_TYPE) != 0) {
-						throw new JSONException("Invalid JSON value type");
-					}
-					captionText = (String)jnode.GetValue(key);
-				} else if (key.compareTo(CAPTION_ORI_KEY) == 0) {
-					if (jnode.GetType(key).compareTo(FLOAT_TYPE) != 0) {
-						throw new JSONException("Invalid JSON value type");
-					}
-					captionOrientation = ((Float)jnode.GetValue(key)).intValue();
-				} else if (key.compareTo(CAPTION_POS_KEY) == 0) {
-					if (jnode.GetType(key).compareTo(FLOAT_TYPE) != 0) {
-						throw new JSONException("Invalid JSON value type");
-					}
-					captionLocation = (Float)jnode.GetValue(key);
-				}
-			}
-			
-			if (getSent()) {
-				RecipCon = Contacts.getContactWithName(Recipient);
-			} else {
-				SenderCon = Contacts.getContactWithName(Sender);
-			}
-			//SenderCon = Contacts.getContactWithName(Sender);
-			//RecipCon = Contacts.getContactWithName(Recipient);
-		}
 	
 		/**
 		 * Construct a Snap from a local file. Normally used when initialising the LocalSnaps
@@ -734,10 +523,10 @@ public class LocalSnaps {
 				throw new IOException("Invalid read number");
 			if (getSent()) {
 				Recipient = new String(buff);
-				RecipCon = Contacts.getContactWithName(Recipient);
+				RecipCon = Contacts.getInstanceUnsafe().getContactWithName(Recipient);
 			} else {
 				Sender = new String(buff);
-				SenderCon = Contacts.getContactWithName(Sender);
+				SenderCon = Contacts.getInstanceUnsafe().getContactWithName(Sender);
 			}
 			
 			buff = new byte[4];

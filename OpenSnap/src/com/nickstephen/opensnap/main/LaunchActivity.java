@@ -17,7 +17,6 @@ import org.holoeverywhere.widget.ExpandableListView.OnGroupClickListener;
 import org.holoeverywhere.widget.FrameLayout;
 import org.holoeverywhere.widget.ProgressBar;
 import org.holoeverywhere.widget.Toast;
-import org.json.JSONException;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -28,7 +27,6 @@ import android.database.Cursor;
 import android.graphics.drawable.AnimationDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
@@ -60,7 +58,6 @@ import com.nickstephen.opensnap.composer.CaptureActivity;
 import com.nickstephen.opensnap.composer.editor.EditorActivity;
 import com.nickstephen.opensnap.dialog.SDWarningDialog;
 import com.nickstephen.opensnap.drawer.DrawerAdapter;
-import com.nickstephen.opensnap.global.Contacts;
 import com.nickstephen.opensnap.global.GlobalVars;
 import com.nickstephen.opensnap.global.LocalSnaps;
 import com.nickstephen.opensnap.global.Statistics;
@@ -76,12 +73,11 @@ import com.nickstephen.opensnap.util.Constants;
 import com.nickstephen.opensnap.util.gcm.GCMUtil;
 import com.nickstephen.opensnap.util.gcm.NotificationReceiver;
 import com.nickstephen.opensnap.util.gcm.SnapGCMRegistrar;
-import com.nickstephen.opensnap.util.http.SnapAPI;
 import com.nickstephen.opensnap.util.misc.CameraUtil;
-import com.nickstephen.opensnap.util.misc.CustomJSON;
 import com.nickstephen.opensnap.util.misc.FileIO;
 import com.nickstephen.opensnap.util.play.SKU;
 import com.nickstephen.opensnap.util.tasks.ClearFeedTask;
+import com.nickstephen.opensnap.util.tasks.IOnObjectReady;
 import com.nickstephen.opensnap.util.tasks.LoadFiles;
 import com.nickstephen.opensnap.util.tasks.LoginTask;
 import com.nickstephen.opensnap.util.tasks.LogoutTask;
@@ -93,7 +89,7 @@ import com.nickstephen.opensnap.util.tasks.UpdateTask;
  * starts/returns/etc. An extension of ActionBarActivity.
  * @author Nick Stephen (a.k.a. saltisgood)
  */
-public class LaunchActivity extends Activity {
+public class LaunchActivity extends Activity implements IOnObjectReady<Statistics> {
     public static final String TAG = "OpenSnap LaunchActivity";
 
 	private boolean mIsRunning = true;
@@ -158,9 +154,9 @@ public class LaunchActivity extends Activity {
 		this.getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_TITLE, ActionBar.DISPLAY_SHOW_TITLE);
 		this.getSupportActionBar().setTitle(R.string.app_name);
 		
-		if (!Contacts.init(this)) {
+		/* if (!Contacts.init(this)) {
 			StatMethods.hotBread(this, "Error initialising Contacts", Toast.LENGTH_SHORT);
-		}
+		} */
 
         new LoadFiles(this).execute();
 
@@ -168,22 +164,19 @@ public class LaunchActivity extends Activity {
 			StatMethods.hotBread(this, "Error initialising snaps", Toast.LENGTH_SHORT);
 		} */
 
-        int err;
-		if ((err = Statistics.Init(this)) < 0) {
+        /* int err;
+		if ((err = Statistics.init(this)) < 0) {
             Twig.warning(TAG, "Error initialising stats: " + err);
 			StatMethods.hotBread(this, "Error initialising stats: Code " + err, Toast.LENGTH_SHORT);
-		}
-		
-		TempSnaps.init(this);
+		} */
 
-        Stories.init(this);
+        Statistics.getInstanceSafe(this);
+
 		
 		if (GlobalVars.isLoggedIn(this) && StatMethods.isNetworkAvailable(this, false)) {
 			new SnapGCMRegistrar(this.getApplicationContext()).setupGoogleCloudManager(false);
 			
-			if (this.getIntent() != null && this.getIntent().getBooleanExtra(NotificationReceiver.LAUNCH_GOTO_FEED, false)
-					|| (SettingsAccessor.getAutoRefreshPref(this) 
-					&& System.currentTimeMillis() - Statistics.getLastUpdate() >= SettingsAccessor.getRefreshTimeLong(this))) {
+			if (this.getIntent() != null && this.getIntent().getBooleanExtra(NotificationReceiver.LAUNCH_GOTO_FEED, false)) {
                 new UpdateTask(this, GlobalVars.getUsername(this)).execute();
 			}
 		}
@@ -350,7 +343,7 @@ public class LaunchActivity extends Activity {
 
         Broadcast.unregisterLaunchActivity();
 
-		TempSnaps.write(this);
+		TempSnaps.getInstanceUnsafe().write(this);
 
         if (mPlayHelper != null) {
             mPlayHelper.dispose();
@@ -636,8 +629,18 @@ public class LaunchActivity extends Activity {
             mPlayHelper.launchPurchaseFlow(this, SKU.PREMIUM_FEATURES, SKU.REQUEST_PREMIUM, purchaseListener, null);
         }
     }
-	
-	private OnChildClickListener drawerOnChildClickListener = new OnChildClickListener() {
+
+    @Override
+    public void objectReady(Statistics obj) {
+        if ((this.getIntent() == null || !this.getIntent().getBooleanExtra(NotificationReceiver.LAUNCH_GOTO_FEED, false)) &&
+                (SettingsAccessor.getAutoRefreshPref(this) &&
+                (System.currentTimeMillis() - obj.getLastUpdate() >= SettingsAccessor.getRefreshTimeLong(this))) &&
+                StatMethods.isNetworkAvailable(this, false)) {
+            new UpdateTask(this, GlobalVars.getUsername(this)).execute();
+        }
+    }
+
+    private OnChildClickListener drawerOnChildClickListener = new OnChildClickListener() {
 		@Override
 		public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
 			if (groupPosition == 1) {

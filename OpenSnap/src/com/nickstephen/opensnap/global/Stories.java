@@ -59,10 +59,7 @@ public class Stories {
         return sInstance;
     }
 
-    public static Stories getInstance() {
-        if (sInstance == null) {
-            sInstance = new Stories();
-        }
+    public static Stories getInstanceUnsafe() {
         return sInstance;
     }
 

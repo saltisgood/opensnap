@@ -76,13 +76,8 @@ public class LoginTask extends BaseRequestTask {
             GlobalVars.setPassword(mContext, mPassword);
         }
 
-        Contacts.sync(response);
-        try {
-            Contacts.saveToFile(mContext);
-        } catch (Exception e) {
-            Twig.printStackTrace(e);
-            mError = true;
-        }
+        Contacts.getInstanceUnsafe().sync(response);
+        Contacts.getInstanceUnsafe().serialiseToFile(mContext);
 
         mNewSnaps = LocalSnaps.getInstanceUnsafe().sync(new LocalSnaps(response.snaps));
         try {
@@ -91,9 +86,9 @@ public class LoginTask extends BaseRequestTask {
             Twig.printStackTrace(e);
             mError = true;
         }
-        Statistics.Sync(response, mContext);
+        Statistics.sync(response, mContext);
 
-        TempSnaps.resetLite(mContext);
+        TempSnaps.getInstanceUnsafe().resetLite(mContext);
 
         GlobalVars.setLoggedIn(mContext, true);
     }

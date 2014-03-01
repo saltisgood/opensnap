@@ -41,6 +41,6 @@ public class GetStoriesTask extends BaseRequestTask {
 
     @Override
     protected void onSuccessAsync(ServerResponse response) {
-        Stories.getInstance().sync(response).write(mContext);
+        Stories.getInstanceUnsafe().sync(response).write(mContext);
     }
 }

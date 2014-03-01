@@ -31,12 +31,13 @@ import com.nickstephen.opensnap.settings.SettingsAccessor;
 import com.nickstephen.opensnap.util.Broadcast;
 import com.nickstephen.opensnap.util.IRefresh;
 import com.nickstephen.opensnap.util.tasks.FriendTask;
+import com.nickstephen.opensnap.util.tasks.IOnObjectReady;
 
 /**
  * A ListFragment extension that displays all the user's current Friends (contacts)
  * @author Nick's Laptop
  */
-public class ContactViewerListFrag extends ListFragment implements IRefresh {
+public class ContactViewerListFrag extends ListFragment implements IRefresh, IOnObjectReady<Contacts> {
 	private Theme theme;
 	private SoftReference<BitmapDrawable> drawable;
 
@@ -77,11 +78,7 @@ public class ContactViewerListFrag extends ListFragment implements IRefresh {
 				break;
 		}
 		
-		if (Contacts.init(this.getActivity())) {
-            this.setListAdapter(new ContactViewListAdapter(this.getActivity()));
-		} else {
-			StatMethods.hotBread(this.getActivity(), "Error initialising Contacts class", Toast.LENGTH_LONG);
-		}
+		Contacts.getInstanceSafe(this);
 		
 		return v;
 	}
@@ -108,11 +105,16 @@ public class ContactViewerListFrag extends ListFragment implements IRefresh {
         }
     }
 
+    @Override
+    public void objectReady(Contacts obj) {
+        this.setListAdapter(new ContactViewListAdapter(this.getActivity()));
+    }
+
     private final AdapterView.OnItemLongClickListener mListLongClickL = new AdapterView.OnItemLongClickListener() {
         @Override
         public boolean onItemLongClick(AdapterView<?> parent, View view, final int contactPosition, long id) {
             AlertDialog.Builder builder = new AlertDialog.Builder(ContactViewerListFrag.this.getActivity());
-            builder.setTitle(Contacts.getDisplayOrUserName(contactPosition));
+            builder.setTitle(Contacts.getInstanceUnsafe().getDisplayOrUserName(contactPosition));
             builder.setItems(R.array.contact_options_dialog, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int item) {
@@ -159,7 +161,7 @@ public class ContactViewerListFrag extends ListFragment implements IRefresh {
                                     dialog.dismiss();
                                     new FriendTask(ContactViewerListFrag.this.getActivity(),
                                             GlobalVars.getUsername(ContactViewerListFrag.this.getActivity()),
-                                            Contacts.getUsernameAt(contactPosition), newName)
+                                            Contacts.getInstanceUnsafe().getUsernameAt(contactPosition), newName)
                                             .execute();
                                 }
                             });
@@ -168,7 +170,7 @@ public class ContactViewerListFrag extends ListFragment implements IRefresh {
                             break;
                         case 1: // Delete
                             build = new AlertDialog.Builder(ContactViewerListFrag.this.getActivity());
-                            String friend = Contacts.getDisplayOrUserName(contactPosition);
+                            String friend = Contacts.getInstanceUnsafe().getDisplayOrUserName(contactPosition);
                             build.setTitle("Really???")
                                     .setMessage("Are you sure you want to delete " + friend + " from your friends list?")
                                     .setNegativeButton("No", new DialogInterface.OnClickListener() {
@@ -183,14 +185,14 @@ public class ContactViewerListFrag extends ListFragment implements IRefresh {
                                             dialog.dismiss();
                                             new FriendTask(ContactViewerListFrag.this.getActivity(),
                                                     GlobalVars.getUsername(ContactViewerListFrag.this.getActivity()),
-                                                    Contacts.getUsernameAt(contactPosition),
+                                                    Contacts.getInstanceUnsafe().getUsernameAt(contactPosition),
                                                     FriendTask.FriendAction.DELETE).execute();
                                         }
                                     })
                                     .create().show();
                         case 2: // Block
                             build = new AlertDialog.Builder(ContactViewerListFrag.this.getActivity());
-                            friend = Contacts.getDisplayOrUserName(contactPosition);
+                            friend = Contacts.getInstanceUnsafe().getDisplayOrUserName(contactPosition);
                             build.setTitle("Really???")
                                     .setMessage("Are you sure you want to block " + friend + "?")
                                     .setNegativeButton("No", new DialogInterface.OnClickListener() {
@@ -205,7 +207,7 @@ public class ContactViewerListFrag extends ListFragment implements IRefresh {
                                             dialog.dismiss();
                                             new FriendTask(ContactViewerListFrag.this.getActivity(),
                                                     GlobalVars.getUsername(ContactViewerListFrag.this.getActivity()),
-                                                    Contacts.getUsernameAt(contactPosition),
+                                                    Contacts.getInstanceUnsafe().getUsernameAt(contactPosition),
                                                     FriendTask.FriendAction.BLOCK).execute();
                                         }
                                     })
@@ -226,7 +228,7 @@ public class ContactViewerListFrag extends ListFragment implements IRefresh {
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             SnapThreadListFrag thread = new SnapThreadListFrag();
             Bundle args = new Bundle();
-            args.putString("username", Contacts.getUsernameAt(position));
+            args.putString("username", Contacts.getInstanceUnsafe().getUsernameAt(position));
             thread.setArguments(args);
 
             ContactViewerListFrag.this.getFragmentManager().beginTransaction()
@@ -248,7 +250,7 @@ public class ContactViewerListFrag extends ListFragment implements IRefresh {
 		
 		@Override
 		public int getCount() {
-			return Contacts.getNumContacts();
+			return Contacts.getInstanceUnsafe().getNumContacts();
 		}
 		
 		@SuppressWarnings("deprecation")
@@ -260,29 +262,15 @@ public class ContactViewerListFrag extends ListFragment implements IRefresh {
 			}
 			View v = inflater.inflate(R.layout.contact_text, parent, false);
 			TextView contactText = (TextView)v.findViewById(R.id.contact_textview);
-			contactText.setText(Contacts.getDisplayOrUserName(position));
-			if (Contacts.isBesty(position)) {
+			contactText.setText(Contacts.getInstanceUnsafe().getDisplayOrUserName(position));
+			if (Contacts.getInstanceUnsafe().isBesty(position)) {
 				contactText.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.star, 0);
 			}
 			
 			TextView displayText = (TextView)v.findViewById(R.id.contact_displaytext);
-			if (Contacts.hasDisplay(position)) {
-				displayText.setText(Contacts.getUsernameAt(position));
+			if (Contacts.getInstanceUnsafe().hasDisplay(position)) {
+				displayText.setText(Contacts.getInstanceUnsafe().getUsernameAt(position));
 			}
-			
-			/* v.setOnClickListener(new OnClickListener() {
-				@Override
-				public void onClick(View v) {
-					SnapThreadListFrag thread = new SnapThreadListFrag();
-					Bundle args = new Bundle();
-					args.putString("username", Contacts.getUsernameAt(position));
-					thread.setArguments(args);
-					
-					ContactViewerListFrag.this.getFragmentManager().beginTransaction()
-						.setCustomAnimations(R.anim.push_left_in, R.anim.push_left_out, R.anim.push_right_in, R.anim.push_right_out)
-						.add(R.id.launch_container, thread, SnapThreadListFrag.FRAGTAG).addToBackStack(null).commit();
-				}
-			}); */
 			
 			switch (theme) {
 				case ori:

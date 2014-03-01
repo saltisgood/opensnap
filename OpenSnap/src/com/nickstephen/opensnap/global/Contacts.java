@@ -11,15 +11,15 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
 
-import org.json.JSONException;
-
 import android.content.Context;
 
+import com.nickstephen.lib.Twig;
 import com.nickstephen.lib.misc.BitConverter;
 import com.nickstephen.lib.misc.StatMethods;
+import com.nickstephen.opensnap.util.Broadcast;
 import com.nickstephen.opensnap.util.http.ServerFriend;
 import com.nickstephen.opensnap.util.http.ServerResponse;
-import com.nickstephen.opensnap.util.misc.CustomJSON;
+import com.nickstephen.opensnap.util.tasks.IOnObjectReady;
 
 /**
  * A class used for keeping track of Contacts. It's designed to be accessed statically.
@@ -30,31 +30,25 @@ public class Contacts {
 	 * The filename of the file that holds the contact data
 	 */
 	public static final String CONTACTS_FILENAME = "contacts.bin";
-	/**
-	 * The key used to find the contact info in the JSON
-	 */
-	private static final String FRIEND_KEY = "friends";
-	/**
-	 * The type of the friends node
-	 */
-	private static final String LIST_TYPE = "List<JSONNode>";
-	/**
-	 * The key used to find the best friends info in the JSON
-	 */
-	private static final String BESTS_KEY = "bests";
-	/**
-	 * The type of the best friends node
-	 */
-	private static final String LIST_STRING_TYPE = "List<String>";
+
+    private static final long CONTACTS_HEADER_VER_1 = 0x4E533031434F3031L; //NS01CO01
 	
-	private static final long CONTACTS_CURRENT_HEADER_VER = 0x4E533031434F3031L; //NS01CO01
+	private static final long CONTACTS_CURRENT_HEADER_VER = 0x4E533031434F3032L; //NS01CO02
 	
 	/**
 	 * The instance of the class that is used for all the static access. It's initialised
 	 * with a call to {@link #init(Context)}. It has private visibility so that all
 	 * modifications go through the static accessors.
 	 */
-	private static Contacts sThis = null;
+	private static Contacts sInstance = null;
+
+    public static Contacts getInstanceUnsafe() {
+        return sInstance;
+    }
+
+    public static void getInstanceSafe(IOnObjectReady<Contacts> waiter) {
+        Broadcast.waitForContacts(waiter);
+    }
 	
 	/**
 	 * Initialise the static instance for later use. If the config file
@@ -63,15 +57,13 @@ public class Contacts {
 	 * @param ctxt The context to be used to find the config file
 	 * @return True if the initialisation was successful, false on failure
 	 */
-	public static Boolean init(Context ctxt) {
+	public static boolean init(Context ctxt) {
 		if (checkInit())
 			return true;
 		try {
-			sThis = new Contacts(ctxt);
-		} catch (FileNotFoundException e) { 
-			sThis = new Contacts();
+			sInstance = new Contacts(ctxt);
 		} catch (Exception e) {
-			sThis = new Contacts();
+			sInstance = new Contacts();
 			return false;
 		}
 		return true;
@@ -81,218 +73,31 @@ public class Contacts {
 	 * Check whether the static instance variable is initialised
 	 * @return
 	 */
-	public static Boolean checkInit() {
-		return sThis != null;
-	}
-	
-	/**
-	 * Get the username of the contact at a certain position
-	 * @param position The position in the contact list (sorted alphabetically by username)
-	 * @return The username
-	 */
-	public static String getUsernameAt(int position) {
-		return sThis.getUsernameAtThis(position);
-	}
-	
-	/**
-	 * Get the number of contacts
-	 * @return The number of contacts
-	 */
-	public static int getNumContacts() {
-		return sThis.Contacts.size();
-	}
-	
-	/**
-	 * Get the display name of the contact at a certain position
-	 * @param position The position in the contact list (sorted alphabetically by username)
-	 * @return The display name
-	 */
-	public static String getDisplayNameAt(int position) {
-		return sThis.getDisplayNameAtThis(position);
-	}
-	
-	/**
-	 * Get an instance of a contact by a username
-	 * @param username The username to search for
-	 * @return The Contact object
-	 */
-	public static Contacts.Contact getContactWithName(String username) {
-		for (Contact ct : sThis.Contacts) {
-			if (username.compareTo(ct.getUserName()) == 0) {
-				return ct;
-			}
-		}
-		return null;
-	}
-	
-	/**
-	 * Sync the Contact list. Normally called after logging in or updating from the server
-	 * @param json The json file downloaded from the server
-	 * @throws JSONException 
-	 */
-	public static void sync(CustomJSON json) throws JSONException {
-		if (!json.CheckKeyExists(FRIEND_KEY) || json.GetType(FRIEND_KEY).compareTo(LIST_TYPE) != 0) {
-			throw new JSONException("\"friends\" key not found in JSON");
-		}
-		
-		@SuppressWarnings("unchecked")
-		List<CustomJSON.JSONNode> jnodes = (List<CustomJSON.JSONNode>)json.GetValue(FRIEND_KEY);
-		sThis.Contacts = new ArrayList<Contact>();
-		for (CustomJSON.JSONNode node : jnodes) {
-			sThis.Contacts.add(new Contact(node));
-		}
-		sThis.sortThis();
-		
-		if (json.CheckKeyExists(BESTS_KEY) && json.GetType(BESTS_KEY).compareTo(LIST_STRING_TYPE) == 0) {
-			@SuppressWarnings("unchecked")
-			List<String> bests = (List<String>)json.GetValue(BESTS_KEY);
-			for (String best : bests) {
-				for (Contact ct : sThis.Contacts) {
-					if (ct._userName.compareTo(best) == 0) {
-						ct._besty = true;
-						break;
-					}
-				}
-			}
-		}
-	}
-
-    public static void sync(ServerResponse response) {
-        sThis.Contacts = new ArrayList<Contact>();
-        for (ServerFriend friend : response.friends) {
-            sThis.Contacts.add(new Contact(friend));
-        }
-        sThis.sortThis();
-
-        if (response.bests != null) {
-            for (String besty : response.bests) {
-                for (Contact ct : sThis.Contacts) {
-                    if (ct._userName.compareTo(besty) == 0) {
-                        ct._besty = true;
-                        break;
-                    }
-                }
-            }
-        }
-    }
-	
-	/**
-	 * Save the Contacts to file
-	 * @param ctxt The context to use
-	 * @throws Exception Can rethrow an exception
-	 */
-	public static void saveToFile(Context ctxt) throws Exception {
-		sThis.writeToFile(ctxt);
-	}
-	
-	/**
-	 * Check whether a contact has a display name
-	 * @param position The position of the contact in the contact list (sorted alphabetically by username) 
-	 * @return True if the contact has a display name, false if it doesn't
-	 */
-	public static boolean hasDisplay(int position) {
-		return sThis.hasDisplayThis(position);
-	}
-	
-	/**
-	 * Get either the display or username of a contact at a position in the list.
-	 * The display name is taken preferentially over the username.
-	 * @param position The position of the contact in the list (sorted alphabetically by username)
-	 * @return The display or username
-	 */
-	public static String getDisplayOrUserName(int position) {
-		return sThis.getDisplayOrUserNameThis(position);
-	}
-	
-	/**
-	 * Check whether a contact is a best friend
-	 * @param position The position of the contact in the list
-	 * @return True if the contact is a best friend, false otherwise
-	 */
-	public static boolean isBesty(int position) {
-		return sThis.Contacts.get(position)._besty;
-	}
-
-    /**
-     * Sets the display name of a contact
-     * @param user The username of the contact to change
-     * @param newDisplay The new display name for that contact to have
-     * @return False if the contact couldn't be found with that username, true on success
-     */
-    public static boolean setDisplayName(String user, String newDisplay) {
-        Contact contact = getContactWithName(user);
-        if (contact == null) {
-            return false;
-        }
-
-        contact._displayName = newDisplay;
-        return true;
-    }
-
-    /**
-     * Sets the display name of a contact given a position in the list of contacts
-     * @param position The position of the contact in the list
-     * @param newDisplay The new display name for that contact to have
-     */
-    public static void setDisplayName(int position, String newDisplay) {
-        sThis.Contacts.get(position)._displayName = newDisplay;
-    }
-
-    /**
-     * Sort the contacts into alphabetical order of display name first, then username
-     */
-    public static void sort() {
-        sThis.sortThis();
-    }
-	
-	/**
-	 * Get a Contact object
-	 * @param position The position of the contact in the list (sorted alphabetically by username)
-	 * @return The contact object
-	 */
-	public Contact getContact(int position) {
-		return sThis.getContactThis(position);
-	}
-	
-	/**
-	 * Check whether a contact exists with a particular username and/or get 
-	 * its position in the list. 
-	 * @param username The username to look for
-	 * @return -1 if the username doesn't exist, otherwise the position of the contact in the list
-	 */
-	public Integer contactExists(String username) {
-		return sThis.contactExistsThis(username);
-	}
-
-	/**
-	 * Remove a contact from the contact list
-	 * @param username The username of the contact to be removed
-	 */
-	public void removeContact(String username) {
-		sThis.removeContactThis(username);
+	public static boolean checkInit() {
+		return sInstance != null;
 	}
 	
 	/**
 	 * A list of "Contact"s that is stored within the instance of the Contacts class
 	 * Nice terminology there nicko
 	 */
-	private List<Contact> Contacts;
+	private List<Contact> mContacts;
 	
 	/**
-	 * The private default constructor. sThis should be used when the config file doesn't exist
+	 * The private default constructor. This should be used when the config file doesn't exist
 	 */
 	private Contacts() {
-		Contacts = new ArrayList<Contact>();
+		mContacts = new ArrayList<Contact>();
 	}
 	
 	/**
-	 * The private primary constructor. sThis is used when the config file exists.
+	 * The private primary constructor. This is used when the config file exists.
 	 * @param ctxt A context
 	 * @throws FileNotFoundException Thrown if the file doesn't exist
 	 * @throws Exception Primarily thrown from IOExceptions
 	 */
 	private Contacts(Context ctxt) throws FileNotFoundException, Exception {
-		Contacts = new ArrayList<Contact>();
+		mContacts = new ArrayList<Contact>();
 		
 		readFromFile(ctxt); 
 	}
@@ -307,15 +112,17 @@ public class Contacts {
 		FileInputStream fs = ctxt.openFileInput(GlobalVars.getUsername(ctxt) + "-" + CONTACTS_FILENAME);
 		
 		byte[] buff = new byte[8];
+        boolean isCurrentVersion = true;
 		try {
 			int len = fs.read(buff);
 			if (len != 8) {
 				throw new IOException("Incorrect number of bytes read");
 			}
 			long ver = BitConverter.toInt64(buff, 0);
-			if (ver != CONTACTS_CURRENT_HEADER_VER) {
+			if (ver != CONTACTS_CURRENT_HEADER_VER && ver != CONTACTS_HEADER_VER_1) {
 				throw new RuntimeException("Incorrect header version: " + ver);
 			}
+            isCurrentVersion = (ver == CONTACTS_CURRENT_HEADER_VER);
 		} catch (IOException e) {
 			e.printStackTrace();
 			throw e;
@@ -331,7 +138,7 @@ public class Contacts {
 				throw new IOException("Incorrect number of bytes read");
 			len = BitConverter.toInt32(buff, 0);
 			for (int i = 0; i < len; i++) {
-				Contacts.add(new Contact(fs));
+				mContacts.add(new Contact(fs, isCurrentVersion));
 			}
 		} catch(IOException e) {
 			e.printStackTrace();
@@ -343,74 +150,74 @@ public class Contacts {
 	}
 	
 	/**
-	 * The instance version of the writeToFile
-	 * @param ctxt A context
-	 * @throws Exception General exception (NullPointerException/IOException/etc)
+	 * Save the contacts to file
+	 * @param context A context
 	 */
-	private void writeToFile(Context ctxt) throws Exception {
-		serialiseToFile(ctxt.openFileOutput(GlobalVars.getUsername(ctxt) + "-" + CONTACTS_FILENAME, Context.MODE_PRIVATE));
+	public boolean serialiseToFile(Context context) {
+        FileOutputStream fs;
+        try {
+            fs = context.openFileOutput(GlobalVars.getUsername(context) + "-" + CONTACTS_FILENAME, Context.MODE_PRIVATE);
+        } catch (FileNotFoundException e) {
+            Twig.printStackTrace(e);
+            return false;
+        }
+
+        try {
+            fs.write(BitConverter.getBytes(CONTACTS_CURRENT_HEADER_VER));
+            fs.write(BitConverter.getBytes(mContacts.size()));
+
+            for (Contact ct : mContacts) {
+                ct.serialiseToFile(fs);
+            }
+
+            fs.close();
+        } catch (IOException e) {
+            Twig.printStackTrace(e);
+            return false;
+        } catch (Exception e) {
+            Twig.printStackTrace(e);
+            return false;
+        }
+
+        return true;
 	}
 	
 	/**
-	 * The raw file writing method. sThis one does the nitty gritty of actually converting
-	 * the Contacts to data.
-	 * @param fs The stream to output to
-	 * @throws Exception General exceptions (NullPointerException/IOException/etc)
-	 */
-	private void serialiseToFile(FileOutputStream fs) throws Exception {
-		if (fs == null)
-			throw new NullPointerException("NULL FileOutputStream to serialise");
-		else if (Contacts == null)
-			throw new NullPointerException("Contact list hasn't been initialised");
-		
-		fs.write(BitConverter.getBytes(CONTACTS_CURRENT_HEADER_VER));
-		fs.write(BitConverter.getBytes(Contacts.size()));
-		
-		for (Contact ct : Contacts) {
-			try {
-				ct.serialiseToFile(fs);
-			} catch (Exception e) {
-				e.printStackTrace();
-				throw new IOException();
-			}
-		}
-	}
-	
-	/**
-	 * The instance accessor of username
+	 * Get the username of the contact at a certain position
 	 * @param position The position of the contact
 	 * @return The username of the contact
 	 */
-	private String getUsernameAtThis(int position) {
-		return Contacts.get(position).getUserName();
+	public String getUsernameAt(int position) {
+		return mContacts.get(position).getUserName();
 	}
 	
 	/**
-	 * The instance accessor of display name
+	 * Get the display name of the contact at a certain position
 	 * @param position The position of the Contact
 	 * @return The display name
 	 */
-	private String getDisplayNameAtThis(int position) {
-		return Contacts.get(position).getDisplayName();
+	private String getDisplayNameAt(int position) {
+		return mContacts.get(position).getDisplayName();
 	}
 	
 	/**
-	 * The instance accessor of Contact
+	 * Get a Contact object
 	 * @param position The position of the contact
 	 * @return The Contact object
 	 */
-	private Contact getContactThis(int position) {
-		return Contacts.get(position);
+	private Contact getContact(int position) {
+		return mContacts.get(position);
 	}
 	
 	/**
-	 * The instance version of {@link #contactExists(String)}
+     * Check whether a contact exists with a particular username and/or get
+     * its position in the list.
 	 * @param username The username to search for
 	 * @return -1 if it doesn't exist, otherwise the position in the list
 	 */
-	private Integer contactExistsThis(String username) {
-		for (int i = 0; i < Contacts.size(); i++) {
-			if (Contacts.get(i).getUserName().compareTo(username) == 0) {
+	private Integer contactExists(String username) {
+		for (int i = 0; i < mContacts.size(); i++) {
+			if (mContacts.get(i).getUserName().compareTo(username) == 0) {
 				return i;
 			}
 		}
@@ -419,14 +226,13 @@ public class Contacts {
 	}
 	
 	/**
-	 * The instance version of {@link #removeContact(String)}. Remove a contact
-	 * from the list.
+	 * Remove a contact from the list.
 	 * @param username The username of the contact to be removed
 	 */
-	private void removeContactThis(String username) {
-		for (int i = 0; i < Contacts.size(); i++) {
-			if (Contacts.get(i).getUserName().compareTo(username) == 0) {
-				Contacts.remove(i);
+	private void removeContact(String username) {
+		for (int i = 0; i < mContacts.size(); i++) {
+			if (mContacts.get(i).getUserName().compareTo(username) == 0) {
+				mContacts.remove(i);
 				break;
 			}
 		}
@@ -436,36 +242,103 @@ public class Contacts {
 	 * Sort the contacts into username alphabetical order. Should only really be 
 	 * called when the contact list changes otherwise it's a waste of time.
 	 */
-	private void sortThis() {
-		Contact[] tmpCt = Contacts.toArray(new Contact[Contacts.size()]);
+	public void sort() {
+		Contact[] tmpCt = mContacts.toArray(new Contact[mContacts.size()]);
 		Arrays.sort(tmpCt, new Comparator<Contact>() {
-			@Override
-			public int compare(Contact lhs, Contact rhs) {
-				return lhs.getDisplayOrUserName().toUpperCase(Locale.ENGLISH).compareTo(rhs.getDisplayOrUserName().toUpperCase(Locale.ENGLISH));
-			}
-		});
+            @Override
+            public int compare(Contact lhs, Contact rhs) {
+                return lhs.getDisplayOrUserName().toUpperCase(Locale.ENGLISH).compareTo(rhs.getDisplayOrUserName().toUpperCase(Locale.ENGLISH));
+            }
+        });
 		
-		Contacts = new ArrayList<Contact>();
-        Collections.addAll(Contacts, tmpCt);
+		mContacts = new ArrayList<Contact>();
+        Collections.addAll(mContacts, tmpCt);
 	}
-	
-	/**
-	 * The instance version of {@link #hasDisplay(int)}
-	 * @param position The position of the contact
-	 * @return True if the contact has a display name, false if not
-	 */
-	private boolean hasDisplayThis(int position) {
-		return Contacts.get(position).hasDisplay();
+
+    /**
+     * Check whether a contact has a display name
+     * @param position The position of the contact in the contact list (sorted alphabetically by username)
+     * @return True if the contact has a display name, false if it doesn't
+     */
+	public boolean hasDisplay(int position) {
+		return mContacts.get(position).hasDisplay();
 	}
-	
-	/**
-	 * The instance version of {@link #getDisplayOrUserName(int)}
-	 * @param position The position of the contact
-	 * @return The display or username
-	 */
-	private String getDisplayOrUserNameThis(int position) {
-		return Contacts.get(position).getDisplayOrUserName();
+
+    /**
+     * Check whether a contact is a best friend
+     * @param position The position of the contact in the list
+     * @return True if the contact is a best friend, false otherwise
+     */
+    public boolean isBesty(int position) {
+        return mContacts.get(position).mBesty;
+    }
+
+    /**
+     * Get an instance of a contact by a username
+     * @param username The username to search for
+     * @return The Contact object
+     */
+    public Contacts.Contact getContactWithName(String username) {
+        for (Contact ct : mContacts) {
+            if (username.compareTo(ct.getUserName()) == 0) {
+                return ct;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Get either the display or username of a contact at a position in the list.
+     * The display name is taken preferentially over the username.
+     * @param position The position of the contact in the list (sorted alphabetically by username)
+     * @return The display or username
+     */
+	public String getDisplayOrUserName(int position) {
+		return mContacts.get(position).getDisplayOrUserName();
 	}
+
+    /**
+     * Sets the display name of a contact
+     * @param user The username of the contact to change
+     * @param newDisplay The new display name for that contact to have
+     * @return False if the contact couldn't be found with that username, true on success
+     */
+    public boolean setDisplayName(String user, String newDisplay) {
+        Contact contact = getContactWithName(user);
+        if (contact == null) {
+            return false;
+        }
+
+        contact.mDisplayName = newDisplay;
+        return true;
+    }
+
+    public void sync(ServerResponse response) {
+        mContacts = new ArrayList<Contact>();
+        for (ServerFriend friend : response.friends) {
+            mContacts.add(new Contact(friend));
+        }
+        sort();
+
+        if (response.bests != null) {
+            for (String best : response.bests) {
+                for (Contact ct : mContacts) {
+                    if (ct.mUsername.compareTo(best) == 0) {
+                        ct.mBesty = true;
+                        break;
+                    }
+                }
+            }
+        }
+    }
+
+    /**
+     * Get the number of contacts
+     * @return The number of contacts
+     */
+    public int getNumContacts() {
+        return mContacts.size();
+    }
 	
 	/**
 	 * A Contact class. Used for storing all the relevant info for a single Contact.
@@ -473,74 +346,37 @@ public class Contacts {
 	 */
 	public static class Contact {
 		/**
-		 * The key for the username that's used in the JSONNode
-		 */
-		private static final String NAMEKEY = "name";
-		/**
-		 * The key for the display name that's used in the JSONNode
-		 */
-		private static final String DISPLAYKEY = "display";
-		/**
-		 * The key for the friend type that's used in the JSONNode
-		 */
-		private static final String TYPEKEY = "type";
-		
-		/**
 		 * The Contact's username. Every user has one and they're all unique.
 		 * Probably not allowed to contain ,
 		 */
-		private String _userName = null;
+		private String mUsername = null;
 		/**
 		 * The Contact's display name. These are optional and aren't necessarily unique.
 		 */
-		private String _displayName = null;
+		private String mDisplayName = null;
+        private int mType;
 		/**
-		 * The friend type as read from the JSONNode.
+		 * An enum version of {@link #mType}
 		 */
-		private Float _type = null;
-        //TODO: Remove ^^^
-        private int type;
-		/**
-		 * An enum version of {@link #_type}
-		 */
-		private FriendType _friendType;
+		private FriendType mFriendType;
 		/**
 		 * Whether the contact is a best friend
 		 */
-		private boolean _besty = false;
-		
-		/**
-		 * The second constructor version. sThis one skips Friends and uses a JSONNode directly
-		 * @param jnode The JSONNode to read from
-		 * @throws JSONException On missing attributes throw an exception
-		 */
-		public Contact(CustomJSON.JSONNode jnode) throws JSONException {
-			if (!jnode.KeyExists(NAMEKEY) || jnode.GetType(NAMEKEY).compareTo("String") != 0)
-				throw new JSONException("\"" + NAMEKEY + "\" key not found in JSONNode");
-			if (!jnode.KeyExists(DISPLAYKEY) || jnode.GetType(DISPLAYKEY).compareTo("String") != 0)
-				throw new JSONException("\"" + DISPLAYKEY + "\" key not found in JSONNode");
-			if (!jnode.KeyExists(TYPEKEY) || jnode.GetType(TYPEKEY).compareTo("Float") != 0)
-				throw new JSONException("\"" + TYPEKEY + "\" key not found in JSONNode");
-			
-			_userName = (String)jnode.GetValue(NAMEKEY);
-			_displayName = (String)jnode.GetValue(DISPLAYKEY);
-			_type = (Float)jnode.GetValue(TYPEKEY);
-		}
+		private boolean mBesty = false;
 
         public Contact(ServerFriend friend) {
-            _userName = friend.name;
-            _displayName = friend.display;
-            type = friend.type;
-            _type = (float) type;
+            mUsername = friend.name;
+            mDisplayName = friend.display;
+            mType = friend.type;
         }
 
 		/**
-		 * The third constructor. sThis one is used when reading from the config file.
+		 * The third constructor. This one is used when reading from the config file.
 		 * @param fs The stream to read from
 		 * @throws IOException 
 		 * @throws Exception
 		 */
-		public Contact(FileInputStream fs) throws IOException, Exception {
+		public Contact(FileInputStream fs, boolean currentVersion) throws IOException, Exception {
 			byte[] buff = new byte[4];
 			int len = fs.read(buff);
 			if (len != 4)
@@ -550,7 +386,7 @@ public class Contacts {
 			len = fs.read(buff);
 			if (len != buff.length)
 				throw new IOException("Incorrect number of bytes read (Contact constructor: 2)");
-			_userName = new String(buff);
+			mUsername = new String(buff);
 			buff = new byte[4];
 			len = fs.read(buff);
 			if (len != 4)
@@ -561,18 +397,22 @@ public class Contacts {
 				len = fs.read(buff);
 				if (len != buff.length)
 					throw new IOException("Incorrect number of bytes read (Contact constructor: 4)");
-				_displayName = new String(buff);
+				mDisplayName = new String(buff);
 			}
 			buff = new byte[4];
 			len = fs.read(buff);
 			if (len != 4)
 				throw new IOException("Incorrect number of bytes read (Contact constructor: 5");
-			_type = BitConverter.toSingle(buff, 0);
+            if (currentVersion) {
+                mType = BitConverter.toInt32(buff, 0);
+            } else {
+                mType = (int) BitConverter.toSingle(buff, 0);
+            }
 			buff = new byte[1];
 			len = fs.read(buff);
 			if (len != 1)
 				throw new IOException("Incorrect number of bytes read (Contact constructor: 6");
-			_besty = BitConverter.toBoolean(buff, 0);
+			mBesty = BitConverter.toBoolean(buff, 0);
 		}
 		
 		/**
@@ -580,7 +420,7 @@ public class Contacts {
 		 * @return The username
 		 */
 		public String getUserName() {
-			return _userName;
+			return mUsername;
 		}
 		
 		/**
@@ -588,7 +428,7 @@ public class Contacts {
 		 * @return True if they do, false if they don't
 		 */
 		public Boolean hasDisplay() {
-			return !StatMethods.IsStringNullOrEmpty(_displayName);
+			return !StatMethods.IsStringNullOrEmpty(mDisplayName);
 		}
 		
 		/**
@@ -596,15 +436,15 @@ public class Contacts {
 		 * @return The display name
 		 */
 		public String getDisplayName() {
-			return _displayName;
+			return mDisplayName;
 		}
 		
 		/**
 		 * Get the raw number of the friend type
-		 * @return The type as a float
+		 * @return The type as an int
 		 */
-		public Float getType() {
-			return _type;
+		public int getType() {
+			return mType;
 		}
 		
 		/**
@@ -613,7 +453,7 @@ public class Contacts {
 		 * @return The display or username
 		 */
 		public String getDisplayOrUserName() {
-			return (hasDisplay()) ? _displayName : _userName;
+			return (hasDisplay()) ? mDisplayName : mUsername;
 		}
 		
 		/**
@@ -622,16 +462,16 @@ public class Contacts {
 		 * @throws Exception Either a BitConverter error, or an IOException
 		 */
 		public void serialiseToFile(FileOutputStream fs) throws Exception {
-			fs.write(BitConverter.getBytes(_userName.length()));
-			fs.write(BitConverter.getBytes(_userName));
+			fs.write(BitConverter.getBytes(mUsername.length()));
+			fs.write(BitConverter.getBytes(mUsername));
 			if (!hasDisplay()) {
 				fs.write(BitConverter.getBytes(0)); // int32
 			} else {
-				fs.write(BitConverter.getBytes(_displayName.length()));
-				fs.write(BitConverter.getBytes(_displayName));
+				fs.write(BitConverter.getBytes(mDisplayName.length()));
+				fs.write(BitConverter.getBytes(mDisplayName));
 			}
-			fs.write(BitConverter.getBytes(_type));
-			fs.write(BitConverter.getBytes(_besty));
+			fs.write(BitConverter.getBytes(mType));
+			fs.write(BitConverter.getBytes(mBesty));
 		}
 		
 		/**
@@ -639,7 +479,7 @@ public class Contacts {
 		 * @return The FriendType enum
 		 */
 		public FriendType getFriendType() {
-			return _friendType;
+			return mFriendType;
 		}
 	
 		/**
@@ -647,7 +487,7 @@ public class Contacts {
 		 * @return True if the contact is a best friend, false if not
 		 */
 		public boolean isBesty() {
-			return _besty;
+			return mBesty;
 		}
 		
 		@Override

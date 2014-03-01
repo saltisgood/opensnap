@@ -62,11 +62,11 @@ public class SnapUpload extends AsyncTask<String, Long, Integer> implements IWri
 	 */
 	public SnapUpload(Context ctxt, String oriPath, String finalPath) throws IOException {
 		mLocalContext = ctxt;
-		mSnap = TempSnaps.add();
+		mSnap = TempSnaps.getInstanceUnsafe().add();
 		mAlreadyBeenCreated = false;
 		
 		if (FileIO.bufferedCopy(oriPath, finalPath) < 0) {
-			TempSnaps.remove(mLocalContext, mSnap);
+			TempSnaps.getInstanceUnsafe().remove(mLocalContext, mSnap);
 			throw new IOException("Error copying file");
 		}
 		
@@ -129,7 +129,7 @@ public class SnapUpload extends AsyncTask<String, Long, Integer> implements IWri
 				mSnap.setMediaType(MediaType.VIDEO).setVideoCaption(captionText).setCaptionOrientation(captionOri).setCaptionPosition(captionPos);
 				
 			}
-			TempSnaps.write(mLocalContext);
+			TempSnaps.getInstanceUnsafe().write(mLocalContext);
 		} else {
 			isPhoto = mSnap.isPhoto();
 			mediaType = isPhoto ? 0 : 1;
@@ -195,7 +195,7 @@ public class SnapUpload extends AsyncTask<String, Long, Integer> implements IWri
 	protected void onPostExecute(Integer result) {
 		if (result < 0) {
 			mSnap.setError(true);
-			TempSnaps.write(mLocalContext);
+			TempSnaps.getInstanceUnsafe().write(mLocalContext);
 			if (mDoNotifications) {
 				Notifications.updateUploadNotificationWithError();
 			}
@@ -218,7 +218,7 @@ public class SnapUpload extends AsyncTask<String, Long, Integer> implements IWri
 			Notifications.updateUploadNotificationWithFinish();
 		}
 		mSnap.setSent(true).setIsSending(false).setTimeStamp(System.currentTimeMillis());
-		TempSnaps.write(mLocalContext);
+		TempSnaps.getInstanceUnsafe().write(mLocalContext);
 	}
 	
 	@Override

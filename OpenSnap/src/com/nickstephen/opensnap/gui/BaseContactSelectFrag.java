@@ -179,7 +179,7 @@ public class BaseContactSelectFrag extends ListFragment {
 	 */
 	protected void contactSelect(int position) {
 		selectedPosition = position;
-		StatMethods.QuestionBox(this.getActivity(), "Please confirm", "Send snap to " + Contacts.getDisplayOrUserName(selectedPosition) + "?",
+		StatMethods.QuestionBox(this.getActivity(), "Please confirm", "Send snap to " + Contacts.getInstanceUnsafe().getDisplayOrUserName(selectedPosition) + "?",
 				mesgBoxListener, mesgBoxListener);
 	}
 	
@@ -251,7 +251,7 @@ public class BaseContactSelectFrag extends ListFragment {
 			users += selectedUsers.get(i) + ",";
 		}
 		users += selectedUsers.get(selectedUsers.size() - 1);
-		TempSnap newSnap = TempSnaps.add();
+		TempSnap newSnap = TempSnaps.getInstanceUnsafe().add();
 		
 		newSnap.setUsers(users);
 		
@@ -260,7 +260,7 @@ public class BaseContactSelectFrag extends ListFragment {
 		
 		if (FileIO.bufferedCopy(filePath, finalPath.getAbsolutePath()) < 0) {
 			StatMethods.hotBread(getActivity(), "File copy failed! Try again later", Toast.LENGTH_SHORT);
-			TempSnaps.remove(getActivity(), newSnap);
+			TempSnaps.getInstanceUnsafe().remove(getActivity(), newSnap);
 			return;
 		}
 		
@@ -271,7 +271,7 @@ public class BaseContactSelectFrag extends ListFragment {
 			newSnap.setMediaType(MediaType.VIDEO).setVideoCaption(getCaption()).setCaptionPosition(getCaptionLocation()).setCaptionOrientation(getCaptionOrientation());
 		}
 		
-		TempSnaps.write(getActivity());
+		TempSnaps.getInstanceUnsafe().write(getActivity());
 		
 		StatMethods.hotBread(this.getActivity(), "Saved for later...", Toast.LENGTH_SHORT);
 		onSuccess();
@@ -368,7 +368,7 @@ public class BaseContactSelectFrag extends ListFragment {
 						new SnapUpload(BaseContactSelectFrag.this.getActivity().getApplicationContext(), filePath, finalPath)
 								.execute(finalPath, GlobalVars.getUsername(BaseContactSelectFrag.this.getActivity()),
 								GlobalVars.getAuthToken(BaseContactSelectFrag.this.getActivity()), Integer.valueOf(getPhotoType()).toString(),
-								Contacts.getUsernameAt(selectedPosition), String.valueOf(snapTime));
+								Contacts.getInstanceUnsafe().getUsernameAt(selectedPosition), String.valueOf(snapTime));
 						onSuccess();
 					} catch (IOException e) {
 						StatMethods.hotBread(BaseContactSelectFrag.this.getActivity(), "Error copying file. Please try again", Toast.LENGTH_SHORT);
@@ -383,7 +383,7 @@ public class BaseContactSelectFrag extends ListFragment {
 						new SnapUpload(BaseContactSelectFrag.this.getActivity().getApplicationContext(), filePath, finalPath)
 								.execute(finalPath, GlobalVars.getUsername(BaseContactSelectFrag.this.getActivity()), 
 								GlobalVars.getAuthToken(BaseContactSelectFrag.this.getActivity()), Integer.valueOf(getPhotoType()).toString(),
-								Contacts.getUsernameAt(selectedPosition), getCaption(), Integer.valueOf(getCaptionOrientation()).toString(),
+								Contacts.getInstanceUnsafe().getUsernameAt(selectedPosition), getCaption(), Integer.valueOf(getCaptionOrientation()).toString(),
 								Float.valueOf(getCaptionLocation()).toString());
 						onSuccess();
 					} catch (IOException e) {
@@ -421,10 +421,10 @@ public class BaseContactSelectFrag extends ListFragment {
 			LayoutInflater inflater = (LayoutInflater)BaseContactSelectFrag.this.getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 			View v = inflater.inflate(R.layout.contact_text_check_v2, parent, false);
 			TextView contactText = (TextView)v.findViewById(R.id.contact_textview);
-			contactText.setText(Contacts.getDisplayOrUserName(position));
+			contactText.setText(Contacts.getInstanceUnsafe().getDisplayOrUserName(position));
 			TextView displayText = (TextView)v.findViewById(R.id.contact_displaytext);
-			if (Contacts.hasDisplay(position)) {
-				displayText.setText(Contacts.getUsernameAt(position));
+			if (Contacts.getInstanceUnsafe().hasDisplay(position)) {
+				displayText.setText(Contacts.getInstanceUnsafe().getUsernameAt(position));
 			}
 			
 			v.setOnClickListener(new OnClickListener() {
@@ -440,11 +440,11 @@ public class BaseContactSelectFrag extends ListFragment {
 				public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 					if (isChecked) {
 						numSelected++;
-						selectedUsers.add(Contacts.getUsernameAt(position));
+						selectedUsers.add(Contacts.getInstanceUnsafe().getUsernameAt(position));
 					} else {
 						numSelected--;
 						for (int i = 0; i < selectedUsers.size(); i++) {
-							if (Contacts.getUsernameAt(position).compareTo(selectedUsers.get(i)) == 0) {
+							if (Contacts.getInstanceUnsafe().getUsernameAt(position).compareTo(selectedUsers.get(i)) == 0) {
 								selectedUsers.remove(i);
 								break;
 							}
@@ -455,7 +455,7 @@ public class BaseContactSelectFrag extends ListFragment {
 			});
 			
 			if (!userSet && getUserArg() != null) {
-				String user = Contacts.getUsernameAt(position);
+				String user = Contacts.getInstanceUnsafe().getUsernameAt(position);
 				if (user.compareTo(getUserArg()) == 0) {
 					chkBox.setChecked(true);
 					userSet = true;
@@ -489,7 +489,7 @@ public class BaseContactSelectFrag extends ListFragment {
 		
 		@Override
 		public int getCount() {
-			return Contacts.getNumContacts();
+			return Contacts.getInstanceUnsafe().getNumContacts();
 		}
 	}
 

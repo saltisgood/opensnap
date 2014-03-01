@@ -158,7 +158,7 @@ public class SnapViewerListFrag extends ListFragment implements IRefresh, IOnObj
                                 new OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
-                                        TempSnaps.remove(SnapViewerListFrag.this.getActivity(), snap);
+                                        TempSnaps.getInstanceUnsafe().remove(SnapViewerListFrag.this.getActivity(), snap);
                                         refreshList();
                                     }
                                 }, null);
@@ -168,7 +168,7 @@ public class SnapViewerListFrag extends ListFragment implements IRefresh, IOnObj
                                 new OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialogInterface, int i) {
-                                       TempSnaps.remove(SnapViewerListFrag.this.getActivity(), snap);
+                                       TempSnaps.getInstanceUnsafe().remove(SnapViewerListFrag.this.getActivity(), snap);
                                         refreshList();
                                     }
                                 }, null);
@@ -239,7 +239,7 @@ public class SnapViewerListFrag extends ListFragment implements IRefresh, IOnObj
 					// To return true the snap MUST NOT BE opened, MUST BE RECEIVED, and if saves are allowed MUST NOT be in private mode
 					new OpenSnapTask(this.getActivity(), snap, GlobalVars.getUsername(getActivity())).execute(new String[] {});
 					mHandler.sendMessageDelayed(mHandler.obtainMessage(GuiHandler.OPEN_SNAP, GuiHandler.LOCALSNAP, 
-							TempSnaps.getCount() + snapId, snap.getSnapId()), 200);
+							TempSnaps.getInstanceUnsafe().getCount() + snapId, snap.getSnapId()), 200);
 				}
 			} else {
 				// Saves aren't allowed and it's already been opened. Ignore click.
@@ -249,7 +249,7 @@ public class SnapViewerListFrag extends ListFragment implements IRefresh, IOnObj
 				new SnapDownload(this.getSupportApplication(), snap)
 					.execute(GlobalVars.getUsername(this.getActivity()), GlobalVars.getAuthToken(this.getActivity()));
 				mHandler.sendMessage(mHandler.obtainMessage(GuiHandler.REPEAT_REFRESH_VIEW, GuiHandler.LOCALSNAP, 
-						TempSnaps.getCount() + snapId, snap.getSnapId()));
+						TempSnaps.getInstanceUnsafe().getCount() + snapId, snap.getSnapId()));
 			}
 		} else {
 			StatMethods.hotBread(this.getActivity(), "Snap not available", Toast.LENGTH_SHORT);
@@ -258,23 +258,23 @@ public class SnapViewerListFrag extends ListFragment implements IRefresh, IOnObj
 
 	private void tempSnapClick(int snapID, View view) {
 		// TODO: tempsnap click mHandler
-		if (TempSnaps.isSending(snapID)) {
+		if (TempSnaps.getInstanceUnsafe().isSending(snapID)) {
 			// ignore for the momento
-		} else if (TempSnaps.isSent(snapID)) {
+		} else if (TempSnaps.getInstanceUnsafe().isSent(snapID)) {
 			// also ignore for the momento
 		} else {
-			String filePath = TempSnaps.getFilePath(snapID);
+			String filePath = TempSnaps.getInstanceUnsafe().getFilePath(snapID);
 			Message toPost;
 			if (!new File(filePath).exists()) {
 				StatMethods.hotBread(this.getActivity(), "Error! File missing!", Toast.LENGTH_SHORT);
-				TempSnaps.setIsError(snapID, true);
-				toPost = mHandler.obtainMessage(GuiHandler.REFRESH_VIEW, GuiHandler.TEMPSNAP, snapID, TempSnaps.getId(snapID));
+				TempSnaps.getInstanceUnsafe().setIsError(snapID, true);
+				toPost = mHandler.obtainMessage(GuiHandler.REFRESH_VIEW, GuiHandler.TEMPSNAP, snapID, TempSnaps.getInstanceUnsafe().getId(snapID));
 			} else {
-				TempSnap snap = TempSnaps.get(snapID);
+				TempSnap snap = TempSnaps.getInstanceUnsafe().get(snapID);
 				snap.setIsSending(true).setError(false).setUploadPercent(-1);
 				new SnapUpload(this.getSupportApplication(), snap).execute(
 						new String[] { null, GlobalVars.getUsername(getActivity()), GlobalVars.getAuthToken(getActivity()) });
-				toPost = mHandler.obtainMessage(GuiHandler.REPEAT_REFRESH_VIEW, GuiHandler.TEMPSNAP, snapID, TempSnaps.getId(snapID));
+				toPost = mHandler.obtainMessage(GuiHandler.REPEAT_REFRESH_VIEW, GuiHandler.TEMPSNAP, snapID, TempSnaps.getInstanceUnsafe().getId(snapID));
 			}
 			mHandler.sendMessage(toPost);
 		}
@@ -490,7 +490,7 @@ public class SnapViewerListFrag extends ListFragment implements IRefresh, IOnObj
 
 		@Override
 		public int getCount() {
-			int maxCount = TempSnaps.getCount() + LocalSnaps.getInstanceUnsafe().getNumberOfSnaps();
+			int maxCount = TempSnaps.getInstanceUnsafe().getCount() + LocalSnaps.getInstanceUnsafe().getNumberOfSnaps();
 			return (mMaxListSize > maxCount) ? maxCount : mMaxListSize;
 		}
 
@@ -505,7 +505,7 @@ public class SnapViewerListFrag extends ListFragment implements IRefresh, IOnObj
 			
 			TextView userText, descText;
 			
-			if (position == (getCount() - 1) && (position < TempSnaps.getCount() + LocalSnaps.getInstanceUnsafe().getNumberOfSnaps() - 1)) {
+			if (position == (getCount() - 1) && (position < TempSnaps.getInstanceUnsafe().getCount() + LocalSnaps.getInstanceUnsafe().getNumberOfSnaps() - 1)) {
 				v = mInflater.inflate(R.layout.list_footer_button);
 				v.setOnClickListener(new View.OnClickListener() {
 					@Override
@@ -518,8 +518,8 @@ public class SnapViewerListFrag extends ListFragment implements IRefresh, IOnObj
 				return v;
 			}
 			
-			if (position >= (TempSnaps.getCount())) {
-				position -= TempSnaps.getCount();
+			if (position >= (TempSnaps.getInstanceUnsafe().getCount())) {
+				position -= TempSnaps.getInstanceUnsafe().getCount();
 				LocalSnap snap = LocalSnaps.getInstanceUnsafe().getSnapAt(position);
 
                 if (!snap.getSent() && !snap.wasOpened()) {
@@ -537,7 +537,7 @@ public class SnapViewerListFrag extends ListFragment implements IRefresh, IOnObj
 
                         mHandler.removeMessages(GuiHandler.REPEAT_REFRESH_VIEW, snap.getSnapId());
                         mHandler.sendMessage(mHandler.obtainMessage(GuiHandler.REPEAT_REFRESH_VIEW,
-                                GuiHandler.LOCALSNAP, TempSnaps.getCount() + position, snap.getSnapId()));
+                                GuiHandler.LOCALSNAP, TempSnaps.getInstanceUnsafe().getCount() + position, snap.getSnapId()));
                     } else if (!snap.getSnapExists(this.getContext()) && snap.getSnapAvailable() &&
                             StatMethods.isNetworkAvailable(SnapViewerListFrag.this.getActivity(), false) &&
                             SettingsAccessor.getAlwaysDownload(SnapViewerListFrag.this.getActivity())) {
@@ -546,7 +546,7 @@ public class SnapViewerListFrag extends ListFragment implements IRefresh, IOnObj
 
                         mHandler.removeMessages(GuiHandler.REPEAT_REFRESH_VIEW, snap.getSnapId());
                         mHandler.sendMessage(mHandler.obtainMessage(GuiHandler.REPEAT_REFRESH_VIEW,
-                                GuiHandler.LOCALSNAP, TempSnaps.getCount() + position, snap.getSnapId()));
+                                GuiHandler.LOCALSNAP, TempSnaps.getInstanceUnsafe().getCount() + position, snap.getSnapId()));
                     }
 
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
@@ -690,7 +690,7 @@ public class SnapViewerListFrag extends ListFragment implements IRefresh, IOnObj
 			} else { // TempSnap
 				v = mInflater.inflate(R.layout.snap_text_unseen);
 
-                TempSnap tempSnap = TempSnaps.get(position);
+                TempSnap tempSnap = TempSnaps.getInstanceUnsafe().get(position);
                 ImageView imgback = (ImageView) v.findViewById(R.id.image);
                 switch (mTheme) {
                     case snapchat:

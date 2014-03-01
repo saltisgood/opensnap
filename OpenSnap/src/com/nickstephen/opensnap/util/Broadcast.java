@@ -1,6 +1,8 @@
 package com.nickstephen.opensnap.util;
 
+import com.nickstephen.opensnap.global.Contacts;
 import com.nickstephen.opensnap.global.LocalSnaps;
+import com.nickstephen.opensnap.global.Statistics;
 import com.nickstephen.opensnap.main.ContactViewerListFrag;
 import com.nickstephen.opensnap.main.LaunchActivity;
 import com.nickstephen.opensnap.main.MainMenuFrag;
@@ -21,6 +23,8 @@ public final class Broadcast {
     private static SnapViewerListFrag mSnapViewer;
     private static MainMenuFrag mMainMenu;
     private static List<IOnObjectReady<LocalSnaps>> mSnapWaiters = new ArrayList<IOnObjectReady<LocalSnaps>>();
+    private static List<IOnObjectReady<Contacts>> mContactWaiters = new ArrayList<IOnObjectReady<Contacts>>();
+    private static List<IOnObjectReady<Statistics>> mStatisticsWaiters = new ArrayList<IOnObjectReady<Statistics>>();
 
     private Broadcast() {
         // Never called
@@ -48,12 +52,28 @@ public final class Broadcast {
         //TODO: Implement some kind of system here
     }
 
+    public static void onContactsReady() {
+        for (IOnObjectReady<Contacts> waiter : mContactWaiters) {
+            waiter.objectReady(Contacts.getInstanceUnsafe());
+        }
+
+        mContactWaiters.clear();
+    }
+
     public static void onSnapsReady() {
         for (IOnObjectReady<LocalSnaps> waiter : mSnapWaiters) {
             waiter.objectReady(LocalSnaps.getInstanceUnsafe());
         }
 
         mSnapWaiters.clear();
+    }
+
+    public static void onStatisticsReady() {
+        for (IOnObjectReady<Statistics> waiter : mStatisticsWaiters) {
+            waiter.objectReady(Statistics.getInstanceUnsafe());
+        }
+
+        mStatisticsWaiters.clear();
     }
 
     public static void refreshContactViewer() {
@@ -112,11 +132,27 @@ public final class Broadcast {
         mSnapViewer = null;
     }
 
+    public static void waitForContacts(IOnObjectReady<Contacts> waiter) {
+        if (Contacts.checkInit()) {
+            waiter.objectReady(Contacts.getInstanceUnsafe());
+        } else {
+            mContactWaiters.add(waiter);
+        }
+    }
+
     public static void waitForSnaps(IOnObjectReady<LocalSnaps> waiter) {
         if (LocalSnaps.checkInit()) {
             waiter.objectReady(LocalSnaps.getInstanceUnsafe());
         } else {
             mSnapWaiters.add(waiter);
+        }
+    }
+
+    public static void waitForStatistics(IOnObjectReady<Statistics> waiter) {
+        if (Statistics.checkInit()) {
+            waiter.objectReady(Statistics.getInstanceUnsafe());
+        } else {
+            mStatisticsWaiters.add(waiter);
         }
     }
 }

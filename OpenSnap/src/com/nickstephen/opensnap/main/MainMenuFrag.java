@@ -25,19 +25,18 @@ import com.nickstephen.opensnap.global.LocalSnaps;
 import com.nickstephen.opensnap.gui.DragTouchListener;
 import com.nickstephen.opensnap.settings.SettingsAccessor;
 import com.nickstephen.opensnap.util.Broadcast;
+import com.nickstephen.opensnap.util.tasks.IOnObjectReady;
 
 /**
  * An extension to {@link Fragment} that just has the main menu text and buttons and whatnot
  * @author Nick Stephen (a.k.a. saltisgood)
  */
-public class MainMenuFrag extends Fragment {
+public class MainMenuFrag extends Fragment implements IOnObjectReady<LocalSnaps> {
 	public static final String FRAG_TAG = "MainMenuFrag";
 	
 	private int easterEggCount = 0;
 	private TextView mUnseenText;
 	private AnimTextView mGreetingText;
-	
-	public MainMenuFrag() {}
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -87,11 +86,7 @@ public class MainMenuFrag extends Fragment {
 
         mUnseenText = (TextView)v.findViewById(R.id.new_snaps_notice);
 		
-		Integer noUnseen;
-		if ((noUnseen = LocalSnaps.getInstanceUnsafe().getUnseenSnaps()) > 0) {
-			mUnseenText.setText(noUnseen.toString());
-			mUnseenText.setVisibility(View.VISIBLE);
-		}
+		LocalSnaps.getInstanceSafe(this);
 		
 		mGreetingText = (AnimTextView) v.findViewById(R.id.creator_text);
 		mGreetingText.setOnClickListener(new OnClickListener() {
@@ -143,6 +138,11 @@ public class MainMenuFrag extends Fragment {
         super.onDestroy();
 
         Broadcast.unregisterMainMenuFrag();
+    }
+
+    @Override
+    public void objectReady(LocalSnaps obj) {
+        setUpdateText(obj.getUnseenSnaps());
     }
 
     public void setUpdateText(Integer updates) {

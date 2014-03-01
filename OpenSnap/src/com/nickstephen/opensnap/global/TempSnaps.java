@@ -11,6 +11,7 @@ import java.util.List;
 import android.content.Context;
 import android.text.format.DateUtils;
 
+import com.nickstephen.lib.Twig;
 import com.nickstephen.lib.misc.BitConverter;
 import com.nickstephen.opensnap.global.LocalSnaps.MediaType;
 import com.nickstephen.opensnap.util.tasks.SnapUpload;
@@ -20,224 +21,51 @@ public final class TempSnaps {
 	
 	private static final long TSNAPS_CURRENT_HEADER_VER = 0x4E53303154533031L; //NS01TS01
 	
-	private static TempSnaps sThis;
+	private static TempSnaps sInstance;
+
+    public static TempSnaps getInstanceUnsafe() {
+        return sInstance;
+    }
+
+    public static boolean checkInit() {
+        return sInstance != null;
+    }
 	
 	public static void init(Context ctxt) {
-		if (sThis != null) {
+		if (checkInit()) {
 			return;
 		}
 		
 		try {
-			sThis = new TempSnaps(ctxt);
+			sInstance = new TempSnaps(ctxt);
 		} catch (FileNotFoundException e) {
-			sThis = new TempSnaps();
+			sInstance = new TempSnaps();
 		} catch (Exception e) {
-			e.printStackTrace();
-			sThis = new TempSnaps();
-		}
-	}
-	
-	public static void write(Context ctxt) {
-		if (sThis == null) {
-			return;
-		}
-		
-		FileOutputStream fs = null;
-		try {
-			fs = ctxt.openFileOutput(GlobalVars.getUsername(ctxt) + "-" + TEMPSNAPS_FILENAME, Context.MODE_PRIVATE);
-			
-			fs.write(BitConverter.getBytes(TSNAPS_CURRENT_HEADER_VER));
-			fs.write(BitConverter.getBytes(sThis.Snaps.size()));
-			
-			for (TempSnap snap : sThis.Snaps) {
-				if (snap.users == null) {
-					fs.write(BitConverter.getBytes(0));
-				} else {
-					fs.write(BitConverter.getBytes(snap.users.length()));
-					fs.write(BitConverter.getBytes(snap.users));
-				}
-				
-				fs.write(BitConverter.getBytes(snap.sentTimeStamp));
-				fs.write(BitConverter.getBytes(LocalSnaps.MediaType.getValue(snap.mediaType)));
-				fs.write(BitConverter.getBytes(snap.sent));
-				
-				if (snap.filePath == null) {
-					fs.write(BitConverter.getBytes(0));
-				} else {
-					fs.write(BitConverter.getBytes(snap.filePath.length()));
-					fs.write(BitConverter.getBytes(snap.filePath));
-				}
-				
-				if (snap.vidCaption == null) {
-					fs.write(BitConverter.getBytes(0));
-				} else {
-					fs.write(BitConverter.getBytes(snap.vidCaption.length()));
-					fs.write(BitConverter.getBytes(snap.vidCaption));
-				}
-				
-				fs.write(BitConverter.getBytes(snap.captionOrientation));
-				fs.write(BitConverter.getBytes(snap.captionPosition));
-				fs.write(BitConverter.getBytes(snap.captionTime));
-			}
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		
-		try {
-			fs.close();
-		} catch (IOException e) {
-			e.printStackTrace();
+            Twig.printStackTrace(e);
+            sInstance = new TempSnaps();
 		}
 	}
 
-	public static TempSnap add() {
-		TempSnap snap = new TempSnap();
-		//sThis.Snaps.add(snap);
-		sThis.Snaps.add(0, snap);
-		return snap;
-	}
-	
-	public static int getCount() {
-		return sThis.Snaps.size();
-	}
-	
-	public static void setUploadPercent(int position, int percent) {
-		sThis.Snaps.get(position).uploadPercent = percent;
-	}
-	
-	public static boolean isPhoto(int position) {
-		return sThis.Snaps.get(position).mediaType == LocalSnaps.MediaType.PHOTO;
-	}
-	
-	public static String getUsers(int position) {
-		return sThis.Snaps.get(position).users;
-	}
-	
-	public static String getReadableSentTimeStamp(int position) {
-		String ts = (String) DateUtils.getRelativeTimeSpanString(sThis.Snaps.get(position).sentTimeStamp, new Date().getTime(), DateUtils.MINUTE_IN_MILLIS);
-		if (ts.compareTo("0 minutes ago") == 0) {
-			ts = "moments ago";
-		} else if (ts.startsWith("in"))
-			ts = "moments ago";
-		return ts;
-	}
-	
-	public static boolean isSent(int position) {
-		return sThis.Snaps.get(position).sent;
-	}
-	
-	public static boolean isError(int position) {
-		return sThis.Snaps.get(position).error;
-	}
-	
-	public static boolean shouldUpdateGui(int position) {
-		return sThis.Snaps.get(position).update;
-	}
-	
-	public static void setShouldUpdateGui(int position, boolean update) {
-		sThis.Snaps.get(position).update = update;
-	}
-	
-	public static int getUploadPercent(int position) {
-		return sThis.Snaps.get(position).uploadPercent;
-	}
-	
-	public static boolean isSending(int position) {
-		return sThis.Snaps.get(position).isSending;
-	}
-	
-	public static void setIsSending(int position, boolean isSending) {
-		sThis.Snaps.get(position).isSending = isSending;
-	}
-	
-	public static void setHide(int position, boolean hide) {
-		sThis.Snaps.get(position).hide = hide;
-	}
-	
-	public static void remove(Context ctxt, int position) {
-		sThis.Snaps.remove(position);
-		
-		write(ctxt);
-	}
-	
-	public static void remove(Context ctxt, TempSnap snap) {
-		sThis.Snaps.remove(snap);
-		
-		write(ctxt);
-	}
-	
-	public static boolean getHide(int position) {
-		return sThis.Snaps.get(position).hide;
-	}
-	
-	public static String getId(int position) {
-		TempSnap ts = sThis.Snaps.get(position);
-		Long sts = ts.sentTimeStamp;
-		String usrs = ts.users;
-		return usrs + "-" + sts.toString();
-	}
-	
-	public static TempSnap get(int location) {
-		if (location > sThis.Snaps.size() || location < 0) {
-			return null;
-		}
-		return sThis.Snaps.get(location);
-	}
-	
-	/**
-	 * Remove any temporary snaps that have been sent with no errors
-	 * @param ctxt A context to use to update the file
-	 */
-	public static void resetLite(Context ctxt) {
-		for (int i = 0; i < sThis.Snaps.size(); i++) {
-			if (sThis.Snaps.get(i).sent) {
-				sThis.Snaps.remove(i);
-			}
-		}
-		
-		write(ctxt);
-	}
-	
 	/**
 	 * Remove all temporary snaps
 	 * @param ctxt A context to use to update the file
 	 */
 	public static void resetHard(Context ctxt) {
-		sThis = new TempSnaps();
-		
-		write(ctxt);
+		sInstance = new TempSnaps();
+
+		sInstance.write(ctxt);
 	}
 	
-	/**
-	 * Convenience method for starting a snap upload 
-	 * @param context
-	 * @param position
-	 * @param params
-	 */
-	public static void sendSnap(Context context, int position, String... params) {
-		sThis.Snaps.get(position).send(context, params);
-	}
-	
-	public static String getFilePath(int position) {
-		return sThis.Snaps.get(position).filePath;
-	}
-	
-	public static void setIsError(int position, boolean err) {
-		sThis.Snaps.get(position).error = err;
-	}
-	
-	private List<TempSnap> Snaps;
+	private List<TempSnap> mSnaps;
 	
 	private TempSnaps() {
-		Snaps = new ArrayList<TempSnap>();
+		mSnaps = new ArrayList<TempSnap>();
 	}
 
 	private TempSnaps(Context ctxt) throws FileNotFoundException, Exception {
 		FileInputStream fs = ctxt.openFileInput(GlobalVars.getUsername(ctxt) + "-" + TEMPSNAPS_FILENAME);
 		
-		Snaps = new ArrayList<TempSnap>();
+		mSnaps = new ArrayList<TempSnap>();
 		
 		
 		try {
@@ -268,7 +96,7 @@ public final class TempSnaps {
 		}
 		
 		for (int i = 0; i < len; i++) {
-			Snaps.add(new TempSnap(fs));
+			mSnaps.add(new TempSnap(fs));
 		}
 		
 		try {
@@ -277,6 +105,172 @@ public final class TempSnaps {
 			e.printStackTrace();
 		}
 	}
+
+    public TempSnap add() {
+        TempSnap snap = new TempSnap();
+        mSnaps.add(0, snap);
+        return snap;
+    }
+
+    public TempSnap get(int location) {
+        if (location > mSnaps.size() || location < 0) {
+            return null;
+        }
+        return mSnaps.get(location);
+    }
+
+    public String getId(int position) {
+        TempSnap ts = mSnaps.get(position);
+        Long sts = ts.sentTimeStamp;
+        String usrs = ts.users;
+        return usrs + "-" + sts.toString();
+    }
+
+    public int getCount() {
+        return mSnaps.size();
+    }
+
+    public String getFilePath(int position) {
+        return mSnaps.get(position).filePath;
+    }
+
+    public boolean getHide(int position) {
+        return mSnaps.get(position).hide;
+    }
+
+    public String getReadableSentTimeStamp(int position) {
+        String ts = (String) DateUtils.getRelativeTimeSpanString(mSnaps.get(position).sentTimeStamp, new Date().getTime(), DateUtils.MINUTE_IN_MILLIS);
+        if (ts.compareTo("0 minutes ago") == 0) {
+            ts = "moments ago";
+        } else if (ts.startsWith("in"))
+            ts = "moments ago";
+        return ts;
+    }
+
+    public int getUploadPercent(int position) {
+        return mSnaps.get(position).uploadPercent;
+    }
+
+    public String getUsers(int position) {
+        return mSnaps.get(position).users;
+    }
+
+    public boolean isError(int position) {
+        return mSnaps.get(position).error;
+    }
+
+    public boolean isPhoto(int position) {
+        return mSnaps.get(position).mediaType == LocalSnaps.MediaType.PHOTO;
+    }
+
+    public boolean isSending(int position) {
+        return mSnaps.get(position).isSending;
+    }
+
+    public boolean isSent(int position) {
+        return mSnaps.get(position).sent;
+    }
+
+    public void remove(Context context, TempSnap snap) {
+        mSnaps.remove(snap);
+
+        write(context);
+    }
+
+    /**
+     * Remove any temporary snaps that have been sent with no errors
+     * @param ctxt A context to use to update the file
+     */
+    public void resetLite(Context ctxt) {
+        for (int i = 0; i < mSnaps.size(); i++) {
+            if (mSnaps.get(i).sent) {
+                mSnaps.remove(i);
+            }
+        }
+
+        write(ctxt);
+    }
+
+    /**
+     * Convenience method for starting a snap upload
+     * @param context
+     * @param position
+     * @param params
+     */
+    public void sendSnap(Context context, int position, String... params) {
+        mSnaps.get(position).send(context, params);
+    }
+
+    public void setIsError(int position, boolean err) {
+        mSnaps.get(position).error = err;
+    }
+
+    public void setIsSending(int position, boolean isSending) {
+        mSnaps.get(position).isSending = isSending;
+    }
+
+    public void setHide(int position, boolean hide) {
+        mSnaps.get(position).hide = hide;
+    }
+
+    public void setShouldUpdateGui(int position, boolean update) {
+        mSnaps.get(position).update = update;
+    }
+
+    public void setUploadPercent(int position, int percent) {
+        mSnaps.get(position).uploadPercent = percent;
+    }
+
+    public boolean shouldUpdateGui(int position) {
+        return mSnaps.get(position).update;
+    }
+
+    public void write(Context ctxt) {
+        FileOutputStream fs;
+        try {
+            fs = ctxt.openFileOutput(GlobalVars.getUsername(ctxt) + "-" + TEMPSNAPS_FILENAME, Context.MODE_PRIVATE);
+
+            fs.write(BitConverter.getBytes(TSNAPS_CURRENT_HEADER_VER));
+            fs.write(BitConverter.getBytes(mSnaps.size()));
+
+            for (TempSnap snap : mSnaps) {
+                if (snap.users == null) {
+                    fs.write(BitConverter.getBytes(0));
+                } else {
+                    fs.write(BitConverter.getBytes(snap.users.length()));
+                    fs.write(BitConverter.getBytes(snap.users));
+                }
+
+                fs.write(BitConverter.getBytes(snap.sentTimeStamp));
+                fs.write(BitConverter.getBytes(LocalSnaps.MediaType.getValue(snap.mediaType)));
+                fs.write(BitConverter.getBytes(snap.sent));
+
+                if (snap.filePath == null) {
+                    fs.write(BitConverter.getBytes(0));
+                } else {
+                    fs.write(BitConverter.getBytes(snap.filePath.length()));
+                    fs.write(BitConverter.getBytes(snap.filePath));
+                }
+
+                if (snap.vidCaption == null) {
+                    fs.write(BitConverter.getBytes(0));
+                } else {
+                    fs.write(BitConverter.getBytes(snap.vidCaption.length()));
+                    fs.write(BitConverter.getBytes(snap.vidCaption));
+                }
+
+                fs.write(BitConverter.getBytes(snap.captionOrientation));
+                fs.write(BitConverter.getBytes(snap.captionPosition));
+                fs.write(BitConverter.getBytes(snap.captionTime));
+            }
+
+            fs.close();
+        } catch (FileNotFoundException e) {
+            Twig.printStackTrace(e);
+        } catch (IOException e) {
+            Twig.printStackTrace(e);
+        }
+    }
 	
 	public static final class TempSnap {
 		private String users;

@@ -26,28 +26,30 @@ public class LoadFiles extends AsyncTask<Void, Void, Void> {
 
     @Override
     protected Void doInBackground(Void... params) {
-        /* if (!Contacts.init(mContext)) {
+        if (!Contacts.init(mContext)) {
             Twig.debug(NAME, "Contacts init failed");
-        } */
+        }
 
         if (!LocalSnaps.init(mContext)) {
             Twig.debug(NAME, "LocalSnaps init failed");
         }
 
-        /* int errCode;
-        if ((errCode = Statistics.Init(mContext)) < 0) {
+        int errCode;
+        if ((errCode = Statistics.init(mContext)) < 0) {
             Twig.debug(NAME, "Statistics init failed: " + errCode);
         }
 
         TempSnaps.init(mContext);
 
-        Stories.init(mContext); */
+        Stories.init(mContext);
 
         return null;
     }
 
     @Override
     protected void onPostExecute(Void aVoid) {
+        Broadcast.onContactsReady();
         Broadcast.onSnapsReady();
+        Broadcast.onStatisticsReady();
     }
 }

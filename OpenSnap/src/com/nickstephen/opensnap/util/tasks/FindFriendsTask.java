@@ -29,7 +29,7 @@ public class FindFriendsTask extends BaseRequestTask {
         Bundle bundle = new Bundle();
 
         bundle.putString("username", mUsername);
-        bundle.putString("countryCode", Statistics.getCountryCode());
+        bundle.putString("countryCode", Statistics.getInstanceUnsafe().getCountryCode());
 
         mContacts = mContacts.subList(0, 20);
 

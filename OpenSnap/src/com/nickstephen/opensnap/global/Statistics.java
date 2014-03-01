@@ -8,64 +8,16 @@ import java.io.IOException;
 import android.content.Context;
 
 import com.nickstephen.lib.misc.BitConverter;
+import com.nickstephen.opensnap.util.Broadcast;
 import com.nickstephen.opensnap.util.http.ServerResponse;
-import com.nickstephen.opensnap.util.misc.CustomJSON;
+import com.nickstephen.opensnap.util.tasks.IOnObjectReady;
 
 /**
  * A class for saving the random statistics that come with the SnapChat JSON
  * @author Nick Stephen (a.k.a. saltisgood)
  */
 public class Statistics {
-	// JSON Keys
-	/**
-	 * A key for getting the snapchat phone number from the snapchat JSON
-	 */
-	private static final String SNAP_PHONE_NO_KEY = "snapchat_phone_number";
-	/**
-	 * A key for getting the number of received snaps from the snapchat JSON
-	 */
-	private static final String RECEIVED_SNAPS_KEY = "received";
-	/**
-	 * A key for getting the country code from the snapchat JSON
-	 */
-	private static final String COUNTRY_KEY = "country_code";
-	/**
-	 * A key for getting the number of sent snaps from the snapchat JSON
-	 */
-	private static final String SENT_SNAPS_KEY = "sent";
-	/**
-	 * A key for getting the device token from the snapchat JSON
-	 */
-	private static final String DEVICE_KEY = "device_token";
-	/**
-	 * A key for getting the email address from the snapchat JSON
-	 */
-	private static final String EMAIL_KEY = "email";
-	/**
-	 * A key for getting the last update time from the snapchat JSON
-	 * DEPRECATED
-	 */
-	//private static final String LAST_UPDATE_KEY = "last_updated";
-	/**
-	 * A key for getting the mobile verification key from the snapchat JSON
-	 */
-	private static final String MOBILE_VERI_KEY = "mobile_verification_key";
-	/**
-	 * A key for getting the mobile number of the user from the snapchat JSON
-	 */
-	private static final String MOBILE_NUM_KEY = "mobile";
-	
 	private static final long STATS_CURRENT_HEADER_VER = 0x4E53303153543031L; //NS01ST01
-	
-	// JSON Types
-	/**
-	 * The string type string
-	 */
-	private static final String STRING_TYPE = "String";
-	/**
-	 * The float type string
-	 */
-	private static final String FLOAT_TYPE = "Float";
 	
 	/**
 	 * The name of the file that's used to store the statistics
@@ -75,149 +27,48 @@ public class Statistics {
 	/**
 	 * The static instance of this class
 	 */
-	private static Statistics sThis = null;
+	private static Statistics sInstance = null;
+
+    public static Statistics getInstanceUnsafe() {
+        return sInstance;
+    }
+
+    public static void getInstanceSafe(IOnObjectReady<Statistics> waiter) {
+        Broadcast.waitForStatistics(waiter);
+    }
+
+    public static boolean checkInit() {
+        return sInstance != null;
+    }
 
 	/**
 	 * Initialise the statistics information from file
 	 * @param ctxt A context
 	 * @return 0 on success, < 0 for error
 	 */
-	public static int Init(Context ctxt) {
-		if (sThis != null)
+	public static int init(Context ctxt) {
+		if (sInstance != null)
 			return 0;
-		sThis = new Statistics();
-		return sThis.read(ctxt);
-	}
-	
-	/**
-	 * Sync the statistics from a SnapChat JSON
-	 * @param json The JSON object returned from the server
-	 */
-	public static int Sync(CustomJSON json, Context ctxt) {
-		sThis = new Statistics();
-		
-		if (json.CheckKeyExists(SNAP_PHONE_NO_KEY) && json.GetType(SNAP_PHONE_NO_KEY).compareTo(STRING_TYPE) == 0) {
-			sThis.mSnapPhoneNumber = (String)json.GetValue(SNAP_PHONE_NO_KEY);
-		}
-		if (json.CheckKeyExists(RECEIVED_SNAPS_KEY) && json.GetType(RECEIVED_SNAPS_KEY).compareTo(FLOAT_TYPE) == 0) {
-			sThis.mReceivedSnaps = ((Float)json.GetValue(RECEIVED_SNAPS_KEY)).intValue();
-		}
-		if (json.CheckKeyExists(COUNTRY_KEY) && json.GetType(COUNTRY_KEY).compareTo(STRING_TYPE) == 0) {
-			sThis.mCountryCode = (String)json.GetValue(COUNTRY_KEY);
-		}
-		if (json.CheckKeyExists(SENT_SNAPS_KEY) && json.GetType(SENT_SNAPS_KEY).compareTo(FLOAT_TYPE) == 0) {
-			sThis.mSentSnaps = ((Float)json.GetValue(SENT_SNAPS_KEY)).intValue();
-		}
-		if (json.CheckKeyExists(DEVICE_KEY) && json.GetType(DEVICE_KEY).compareTo(STRING_TYPE) == 0) {
-			sThis.mDeviceToken = (String)json.GetValue(DEVICE_KEY);
-		}
-		if (json.CheckKeyExists(EMAIL_KEY) && json.GetType(EMAIL_KEY).compareTo(STRING_TYPE) == 0) {
-			sThis.mEmail = (String)json.GetValue(EMAIL_KEY);
-		}
-		sThis.mLastUpdate = System.currentTimeMillis();
-		/*
-		if (json.CheckKeyExists(LAST_UPDATE_KEY) && json.GetType(LAST_UPDATE_KEY).compareTo(FLOAT_TYPE) == 0) {
-			sThis._lastUpdate = ((Float)json.GetValue(LAST_UPDATE_KEY)).longValue();
-		}
-		*/
-		if (json.CheckKeyExists(MOBILE_VERI_KEY) && json.GetType(MOBILE_VERI_KEY).compareTo(STRING_TYPE) == 0) {
-			sThis.mMobileVerification = (String)json.GetValue(MOBILE_VERI_KEY);
-		}
-		if (json.CheckKeyExists(MOBILE_NUM_KEY) && json.GetType(MOBILE_NUM_KEY).compareTo(STRING_TYPE) == 0) {
-			sThis.mMobileNumber = (String)json.GetValue(MOBILE_NUM_KEY);
-		}
-		
-		return sThis.write(ctxt);
+		sInstance = new Statistics();
+		return sInstance.read(ctxt);
 	}
 
-    public static int Sync(ServerResponse response, Context context) {
-        sThis = new Statistics();
+    public static int sync(ServerResponse response, Context context) {
+        sInstance = new Statistics();
 
-        sThis.mSnapPhoneNumber = response.snapchat_phone_number;
-        sThis.mReceivedSnaps = response.received;
-        sThis.mSentSnaps = response.sent;
-        sThis.mDeviceToken = response.device_token;
-        sThis.mEmail = response.email;
-        sThis.mLastUpdate = System.currentTimeMillis();
-        sThis.mLastUpdate = response.last_updated;
-        sThis.mMobileVerification = response.mobile_verification_key;
-        sThis.mMobileNumber = response.mobile;
-        sThis.mCountryCode = response.country_code;
+        sInstance.mSnapPhoneNumber = response.snapchat_phone_number;
+        sInstance.mReceivedSnaps = response.received;
+        sInstance.mSentSnaps = response.sent;
+        sInstance.mDeviceToken = response.device_token;
+        sInstance.mEmail = response.email;
+        sInstance.mLastUpdate = System.currentTimeMillis();
+        sInstance.mLastUpdate = response.last_updated;
+        sInstance.mMobileVerification = response.mobile_verification_key;
+        sInstance.mMobileNumber = response.mobile;
+        sInstance.mCountryCode = response.country_code;
         
-        return sThis.write(context);
+        return sInstance.write(context);
     }
-	
-	/**
-	 * Get the SnapChat phone number
-	 * @return The string of the phone number
-	 */
-	public static String getSnapPhoneNo() {
-		return sThis.mSnapPhoneNumber;
-	}
-	
-	/**
-	 * Get the number of received snaps
-	 * @return The number of received snaps
-	 */
-	public static int getReceivedSnaps() {
-		return sThis.mReceivedSnaps;
-	}
-	
-	/**
-	 * Get the country code of the user
-	 * @return A short string version of the user's country code, e.g. 'AU'
-	 */
-	public static String getCountryCode() {
-		return sThis.mCountryCode;
-	}
-	
-	/**
-	 * Get the number of sent snaps by the user
-	 * @return The number of sent snaps
-	 */
-	public static int getSentSnaps() {
-		return sThis.mSentSnaps;
-	}
-	
-	/**
-	 * Get the special device token of the user's phone
-	 * @return The string token
-	 */
-	public static String getDeviceToken() {
-		return sThis.mDeviceToken;
-	}
-	
-	/**
-	 * Get the user's email address
-	 * @return An email address
-	 */
-	public static String getEmail() {
-		return sThis.mEmail;
-	}
-	
-	/**
-	 * Get the timestamp of the last update
-	 * @return The time of the last update in milliseconds since the epoch
-	 */
-	public static long getLastUpdate() {
-		return sThis.mLastUpdate;
-	}
-	
-	/**
-	 * Get the mobile verification key
-	 * @return A mobile verification key string
-	 */
-	public static String getMobileVerification() {
-		return sThis.mMobileVerification;
-	}
-	
-	/**
-	 * Get the user's mobile phone number
-	 * @return A string of the phone number
-	 */
-	public static String getMobileNo() {
-		return sThis.mMobileNumber;
-	}
 	
 	private Statistics() {}
 	
@@ -230,6 +81,78 @@ public class Statistics {
 	private long mLastUpdate;
 	private String mMobileVerification;
 	private String mMobileNumber;
+
+    /**
+     * Get the SnapChat phone number
+     * @return The string of the phone number
+     */
+    public String getSnapPhoneNo() {
+        return mSnapPhoneNumber;
+    }
+
+    /**
+     * Get the number of received snaps
+     * @return The number of received snaps
+     */
+    public int getReceivedSnaps() {
+        return mReceivedSnaps;
+    }
+
+    /**
+     * Get the country code of the user
+     * @return A short string version of the user's country code, e.g. 'AU'
+     */
+    public String getCountryCode() {
+        return mCountryCode;
+    }
+
+    /**
+     * Get the number of sent snaps by the user
+     * @return The number of sent snaps
+     */
+    public int getSentSnaps() {
+        return mSentSnaps;
+    }
+
+    /**
+     * Get the special device token of the user's phone
+     * @return The string token
+     */
+    public String getDeviceToken() {
+        return mDeviceToken;
+    }
+
+    /**
+     * Get the user's email address
+     * @return An email address
+     */
+    public String getEmail() {
+        return mEmail;
+    }
+
+    /**
+     * Get the timestamp of the last update
+     * @return The time of the last update in milliseconds since the epoch
+     */
+    public long getLastUpdate() {
+        return mLastUpdate;
+    }
+
+    /**
+     * Get the mobile verification key
+     * @return A mobile verification key string
+     */
+    public String getMobileVerification() {
+        return mMobileVerification;
+    }
+
+    /**
+     * Get the user's mobile phone number
+     * @return A string of the phone number
+     */
+    public String getMobileNo() {
+        return mMobileNumber;
+    }
 	
 	/**
 	 * Write the stats from file
