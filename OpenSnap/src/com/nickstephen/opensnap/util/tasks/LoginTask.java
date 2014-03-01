@@ -84,9 +84,9 @@ public class LoginTask extends BaseRequestTask {
             mError = true;
         }
 
-        mNewSnaps = LocalSnaps.sync(new LocalSnaps(response.snaps));
+        mNewSnaps = LocalSnaps.getInstanceUnsafe().sync(new LocalSnaps(response.snaps));
         try {
-            LocalSnaps.writeToFile(mContext);
+            LocalSnaps.getInstanceUnsafe().serialiseToFile(mContext);
         } catch (Exception e) {
             Twig.printStackTrace(e);
             mError = true;
@@ -131,7 +131,7 @@ public class LoginTask extends BaseRequestTask {
                 }
             }
 
-            if (LocalSnaps.getNumberOfSnaps() >= SettingsAccessor.getCloudSnapListSize(mContext) && LocalSnaps.shouldClear()) {
+            if (LocalSnaps.getInstanceUnsafe().getNumberOfSnaps() >= SettingsAccessor.getCloudSnapListSize(mContext) && LocalSnaps.getInstanceUnsafe().shouldClear()) {
                 new ClearFeedTask(mContext, GlobalVars.getUsername(mContext)).execute();
             }
             if (mIsUserRun) {

@@ -48,7 +48,7 @@ public class OpenSnapTask extends BaseRequestTask {
 	protected void onSuccess(ServerResponse response) {
 		mUpdateSnap.setOpened();
 		try {
-			LocalSnaps.writeToFile(mContext);
+			LocalSnaps.getInstanceUnsafe().serialiseToFile(mContext);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

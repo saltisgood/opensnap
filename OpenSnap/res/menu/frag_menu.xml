@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android" 
-    xmlns:opensnap="http://schemas.android.com/apk/res-auto" >
+<menu xmlns:android="http://schemas.android.com/apk/res/android"  >
     
 
 
@@ -17,9 +16,14 @@
         android:orderInCategory="3"
         android:showAsAction="ifRoom" />
     <item
+        android:id="@+id/add_friend"
+        android:title="@string/add_friends"
+        android:orderInCategory="4"
+        android:showAsAction="ifRoom" />
+    <item
         android:id="@+id/purchase_premium"
         android:title="@string/purchase_premium_menu"
-        android:orderInCategory="4"
+        android:orderInCategory="7"
         android:showAsAction="ifRoom" />
     <item
         android:id="@+id/clear_feed_menu"

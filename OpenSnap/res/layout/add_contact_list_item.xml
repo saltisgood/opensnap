@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="?android:listPreferredItemHeight"
+    android:minHeight="?android:listPreferredItemHeight">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/contact_name"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:layout_margin="6dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/contact_number"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:layout_below="@+id/contact_name"
+        android:layout_marginLeft="18dp" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/add_friend_button"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_margin="6dp"
+        android:text="+"
+        android:textAppearance="?android:textAppearanceLarge"/>
+
+</RelativeLayout>

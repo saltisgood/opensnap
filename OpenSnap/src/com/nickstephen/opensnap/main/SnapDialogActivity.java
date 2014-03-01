@@ -73,7 +73,7 @@ public class SnapDialogActivity extends Activity {
 			this.finish();
 		}
 		
-		mSnap = LocalSnaps.getSnapAt(snapno);
+		mSnap = LocalSnaps.getInstanceUnsafe().getSnapAt(snapno);
 		
 		mSnapTime = mSnap.getDisplayTime();
 		mIsPhoto = mSnap.isPhoto();

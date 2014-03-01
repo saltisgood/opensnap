@@ -43,6 +43,7 @@ import com.nickstephen.opensnap.gui.Theme;
 import com.nickstephen.opensnap.preview.MediaPreview;
 import com.nickstephen.opensnap.preview.VideoPreview;
 import com.nickstephen.opensnap.settings.SettingsAccessor;
+import com.nickstephen.opensnap.util.tasks.IOnObjectReady;
 import com.nickstephen.opensnap.util.tasks.LazyImageLoader;
 import com.nickstephen.opensnap.util.tasks.OpenSnapTask;
 
@@ -51,9 +52,9 @@ import com.nickstephen.opensnap.util.tasks.OpenSnapTask;
  * the user and another contact in a thread.
  * @author Nick Stephen (a.k.a. saltisgood)
  */
-public class SnapThreadListFrag extends ListFragment {
+public class SnapThreadListFrag extends ListFragment implements IOnObjectReady<LocalSnaps> {
 	/**
-	 * The TAG of this {@link Fragment} that is used for querying {@link FragmentManager} and stuff 
+	 * The TAG of this {@link org.holoeverywhere.app.ListFragment} that is used for querying {@link FragmentManager} and stuff
 	 */
 	public static final String FRAGTAG = "SnapThreadListFrag";
 	
@@ -64,19 +65,14 @@ public class SnapThreadListFrag extends ListFragment {
 	private Theme mTheme;
 	private SoftReference<BitmapDrawable> mBackgroundDrawable;
 	
-	public SnapThreadListFrag() {}
-	
 	@SuppressWarnings("deprecation")
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup root, Bundle savedInstanceState) {
 		setFocused(true);
 		
 		ListView v = (ListView)inflater.inflate(R.layout.contact_list, root, false);
-		if (LocalSnaps.init(this.getActivity())) {
-			this.setListAdapter(new SnapThreadAdapter(this.getActivity(), R.layout.contact_thread_sent, LocalSnaps.getContactSnaps(getUser())));
-		} else {
-			StatMethods.hotBread(this.getActivity(), "Error initialising snap list", Toast.LENGTH_LONG);
-		}
+
+        LocalSnaps.getInstanceSafe(this);
 		
 		switch (mTheme = SettingsAccessor.getThemePref(this.getActivity())) {
 		case ori:
@@ -114,8 +110,13 @@ public class SnapThreadListFrag extends ListFragment {
 		}
 		return mUsername;
 	}
-	
-	/**
+
+    @Override
+    public void objectReady(LocalSnaps obj) {
+        this.setListAdapter(new SnapThreadAdapter(this.getActivity(), R.layout.contact_thread_sent, obj.getContactSnaps(getUser())));
+    }
+
+    /**
 	 * An extension to {@link ArrayAdapter} that interfaces with a list of {@link LocalSnaps.LocalSnap}
 	 * to provide a list of items to the {@link SnapThreadListFrag}
 	 * @author Nick Stephen (a.k.a. saltisgood)
@@ -139,7 +140,7 @@ public class SnapThreadListFrag extends ListFragment {
 		@Override
 		public View getView(int viewPosition, View convertView, ViewGroup parent) {
 			if (mSnaps == null) {
-				mSnaps = LocalSnaps.getContactSnaps(SnapThreadListFrag.this.getUser());
+				mSnaps = LocalSnaps.getInstanceUnsafe().getContactSnaps(SnapThreadListFrag.this.getUser());
 			}
 			if (mInflater == null) {
 				mInflater = (LayoutInflater)SnapThreadListFrag.this.getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -320,7 +321,7 @@ public class SnapThreadListFrag extends ListFragment {
 				@Override
 				public void onClick(View arg0) {
 					if (mSnaps == null) {
-						mSnaps = LocalSnaps.getContactSnaps(SnapThreadListFrag.this.getUser());
+						mSnaps = LocalSnaps.getInstanceUnsafe().getContactSnaps(SnapThreadListFrag.this.getUser());
 					}
 					
 					LocalSnap snap = mSnaps.get(position);

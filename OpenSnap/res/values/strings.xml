@@ -156,6 +156,7 @@
     <string name="tut_contactselect">Tap on a contact to send to one person\n\nTick the boxes to
         select multiple recipients\n\nAfter selecting contacts, long click button to save for later</string>
     <string name="play_supported_key">play_supported_key</string>
+    <string name="add_friends">Add Friends</string>
 
     <string name="vid_low">Low Quality</string>
     <string name="vid_hi">High Quality</string>
@@ -238,6 +239,11 @@
         <item>Delete</item>
         <item>Block</item>
         <item>Cancel</item>
+    </string-array>
+
+    <string-array name="add_friend_options_dialog">
+        <item>From Phone Contacts</item>
+        <item>By SnapChat Username</item>
     </string-array>
 
     <string name="title_activity_dialog">DialogActivity</string>

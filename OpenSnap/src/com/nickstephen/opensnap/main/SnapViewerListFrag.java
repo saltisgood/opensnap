@@ -3,7 +3,6 @@ package com.nickstephen.opensnap.main;
 import java.io.File;
 import java.io.IOException;
 import java.lang.ref.SoftReference;
-import java.util.List;
 
 import org.holoeverywhere.LayoutInflater;
 import org.holoeverywhere.app.ListFragment;
@@ -50,6 +49,8 @@ import com.nickstephen.opensnap.settings.SettingsAccessor;
 import com.nickstephen.opensnap.util.Broadcast;
 import com.nickstephen.opensnap.util.IRefresh;
 import com.nickstephen.opensnap.util.notify.Notifications;
+import com.nickstephen.opensnap.util.tasks.GetStoriesTask;
+import com.nickstephen.opensnap.util.tasks.IOnObjectReady;
 import com.nickstephen.opensnap.util.tasks.OpenSnapTask;
 import com.nickstephen.opensnap.util.tasks.SnapDownload;
 import com.nickstephen.opensnap.util.tasks.SnapUpload;
@@ -66,7 +67,7 @@ import uk.co.senab.actionbarpulltorefresh.library.listeners.OnRefreshListener;
  * can then be clicked on to view more detailed stuff
  * @author Nick Stephen (a.k.a. saltisgood)
  */
-public class SnapViewerListFrag extends ListFragment implements IRefresh {
+public class SnapViewerListFrag extends ListFragment implements IRefresh, IOnObjectReady<LocalSnaps> {
 	public static final String FRAGTAG = "SnapViewerListFrag";
 	
 	private static final int RETURN_AND_DELETE = 0x100;
@@ -113,17 +114,18 @@ public class SnapViewerListFrag extends ListFragment implements IRefresh {
                         if (StatMethods.isNetworkAvailable(SnapViewerListFrag.this.getActivity(), true)) {
                             new UpdateTask(SnapViewerListFrag.this.getSupportApplication(),
                                     GlobalVars.getUsername(SnapViewerListFrag.this.getActivity()))
-                                        .execute();
+                                    .execute();
+                            new GetStoriesTask(SnapViewerListFrag.this.getActivity(),
+                                    GlobalVars.getUsername(SnapViewerListFrag.this.getActivity()))
+                                    .execute();
+                        } else {
+                            onUpdateComplete();
                         }
                     }
                 })
                 .setup(mPTRLayout);
 
-        if (LocalSnaps.init(this.getActivity())) {
-            this.setListAdapter(new SnapViewListAdapter(this.getActivity()));
-        } else {
-            StatMethods.hotBread(this.getActivity(), "Error initialising the snap list", Toast.LENGTH_LONG);
-        }
+        LocalSnaps.getInstanceSafe(this);
 
         this.setRetainInstance(true);
 
@@ -174,7 +176,7 @@ public class SnapViewerListFrag extends ListFragment implements IRefresh {
                 } else {
                     final LocalSnap snap = (LocalSnap) obj;
                     int pos = (Integer) view.getTag(R.id.snap_item_position);
-                    if (LocalSnaps.getSnapId(pos).compareTo(snap.getSnapId()) != 0) {
+                    if (LocalSnaps.getInstanceUnsafe().getSnapID(pos).compareTo(snap.getSnapId()) != 0) {
                         refreshList();
                     } else {
                         Intent intent = new Intent(SnapViewerListFrag.this.getActivity(), SnapDialogActivity.class);
@@ -188,7 +190,7 @@ public class SnapViewerListFrag extends ListFragment implements IRefresh {
     }
 
 	private void localSnapListClick(int snapId, View view) {
-		LocalSnap snap = LocalSnaps.getSnapAt(snapId);
+		LocalSnap snap = LocalSnaps.getInstanceUnsafe().getSnapAt(snapId);
 		boolean allowSaves = SettingsAccessor.getAllowSaves(this.getActivity()), isPhoto = snap.isPhoto(),
 			isOpened = snap.isOpened();
 		String path;
@@ -214,8 +216,8 @@ public class SnapViewerListFrag extends ListFragment implements IRefresh {
 				} else {
 					// Want internal opening
 					viewIntent = isPhoto ? new Intent(this.getActivity(), MediaPreview.class) : new Intent(this.getActivity(), VideoPreview.class);
-					if (SettingsAccessor.getSnapTiming(this.getActivity()) && LocalSnaps.hasDisplayTime(snapId)) {
-						viewIntent.putExtra(PreviewConstants.TIME_KEY, LocalSnaps.getDisplayTime(snapId));
+					if (SettingsAccessor.getSnapTiming(this.getActivity()) && LocalSnaps.getInstanceUnsafe().hasDisplayTime(snapId)) {
+						viewIntent.putExtra(PreviewConstants.TIME_KEY, LocalSnaps.getInstanceUnsafe().getDisplayTime(snapId));
 					}
 					String caption;
 					if (!StatMethods.IsStringNullOrEmpty((caption = snap.getCaption()))) {
@@ -468,8 +470,13 @@ public class SnapViewerListFrag extends ListFragment implements IRefresh {
 
         refresh();
     }
-	
-	/**
+
+    @Override
+    public void objectReady(LocalSnaps obj) {
+        this.setListAdapter(new SnapViewListAdapter(this.getActivity()));
+    }
+
+    /**
 	 * An extension to {@link ArrayAdapter} that feeds mSnaps to a list view
 	 * @author Nick Stephen (a.k.a. saltisgood)
 	 */
@@ -483,7 +490,7 @@ public class SnapViewerListFrag extends ListFragment implements IRefresh {
 
 		@Override
 		public int getCount() {
-			int maxCount = TempSnaps.getCount() + LocalSnaps.getNumberOfSnaps();
+			int maxCount = TempSnaps.getCount() + LocalSnaps.getInstanceUnsafe().getNumberOfSnaps();
 			return (mMaxListSize > maxCount) ? maxCount : mMaxListSize;
 		}
 
@@ -498,7 +505,7 @@ public class SnapViewerListFrag extends ListFragment implements IRefresh {
 			
 			TextView userText, descText;
 			
-			if (position == (getCount() - 1) && (position < TempSnaps.getCount() + LocalSnaps.getNumberOfSnaps() - 1)) {
+			if (position == (getCount() - 1) && (position < TempSnaps.getCount() + LocalSnaps.getInstanceUnsafe().getNumberOfSnaps() - 1)) {
 				v = mInflater.inflate(R.layout.list_footer_button);
 				v.setOnClickListener(new View.OnClickListener() {
 					@Override
@@ -513,7 +520,7 @@ public class SnapViewerListFrag extends ListFragment implements IRefresh {
 			
 			if (position >= (TempSnaps.getCount())) {
 				position -= TempSnaps.getCount();
-				LocalSnap snap = LocalSnaps.getSnapAt(position);
+				LocalSnap snap = LocalSnaps.getInstanceUnsafe().getSnapAt(position);
 
                 if (!snap.getSent() && !snap.wasOpened()) {
                     v = mInflater.inflate(R.layout.snap_text_unseen);

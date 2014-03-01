@@ -62,7 +62,7 @@ public class UpdateTask extends LoginTask {
                 }
             }
 
-            if (LocalSnaps.getNumberOfSnaps() >= SettingsAccessor.getCloudSnapListSize(mContext) && LocalSnaps.shouldClear()) {
+            if (LocalSnaps.getInstanceUnsafe().getNumberOfSnaps() >= SettingsAccessor.getCloudSnapListSize(mContext) && LocalSnaps.getInstanceUnsafe().shouldClear()) {
                 new ClearFeedTask(mContext, GlobalVars.getUsername(mContext)).execute();
             }
         }

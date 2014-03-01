@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.holoeverywhere.app.Activity;
+import org.holoeverywhere.app.AlertDialog;
 import org.holoeverywhere.app.Fragment;
 import org.holoeverywhere.app.ListFragment;
 import org.holoeverywhere.preference.SharedPreferences;
@@ -63,6 +64,7 @@ import com.nickstephen.opensnap.global.Contacts;
 import com.nickstephen.opensnap.global.GlobalVars;
 import com.nickstephen.opensnap.global.LocalSnaps;
 import com.nickstephen.opensnap.global.Statistics;
+import com.nickstephen.opensnap.global.Stories;
 import com.nickstephen.opensnap.global.TempSnaps;
 import com.nickstephen.opensnap.gui.SnapEditorBaseFrag;
 import com.nickstephen.opensnap.main.tuts.TutorialMainFrag;
@@ -80,6 +82,7 @@ import com.nickstephen.opensnap.util.misc.CustomJSON;
 import com.nickstephen.opensnap.util.misc.FileIO;
 import com.nickstephen.opensnap.util.play.SKU;
 import com.nickstephen.opensnap.util.tasks.ClearFeedTask;
+import com.nickstephen.opensnap.util.tasks.LoadFiles;
 import com.nickstephen.opensnap.util.tasks.LoginTask;
 import com.nickstephen.opensnap.util.tasks.LogoutTask;
 import com.nickstephen.opensnap.util.tasks.UpdateTask;
@@ -158,9 +161,12 @@ public class LaunchActivity extends Activity {
 		if (!Contacts.init(this)) {
 			StatMethods.hotBread(this, "Error initialising Contacts", Toast.LENGTH_SHORT);
 		}
-		if (!LocalSnaps.init(this)) {
+
+        new LoadFiles(this).execute();
+
+		/* if (!LocalSnaps.init(this)) {
 			StatMethods.hotBread(this, "Error initialising snaps", Toast.LENGTH_SHORT);
-		}
+		} */
 
         int err;
 		if ((err = Statistics.Init(this)) < 0) {
@@ -169,6 +175,8 @@ public class LaunchActivity extends Activity {
 		}
 		
 		TempSnaps.init(this);
+
+        Stories.init(this);
 		
 		if (GlobalVars.isLoggedIn(this) && StatMethods.isNetworkAvailable(this, false)) {
 			new SnapGCMRegistrar(this.getApplicationContext()).setupGoogleCloudManager(false);
@@ -286,6 +294,34 @@ public class LaunchActivity extends Activity {
                         .add(R.id.launch_container, new TutorialMainFrag(), TutorialMainFrag.FRAG_TAG)
                         .addToBackStack(TutorialRootFrag.FRAG_TAG)
                         .commit();
+                return true;
+            case R.id.add_friend:
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setItems(R.array.add_friend_options_dialog, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        switch (which) {
+                            case 0: // From Phone Contacts
+                                LaunchActivity.this.getSupportFragmentManager().beginTransaction()
+                                        .setCustomAnimations(R.anim.push_down_in, R.anim.push_down_out, R.anim.push_up_in, R.anim.push_up_out)
+                                        .replace(R.id.launch_container, new FindContactsListFrag(), FindContactsListFrag.FRAG_TAG)
+                                        .addToBackStack(null).commit();
+                                break;
+                            case 1: // By Username
+                                //TODO: Implement this
+                                break;
+                        }
+                    }
+                })
+                        .setTitle("Add a Friend")
+                        .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.cancel();
+                            }
+                        })
+                        .create().show();
+
                 return true;
 			default:
 				return super.onOptionsItemSelected(item);

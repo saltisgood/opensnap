@@ -7,6 +7,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
@@ -17,12 +18,15 @@ import android.content.Context;
 import android.os.Environment;
 import android.text.format.DateUtils;
 
+import com.nickstephen.lib.Twig;
 import com.nickstephen.lib.misc.BitConverter;
 import com.nickstephen.lib.misc.StatMethods;
 import com.nickstephen.opensnap.settings.SettingsAccessor;
+import com.nickstephen.opensnap.util.Broadcast;
 import com.nickstephen.opensnap.util.http.ServerSnap;
 import com.nickstephen.opensnap.util.misc.CameraUtil;
 import com.nickstephen.opensnap.util.misc.CustomJSON;
+import com.nickstephen.opensnap.util.tasks.IOnObjectReady;
 
 /**
  * The class that holds the data on all the mSnaps. Everything is controlled statically
@@ -50,193 +54,22 @@ public class LocalSnaps {
 	 * The private static instance of this class
 	 * (Yeah I know it's a conflict of terms but THAT'S WHAT IT IS)
 	 */
-	private static LocalSnaps This;
+	private static LocalSnaps sInstance;
+
+    public static LocalSnaps getInstanceUnsafe() {
+        return sInstance;
+    }
+
+    public static void getInstanceSafe(IOnObjectReady<LocalSnaps> waiter) {
+        Broadcast.waitForSnaps(waiter);
+    }
 	
 	/**
-	 * Check whether the static instance {@link #This} has been initialised
+	 * Check whether the static instance {@link #sInstance} has been initialised
 	 * @return True if it is instantiated, false otherwise
 	 */
-	public static Boolean checkInit() {
-		return This != null;
-	}
-	
-	public static float getCaptionLocation(int position) {
-		return This.Snaps.get(position).captionLocation;
-	}
-	
-	public static int getCaptionOrientation(int position) {
-		return This.Snaps.get(position).captionOrientation;
-	}
-	
-	public static String getCaptionText(int position) {
-		return This.Snaps.get(position).captionText;
-	}
-	
-	/**
-	 * Get a list of snaps from a certain contact
-	 * @param username The username to search for
-	 * @return A list of snaps
-	 */
-	public static List<LocalSnaps.LocalSnap> getContactSnaps(String username) {
-		List<LocalSnaps.LocalSnap> snaps = new ArrayList<LocalSnaps.LocalSnap>();
-		for (LocalSnaps.LocalSnap snap : This.Snaps) {
-			if ((snap.IO == IOType.SENT && snap.Recipient.compareTo(username) == 0) || 
-					(snap.IO == IOType.RECEIVED && snap.Sender.compareTo(username) == 0)) {
-				snaps.add(snap);
-			}
-		}
-		return snaps;
-	}
-	
-	/**
-	 * Get the time that a snap should be displayed at some position in the list.
-	 * @param position The position of the snap in the list.
-	 * @return The display time of the snap in seconds
-	 */
-	public static int getDisplayTime(int position) {
-		return This.getDisplayTimeThis(position);
-	}
-	
-	public static int getDownloadProgress(int position) {
-		return This.Snaps.get(position).progressPercentage;
-	}
-	
-	/**
-	 * Get the display name of the snap's recipient, or the username if that doesn't
-	 * exist. This is only valid if the snap was sent.
-	 * @param position The snap's position in the list
-	 * @return The display or username of the recipient
-	 */
-	public static String getFriendlyRecipName(int position) {
-		return This.getFriendlyRecipNameThis(position);
-	}
-	
-	/**
-	 * Get the display name of the snap's sender, or the username if that doesn't
-	 * exist. This is only valid if the snap was received.
-	 * @param position The snap's position in the list
-	 * @return The display or username of the sender
-	 */
-	public static String getFriendlySenderName(int position) {
-		return This.getFriendlySenderNameThis(position);
-	}
-	
-	public static int getNumberOfSnaps() {
-		return This.Snaps.size();
-	}
-	
-	/**
-	 * Get a human readable sent timestamp of a snap at some position
-	 * @param position The position of the snap in the list
-	 * @return The timestamp
-	 */
-	public static String getReadableSentTimeStamp(int position) {
-		return This.getReadableSentTimeStampThis(position);
-	}
-	
-	/**
-	 * Get whether the snap at a certain position was sent or received
-	 * @param position The snap's position in the list
-	 * @return True if it was sent, false otherwise
-	 */
-	public static boolean getSent(int position) {
-		return This.getSentThis(position);
-	}
-	
-	/**
-	 * Get the sent timestamp of a snap at some position
-	 * @param position The position of the snap in the snaplist
-	 * @return The timestamp in milliseconds since the epoch
-	 */
-	public static long getSentTimeStamp(int position) {
-		return This.getSentTimeStampThis(position);
-	}
-	
-	public static LocalSnap getSnapAt(int position) {
-		return This.Snaps.get(position);
-	}
-	
-	/**
-	 * Gets whether the snap is likely to be able to be downloaded. This means it was not sent 
-	 * by the user and is either in the sent or delivered state.
-	 * @param position
-	 * @return
-	 */
-	public static boolean getSnapAvailable(int position) {
-		return This.getSnapAvailableThis(position);
-	}
-	
-	/**
-	 * Get whether the snap exists locally
-	 * @param position The snap's position in the list
-	 * @param ctxt A context
-	 * @return True if the snap exists on file, false if it doesn't
-	 */
-	/* public static boolean getSnapExists(int position) {
-		try {
-			File imgFile = new File(LocalSnaps.getSnapPath(position));
-			if (imgFile.exists())
-				return true;
-			return false;
-		} catch (IOException e) {
-			e.printStackTrace();
-			return false;
-		}
-	} */
-	
-	/**
-	 * Get the snap ID
-	 * @param position The snap's position in the list
-	 * @return The snap ID
-	 */
-	public static String getSnapId(int position) {
-		return This.getSnapIDThis(position);
-	}
-	
-	/**
-	 * Gets the local path of a snap at a certain position. See the local version for 
-	 * more detailed information.
-	 * @param position The position of the snap in the list
-	 * @param ctxt A context
-	 * @return The absolute path to the snap
-	 * @throws IOException Rethrown exception
-	 */
-	/* public static String getSnapPath(int position) throws IOException {
-		return This.getSnapPathThis(position);
-	} */
-	
-	/**
-	 * Get the general timestamp of a snap at some position 
-	 * @param position The position of the snap in the snap list
-	 * @return The timestamp in milliseconds since the epoch
-	 */
-	public static long getTimeStamp(int position) {
-		return This.getTimeStampThis(position);
-	}
-	
-	public static int getUnseenSnaps() {
-		int count = 0;
-		
-		for (LocalSnap snap : This.Snaps) {
-			if (snap.inCloud && snap.IO == IOType.RECEIVED && (snap.State == SnapStatus.DELIVERED || snap.State == SnapStatus.SENT)) {
-				count++;
-			}
-		}
-		
-		return count;
-	}
-	
-	public static boolean hasCaption(int position) {
-		return !StatMethods.IsStringNullOrEmpty(This.Snaps.get(position).captionText);
-	}
-	
-	/**
-	 * Get whether a snap in the list has a display time
-	 * @param position The position of the snap in the list
-	 * @return True if the snap has a display time
-	 */
-	public static boolean hasDisplayTime(int position) {
-		return This.hasDisplayTimeThis(position);
+	public static boolean checkInit() {
+		return sInstance != null;
 	}
 	
 	/**
@@ -245,242 +78,42 @@ public class LocalSnaps {
 	 * @param ctxt A context
 	 * @return True on a successful initialisation, false if an error occurred.
 	 */
-	public static Boolean init(Context ctxt) {
-		if (This != null)
+	public static boolean init(Context ctxt) {
+		if (sInstance != null)
 			return true;
 		
 		try {
-			This = new LocalSnaps(ctxt); 
+			sInstance = new LocalSnaps(ctxt);
 		} catch (FileNotFoundException e) {
-			This = new LocalSnaps();
+			sInstance = new LocalSnaps();
 		} catch (Exception e) {
 			e.printStackTrace();
-			This = new LocalSnaps();
+			sInstance = new LocalSnaps();
 			return false;
 		}
 		return true;
-	}
-	
-	/**
-	 * Get whether the snap is in the delivered state. Note that this is ONLY the 
-	 * delivered state. An opened state will return false from this. Could be modified 
-	 * later to rectify this if necessary.
-	 * @param position The position of the snap in the list
-	 * @return True if the snap is currently in the delivered state, false otherwise
-	 */
-	public static boolean isDelivered(int position) {
-		return This.isDeliveredThis(position);
-	}
-	
-	/**
-	 * Get whether the snap is currently in a downloading state
-	 * @param position The position of the snap in the list
-	 * @return True if the snap is currently downloading, false otherwise
-	 */
-	public static boolean isDownloading(int position) {
-		return This.Snaps.get(position).isDownloading();
-	}
-	
-	/**
-	 * Get whether the snap is in an error state
-	 * @param position The position of the snap in the list
-	 * @return True if the snap has encountered an error, false otherwise
-	 */
-	public static boolean isError(int position) {
-		return This.Snaps.get(position).isError();
-	}
-	
-	/**
-	 * Get whether the snap is in the opened state. Note that this is ONLY the opened 
-	 * state. A screenshotted state will return false from this. Could be modified 
-	 * later to rectify this if necessary.
-	 * @param position The position of the snap in the list
-	 * @return True if the snap is currently in the opened state, false otherwise
-	 */
-	public static boolean isOpened(int position) {
-		return This.isOpenedThis(position);
-	}
-	
-	/**
-	 * Get whether the snap is a photo. Only true for the exact photo type for now.
-	 * @param position The position of the snap in the list
-	 * @return True if the snap is a photo, false otherwise
-	 */
-	public static boolean isPhoto(int position) {
-		return This.isPhotoThis(position);
-	}
-	
-	/**
-	 * Get whether the snap is currently in the sent state. Note that this is mutually 
-	 * exclusive to all the other states and this is NOT whether the user actually 
-	 * sent this snap. Should probably not occur in OpenSnap currently.
-	 * @param position The position of the snap in the list
-	 * @return True if the snap is currently in the sent state, false otherwise
-	 */
-	public static boolean isSent(int position) {
-		return This.isSentThis(position);
-	}
-	
-	/**
-	 * Get whether the snap is a video. This includes both the standard video and
-	 * the VIDEO_NOAUDIO type.
-	 * @param position The position of the snap in the list
-	 * @return True if the snap is a video, false otherwise
-	 */
-	public static boolean isVideo(int position) {
-		return This.isVideoThis(position);
-	}
-	
-	/**
-	 * Return the number of snaps in the cloud
-	 * @return The number of snaps in the cloud feed since the last update
-	 */
-	public static int numCloud() {
-		for (int i = 0; i < This.Snaps.size(); i++) {
-			if (!This.Snaps.get(i).inCloud) {
-				return i;
-			}
-		}
-		return This.Snaps.size();
 	}
 	
 	public static void reset(Context ctxt) {
-		This = new LocalSnaps();
+		sInstance = new LocalSnaps();
 		try {
-			This.serialiseToFile(ctxt);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
-	
-	/**
-	 * Set the downloading state of a given snap in the list.
-	 * @param position The position of the snap in the list
-	 * @param val True if the snap is downloading, false otherwise
-	 */
-	public static void setDownloading(int position, boolean val) {
-		This.Snaps.get(position).isDownloading = val;
-	}
-	
-	public static void setDownloadProgress(int position, int percentage) {
-		This.Snaps.get(position).progressPercentage = percentage;
-	}
-	
-	/**
-	 * Set the error state of a given snap in the list
-	 * @param position The position of the snap in the list
-	 * @param val True if the snap has encountered an error, false otherwise
-	 */
-	public static void setError(int position, boolean val) {
-		This.Snaps.get(position).isError = val;
-	}
-	
-	/**
-	 * Set a snap at some position in the list to be opened by the user. Also saves to file 
-	 * at the same time.
-	 * @param position The position of the snap in the list
-	 */
-	public static void setOpened(int position, Context ctxt) {
-		This.Snaps.get(position).setOpened();
-		try {
-			This.serialiseToFile(ctxt);
+			sInstance.serialiseToFile(ctxt);
 		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-	
-	/**
-	 * Check whether the cloud snap feed should be cleared. This will return true if the first n
-	 * snaps have been opened and won't be affected by updates anymore.
-	 * @param numToCheck The number of snaps to back in the list
-	 * @return True if the cloud should be cleared, false otherwise
-	 */
-	public static boolean shouldClear() {
-		if (This.Snaps.size() == 0) {
-			return false;
-		}
-		
-		for (int i = 0; i < This.Snaps.size(); i++) {
-			LocalSnap snap;
-			if (!(snap = This.Snaps.get(i)).inCloud || snap.State != SnapStatus.OPENED) {
-				return false;
-			}
-		}
-		
-		return true;
-	}
-	
-	/**
-	 * Synchronise the local copy of snaps information with the version from the SnapChat servers.
-	 * Note that this doesn't delete items that are present locally but not remotely.
-	 * @param snaps The set of mSnaps from the remote server
-	 * @return The number of new snaps
-	 */
-	public static int sync(LocalSnaps snaps) {
-		for (LocalSnap snap : This.Snaps) {
-			snap.inCloud = false;
-		}
-		
-		int newsnaps = 0;
-		for (LocalSnaps.LocalSnap snap : snaps.Snaps) {
-			int pos;
-			if ((pos = This.snapIDExists(snap.SnapID)) != -1) {
-				This.update(pos, snap);
-			} else {
-				snap.inCloud = true;
-				This.Snaps.add(snap);
-				if (!snap.getSent() && snap.getSnapAvailable())
-					newsnaps++;
-			}
-		}
-		
-		This.sort();
-		return newsnaps;
-	}
-	
-	/**
-	 * Get the list of snaps in an array format
-	 * @return The array of snaps
-	 */
-	public static LocalSnap[] toArray() {
-		return This.Snaps.toArray(new LocalSnap[This.Snaps.size()]);
-	}
-	
-	/**
-	 * Get whether the snap at some position in the list has been opened by the recipient.
-	 * This is different to {@link #isOpened(int)} as it includes all opened and not 
-	 * opened states.
-	 * @param position The position of the snap in the list
-	 * @return True if the snap has been opened, false otherwise
-	 */
-	public static boolean wasOpened(int position) {
-		if (This.isSentThis(position) || This.isDeliveredThis(position))
-			return false;
-		return true;
-	}
-	
-	/**
-	 * The first step in writing the LocalSnaps instance to file. Calls instance and sub-methods.
-	 * @param ctxt A context
-	 * @throws Exception General exceptions from sub-methods
-	 * @see {@link #writeToFile(Context)}
-	 */
-	public static void writeToFile(Context ctxt) throws Exception {
-		This.serialiseToFile(ctxt);
+            Twig.printStackTrace(e);
+        }
 	}
 	
 	/**
 	 * The local list of mSnaps. Not accessible from outside the class.
 	 */
-	private List<LocalSnap> Snaps;
+	private List<LocalSnap> mSnaps;
 	
 	/**
 	 * The simplest constructor. Just instantiates the mSnaps list. I think this only
 	 * occurs when you generate the LocalSnaps for the first time.
 	 */
 	private LocalSnaps() {
-		Snaps = new ArrayList<LocalSnap>();
+		mSnaps = new ArrayList<LocalSnap>();
 	}
 	
 	/**
@@ -491,7 +124,7 @@ public class LocalSnaps {
 	 * @throws Exception Rethrown
 	 * @see {@link #readFromFile(Context)}
 	 */
-	private LocalSnaps(Context ctxt) throws FileNotFoundException, Exception {
+	private LocalSnaps(Context ctxt) throws Exception {
 		readFromFile(ctxt);
 	}
 	
@@ -504,7 +137,7 @@ public class LocalSnaps {
 		if (!json.CheckKeyExists(SNAP_KEY)) {
 			throw new JSONException("Snaps data missing in JSON");
 		} else if (json.GetType(SNAP_KEY).compareTo(EMPTY_SNAP_TYPE) == 0) {
-			Snaps = new ArrayList<LocalSnap>();
+			mSnaps = new ArrayList<LocalSnap>();
 			return;
 		} else if (json.GetType(SNAP_KEY).compareTo(SNAP_TYPE) != 0) {
 			throw new JSONException("Invalid snap data type in JSON");
@@ -512,10 +145,10 @@ public class LocalSnaps {
 		
 		@SuppressWarnings("unchecked")
 		List<CustomJSON.JSONNode> nodes = (List<CustomJSON.JSONNode>)json.GetValue(SNAP_KEY);
-		Snaps = new ArrayList<LocalSnap>();
+		mSnaps = new ArrayList<LocalSnap>();
 		for (CustomJSON.JSONNode node : nodes) {
 			try {
-				Snaps.add(new LocalSnap(node));
+				mSnaps.add(new LocalSnap(node));
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -523,10 +156,26 @@ public class LocalSnaps {
 	}
 
     public LocalSnaps(List<ServerSnap> snaps) {
-        Snaps = new ArrayList<LocalSnap>();
+        mSnaps = new ArrayList<LocalSnap>();
         for (ServerSnap snap : snaps) {
-            Snaps.add(new LocalSnap(snap));
+            mSnaps.add(new LocalSnap(snap));
         }
+    }
+
+    /**
+     * Get a list of snaps from a certain contact
+     * @param username The username to search for
+     * @return A list of snaps
+     */
+    public List<LocalSnaps.LocalSnap> getContactSnaps(String username) {
+        List<LocalSnaps.LocalSnap> snaps = new ArrayList<LocalSnaps.LocalSnap>();
+        for (LocalSnaps.LocalSnap snap : mSnaps) {
+            if ((snap.IO == IOType.SENT && snap.Recipient.compareTo(username) == 0) ||
+                    (snap.IO == IOType.RECEIVED && snap.Sender.compareTo(username) == 0)) {
+                snaps.add(snap);
+            }
+        }
+        return snaps;
     }
 	
 	/**
@@ -534,154 +183,46 @@ public class LocalSnaps {
 	* @param position The position of the snap in the list
 	* @return The time for the snap to be displayed in seconds
 	*/
-	private int getDisplayTimeThis(int position) {
-		return Snaps.get(position).getDisplayTime();
+	public int getDisplayTime(int position) {
+		return mSnaps.get(position).getDisplayTime();
 	}
-	
-	/**
-	 * Get the display name of the snap recipient, or the username if that fails.
-	 * @param position The snap's position in the list
-	 * @return The display or username of the recipient
-	 */
-	private String getFriendlyRecipNameThis(int position) {
-		return Snaps.get(position).getFriendlyRecipName();
-	}
-	
-	/**
-	 * Get the display name of the snap's sender, or the username if that fails
-	 * @param position The snap's position in the list
-	 * @return The display or username of the recipient
-	 */
-	private String getFriendlySenderNameThis(int position) {
-		return Snaps.get(position).getFriendlySenderName();
-	}
-	
-	/**
-	 * Get a human readable sent timestamp of the snap at some position
-	 * @param position The position of the snap in the list
-	 * @return The readable string timestamp
-	 */
-	private String getReadableSentTimeStampThis(int position) {
-		return Snaps.get(position).getReadableSentTimeStamp();
-	}
-	
-	/**
-	 * Get whether the snap at a certain position was sent or received
-	 * @param position The snap's position in the list
-	 * @return True if sent, false if received
-	 */
-	private boolean getSentThis(int position) {
-		return Snaps.get(position).getSent();
-	}
-	
-	/**
-	 * Get the sent time stamp at a certain position in milliseconds since the epoch
-	 * @param position The snap's position in the list
-	 * @return The timestamp
-	 */
-	private long getSentTimeStampThis(int position) {
-		return Snaps.get(position).getSentTimeStamp();
-	}
-	
-	/**
-	 * Gets whether the snap is likely to be able to be downloaded. This means it
-	 * was not sent by the user and is either in the sent or delivered state.
-	 * @param position The position of the snap in the list
-	 * @return True if the snap is probably able to be downloaded and false otherwise
-	 */
-	private boolean getSnapAvailableThis(int position) {
-		return Snaps.get(position).getSnapAvailable();
-	}
+
+    public int getNumberOfSnaps() {
+        return mSnaps.size();
+    }
+
+    public LocalSnap getSnapAt(int position) {
+        return mSnaps.get(position);
+    }
 	
 	/**
 	 * Get the snap id
 	 * @param position The position of the snap in the list
 	 * @return The snap id
 	 */
-	private String getSnapIDThis(int position) {
-		return Snaps.get(position).getSnapId();
+	public String getSnapID(int position) {
+		return mSnaps.get(position).getSnapId();
 	}
-	
-	/**
-	 * Gets the local path of a snap at a certain position. See the local version
-	 * for more detailed information.
-	 * @param position The position of the snap in the list
-	 * @param ctxt A context
-	 * @return The absolute snap path
-	 * @throws IOException Rethrown exception
-	 */
-	/* private String getSnapPathThis(int position) throws IOException {
-		return Snaps.get(position).getSnapPath();
-	} */
-	
-	/**
-	 * Get the primary time stamp at a certain position in milliseconds since the epoch
-	 * @param position The snap's position in the list
-	 * @return The timestamp
-	 */
-	private long getTimeStampThis(int position) {
-		return Snaps.get(position).getTimeStamp();
-	}
+
+    public int getUnseenSnaps() {
+        int count = 0;
+
+        for (LocalSnap snap : mSnaps) {
+            if (snap.inCloud && snap.IO == IOType.RECEIVED && (snap.State == SnapStatus.DELIVERED || snap.State == SnapStatus.SENT)) {
+                count++;
+            }
+        }
+
+        return count;
+    }
 	
 	/**
 	 * Get whether the snap has a display time
 	 * @param position The position of the snap in the list
 	 * @return True if the snap has a display time
 	 */
-	private boolean hasDisplayTimeThis(int position) {
-		return Snaps.get(position).hasDisplayTime();
-	}
-	
-	/**
-	 * Get whether the snap is in the delivered state. Note that this is ONLY the delivered 
-	 * state. An opened state will return false from this. Could be modified later to rectify 
-	 * this if necessary.
-	 * @param position The snap's position in the list
-	 * @return True if the snap is currently in the delivered state, false otherwise
-	 */
-	private boolean isDeliveredThis(int position) {
-		return Snaps.get(position).isDelivered();
-	}
-	
-	/**
-	 * Get whether the snap is in the opened state. Note that this is ONLY the opened 
-	 * state. A screenshotted state will return false from this. Could be modified 
-	 * later to rectify this if necessary.
-	 * @param position The snap's position in the list
-	 * @return True if the snap is currently in the open state, false otherwise
-	 */
-	private boolean isOpenedThis(int position) {
-		return Snaps.get(position).isOpened();
-	}
-	
-	/**
-	 * Get whether snap is a photo. Only true for the exact photo type for now.
-	 * @param position The snap's position in the list
-	 * @return True if the snap is a photo, false otherwise
-	 */
-	private boolean isPhotoThis(int position) {
-		return Snaps.get(position).isPhoto();
-	}
-	
-	/**
-	 * Get whether the snap is currently in the sent state. Note that this is mutually 
-	 * exclusive to all the other states and this is NOT whether the user actually sent 
-	 * this snap. Should probably not occur in OpenSnap currently.
-	 * @param position The position of the snap in the list
-	 * @return True if the snap is currently in the sent state, false otherwise
-	 */
-	private boolean isSentThis(int position) {
-		return Snaps.get(position).isSent();
-	}
-	
-	/**
-	 * Get whether the snap is a video. This includes both the standard video and the
-	 * VIDEO_NOAUDIO type.
-	 * @param position The snap's position in the list
-	 * @return True if the snap is a video, false otherwise
-	 */
-	private boolean isVideoThis(int position) {
-		return Snaps.get(position).isVideo();
+	public boolean hasDisplayTime(int position) {
+		return mSnaps.get(position).hasDisplayTime();
 	}
 	
 	/**
@@ -691,10 +232,10 @@ public class LocalSnaps {
 	 * @throws FileNotFoundException Thrown if the config file doesn't exist
 	 * @throws Exception IOExceptions or BitConverter exceptions
 	 */
-	private void readFromFile(Context ctxt) throws FileNotFoundException, Exception {
+	private void readFromFile(Context ctxt) throws Exception {
 		FileInputStream fs = ctxt.openFileInput(GlobalVars.getUsername(ctxt) + "-" + SNAPS_FILENAME);
 		
-		Snaps = new ArrayList<LocalSnap>();
+		mSnaps = new ArrayList<LocalSnap>();
 		
 		byte[] buff = new byte[8];
 		int len = fs.read(buff);
@@ -712,17 +253,17 @@ public class LocalSnaps {
 			throw new IOException("Incorrect read number");
 		len = BitConverter.toInt32(buff, 0);
 		for (int i = 0; i < len; i++) {
-			Snaps.add(new LocalSnap(fs));
+			mSnaps.add(new LocalSnap(fs));
 		}
 		fs.close();
 	}
-	
+
 	/**
 	 * Write the list of snaps to file
 	 * @param ctxt A context
 	 * @throws IOException A rethrown exception
 	 */
-	private void serialiseToFile(Context ctxt) throws IOException {
+	public void serialiseToFile(Context ctxt) throws IOException {
 		FileOutputStream fs = ctxt.openFileOutput(GlobalVars.getUsername(ctxt) + "-" + SNAPS_FILENAME, Context.MODE_PRIVATE);
 		
 		if (!checkInit()) {
@@ -730,8 +271,8 @@ public class LocalSnaps {
 			fs.write(BitConverter.getBytes(0));
 		} else {
 			fs.write(BitConverter.getBytes(SNAPS_CURRENT_HEADER_VER));
-			fs.write(BitConverter.getBytes(Snaps.size()));
-			for (LocalSnap snap : Snaps) {
+			fs.write(BitConverter.getBytes(mSnaps.size()));
+			for (LocalSnap snap : mSnaps) {
 				try {
 					snap.serialise(fs);
 				} catch (Exception e) {
@@ -743,6 +284,27 @@ public class LocalSnaps {
 		}
 		fs.close();
 	}
+
+    /**
+     * Check whether the cloud snap feed should be cleared. This will return true if the first n
+     * snaps have been opened and won't be affected by updates anymore.
+     * @return True if the cloud should be cleared, false otherwise
+     */
+    public boolean shouldClear() {
+        if (mSnaps.size() == 0) {
+            return false;
+        }
+
+        //noinspection ForLoopReplaceableByForEach
+        for (int i = 0; i < mSnaps.size(); i++) {
+            LocalSnap snap;
+            if (!(snap = mSnaps.get(i)).inCloud || snap.State != SnapStatus.OPENED) {
+                return false;
+            }
+        }
+
+        return true;
+    }
 	
 	/**
 	 * Check whether a given snap ID exists in the list of snaps
@@ -750,8 +312,8 @@ public class LocalSnaps {
 	 * @return -1 if the ID isn't found, otherwise the position in the list
 	 */
 	public int snapIDExists(String snapID) {
-		for (int i = 0; i < Snaps.size(); i++) {
-			if (snapID.compareTo(Snaps.get(i).SnapID) == 0) {
+		for (int i = 0; i < mSnaps.size(); i++) {
+			if (snapID.compareTo(mSnaps.get(i).SnapID) == 0) {
 				return i;
 			}
 		}
@@ -762,24 +324,50 @@ public class LocalSnaps {
 	 * Sort the {@link #mSnaps} list by their sent time stamps
 	 */
 	private void sort() {
-		LocalSnap[] tmpSp = Snaps.toArray(new LocalSnap[Snaps.size()]);
+		LocalSnap[] tmpSp = mSnaps.toArray(new LocalSnap[mSnaps.size()]);
 		Arrays.sort(tmpSp, new Comparator<LocalSnap>() {
-			@Override
-			public int compare(LocalSnap lhs, LocalSnap rhs) {
-				if (rhs.getSentTimeStamp() == lhs.getSentTimeStamp())
-					return 0;
-				else if (rhs.getSentTimeStamp() > lhs.getSentTimeStamp())
-					return 1;
-				else
-					return -1;
-			}
-		});
+            @Override
+            public int compare(LocalSnap lhs, LocalSnap rhs) {
+                if (rhs.getSentTimeStamp() == lhs.getSentTimeStamp())
+                    return 0;
+                else if (rhs.getSentTimeStamp() > lhs.getSentTimeStamp())
+                    return 1;
+                else
+                    return -1;
+            }
+        });
 		
-		Snaps = new ArrayList<LocalSnap>();
-		for (LocalSnap snap : tmpSp) {
-			Snaps.add(snap);
-		}
+		mSnaps = new ArrayList<LocalSnap>();
+        Collections.addAll(mSnaps, tmpSp);
 	}
+
+    /**
+     * Synchronise the local copy of snaps information with the version from the SnapChat servers.
+     * Note that this doesn't delete items that are present locally but not remotely.
+     * @param snaps The set of mSnaps from the remote server
+     * @return The number of new snaps
+     */
+    public int sync(LocalSnaps snaps) {
+        for (LocalSnap snap : mSnaps) {
+            snap.inCloud = false;
+        }
+
+        int newsnaps = 0;
+        for (LocalSnaps.LocalSnap snap : snaps.mSnaps) {
+            int pos;
+            if ((pos = snapIDExists(snap.SnapID)) != -1) {
+                update(pos, snap);
+            } else {
+                snap.inCloud = true;
+                mSnaps.add(snap);
+                if (!snap.getSent() && snap.getSnapAvailable())
+                    newsnaps++;
+            }
+        }
+
+        sort();
+        return newsnaps;
+    }
 	
 	/**
 	 * Update a particular snap with another {@link LocalSnap} at a certain position
@@ -787,7 +375,7 @@ public class LocalSnaps {
 	 * @param snap The snap to update with
 	 */
 	private void update(int position, LocalSnap snap) {
-		Snaps.get(position).update(snap);
+		mSnaps.get(position).update(snap);
 	}
 	
 	/**
@@ -1000,7 +588,7 @@ public class LocalSnaps {
 		 * @throws JSONException On an invalid JSON
 		 * @throws Exception Invalid enums, etc
 		 */
-		public LocalSnap(CustomJSON.JSONNode jnode) throws JSONException, Exception {
+		public LocalSnap(CustomJSON.JSONNode jnode) throws Exception {
 			List<String> keys = jnode.GetKeys();
 			for (String key : keys) {
 				if (key.compareTo(ID_KEY) == 0) {
@@ -1374,7 +962,7 @@ public class LocalSnaps {
 		 * so the method first checks whether that is readable. Works with both sent and
 		 * received photos and videos. Will also create the required folders if they don't
 		 * exist.
-		 * @param ctxt A context
+		 * @param context A context
 		 * @return The path to where the snap should be stored 
 		 * @throws IOException If the SD-Card is unavailable this error will be thrown
 		 */
@@ -1393,16 +981,16 @@ public class LocalSnaps {
 			String mediaFolder = (isPhoto()) ? CameraUtil.PICTURE_PATH : CameraUtil.VIDEO_PATH;
 			File snapdir = new File(Environment.getExternalStorageDirectory() + CameraUtil.ROOT_PATH + mediaFolder);
 			if (!snapdir.exists()) {
-				snapdir.mkdirs();
+                //noinspection ResultOfMethodCallIgnored
+                snapdir.mkdirs();
 			}
 			return (getSent()) ? new File(snapdir, ConvID + ext).getAbsolutePath() : new File(snapdir, SnapID + ext).getAbsolutePath();
 		}
 		
 		/**
 		 * Get whether a snap's thumbnail image exists locally. If the external storage 
-		 * device is unavailable when calling {@link #getSnapThumbPath(Context)} this
+		 * device is unavailable when calling {@link #getSnapThumbPath()}  } this
 		 * method will catch the exception and return false.
-		 * @param ctxt A context
 		 * @return True if the thumbnail exists and is accessible.
 		 */
 		public boolean getSnapThumbExists() {
@@ -1412,17 +1000,14 @@ public class LocalSnaps {
 			} catch (IOException e) {
 				return false;
 			}
-			if (imgFile.exists())
-				return true;
-			return false;
-		}
+            return imgFile.exists();
+        }
 		
 		/**
 		 * Get the local path to a snap thumbnail. This is always on an external storage and
 		 * so the method first checks whether that is readable. Works with both sent and 
 		 * received photos and videos. Will also create the required folders if they don't
-		 * exist. 
-		 * @param ctxt A context
+		 * exist.
 		 * @return A path to the snap's thumbnail image
 		 */
 		public String getSnapThumbPath() throws IOException {
@@ -1434,7 +1019,8 @@ public class LocalSnaps {
 			String mediaFolder = (isPhoto()) ? CameraUtil.PICTURE_PATH : CameraUtil.VIDEO_PATH;
 			File snapdir = new File(Environment.getExternalStorageDirectory() + CameraUtil.ROOT_PATH + mediaFolder);
 			if (!snapdir.exists()) {
-				snapdir.mkdirs();
+                //noinspection ResultOfMethodCallIgnored
+                snapdir.mkdirs();
 			}
 			return (getSent()) ? new File(snapdir, ConvID + ".thumb.jpg.nomedia").getAbsolutePath() : 
 				new File(snapdir, SnapID + ".thumb.jpg.nomedia").getAbsolutePath();
@@ -1442,7 +1028,7 @@ public class LocalSnaps {
 		
 		/**
 		 * Get the primary timestamp in milliseconds since the epoch
-		 * @return
+		 * @return The timestamp in milliseconds
 		 */
 		private long getTimeStamp() {
 			return TimeStamp;
@@ -1511,7 +1097,7 @@ public class LocalSnaps {
 
         /**
          * Check whether a snap is actually a friend request
-         * @return
+         * @return True for a friend request, false otherwise
          */
         public boolean isFriendRequest() {
             return Media == MediaType.FRIEND_REQ || Media == MediaType.FRIEND_REQ_IMAGE || Media == MediaType.FRIEND_REQ_VIDEO || Media == MediaType.FRIEND_REQ_VIDEO_NOAUDIO;
@@ -1713,10 +1299,7 @@ public class LocalSnaps {
 		 * @return True if the snap should be available for download, false otherwise
 		 */
 		public static Boolean getAvailable(SnapStatus status) {
-			if (status == SENT || status == DELIVERED)
-				return true;
-			else
-				return false;
+            return status == SENT || status == DELIVERED;
 		}
 		
 		/**

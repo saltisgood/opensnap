@@ -88,7 +88,7 @@ public class MainMenuFrag extends Fragment {
         mUnseenText = (TextView)v.findViewById(R.id.new_snaps_notice);
 		
 		Integer noUnseen;
-		if ((noUnseen = LocalSnaps.getUnseenSnaps()) > 0) {
+		if ((noUnseen = LocalSnaps.getInstanceUnsafe().getUnseenSnaps()) > 0) {
 			mUnseenText.setText(noUnseen.toString());
 			mUnseenText.setVisibility(View.VISIBLE);
 		}
