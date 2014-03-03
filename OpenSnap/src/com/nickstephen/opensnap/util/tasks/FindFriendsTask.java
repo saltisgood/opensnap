@@ -2,10 +2,14 @@ package com.nickstephen.opensnap.util.tasks;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 
+import com.nickstephen.opensnap.global.Contacts;
 import com.nickstephen.opensnap.global.Statistics;
+import com.nickstephen.opensnap.util.Broadcast;
+import com.nickstephen.opensnap.util.http.ServerFriend;
+import com.nickstephen.opensnap.util.http.ServerResponse;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -31,13 +35,11 @@ public class FindFriendsTask extends BaseRequestTask {
         bundle.putString("username", mUsername);
         bundle.putString("countryCode", Statistics.getInstanceUnsafe().getCountryCode());
 
-        mContacts = mContacts.subList(0, 20);
-
         String contacts = "{";
         for (int i = 0; i < mContacts.size() - 1; i++) {
-            contacts += "\"" + mContacts.get(i).numbers.get(0) + "\":\"" + mContacts.get(i).name + "\",";
+            contacts += "\"" + mContacts.get(i).numbers.get(0) + "\":\"" + mContacts.get(i).displayName + "\",";
         }
-        contacts += "\"" + mContacts.get(mContacts.size() - 1).numbers.get(0) + "\":\"" + mContacts.get(mContacts.size() - 1).name + "\"}";
+        contacts += "\"" + mContacts.get(mContacts.size() - 1).numbers.get(0) + "\":\"" + mContacts.get(mContacts.size() - 1).displayName + "\"}";
 
         bundle.putString("numbers", contacts);
 
@@ -54,5 +56,25 @@ public class FindFriendsTask extends BaseRequestTask {
     @Override
     protected String getTaskName() {
         return NAME;
+    }
+
+    @Override
+    protected void onFail(String paramString) {
+        Broadcast.onFindFriendsFailure(this.mStatusCode);
+    }
+
+    @Override
+    protected void onSuccessAsync(ServerResponse response) {
+        mContacts = new ArrayList<ContactLoader.PhoneContact>();
+        for (ServerFriend friend : response.results) {
+            if (Contacts.getInstanceUnsafe().contactExists(friend.name) == -1) {
+                mContacts.add(new ContactLoader.PhoneContact(friend));
+            }
+        }
+    }
+
+    @Override
+    protected void onSuccess(ServerResponse response) {
+        Broadcast.onFindFriendsFinished(mContacts);
     }
 }

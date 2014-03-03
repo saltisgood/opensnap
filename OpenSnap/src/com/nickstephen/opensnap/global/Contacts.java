@@ -215,7 +215,7 @@ public class Contacts {
 	 * @param username The username to search for
 	 * @return -1 if it doesn't exist, otherwise the position in the list
 	 */
-	private Integer contactExists(String username) {
+	public int contactExists(String username) {
 		for (int i = 0; i < mContacts.size(); i++) {
 			if (mContacts.get(i).getUserName().compareTo(username) == 0) {
 				return i;

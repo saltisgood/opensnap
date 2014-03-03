@@ -6,7 +6,8 @@ import android.database.Cursor;
 import android.os.AsyncTask;
 import android.provider.ContactsContract;
 
-import com.nickstephen.opensnap.main.FindContactsListFrag;
+import com.nickstephen.opensnap.util.Broadcast;
+import com.nickstephen.opensnap.util.http.ServerFriend;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,11 +17,9 @@ import java.util.List;
  */
 public class ContactLoader extends AsyncTask<Void, Void, List<ContactLoader.PhoneContact>> {
     private final Context mContext;
-    private final FindContactsListFrag mFragment;
 
-    public ContactLoader(FindContactsListFrag frag) {
-        mFragment = frag;
-        mContext = mFragment.getActivity();
+    public ContactLoader(Context context) {
+        mContext = context;
     }
 
     @Override
@@ -51,7 +50,17 @@ public class ContactLoader extends AsyncTask<Void, Void, List<ContactLoader.Phon
                 }
 
                 if (contact.numbers.size() > 0) {
-                    contacts.add(contact);
+                    boolean found = false;
+                    for (PhoneContact c : contacts) {
+                        if (contact.numbers.get(0).compareTo(c.numbers.get(0)) == 0) {
+                            found = true;
+                            break;
+                        }
+                    }
+
+                    if (!found) {
+                        contacts.add(contact);
+                    }
                 }
             }
             cur.close();
@@ -62,16 +71,22 @@ public class ContactLoader extends AsyncTask<Void, Void, List<ContactLoader.Phon
 
     @Override
     protected void onPostExecute(List<PhoneContact> phoneContacts) {
-        mFragment.onContactsReady(phoneContacts);
+        Broadcast.onNewContactsReady(phoneContacts);
     }
 
     public static class PhoneContact {
-        public String name;
+        public String displayName;
         public List<String> numbers;
+        public String userName;
 
         public PhoneContact(String nam) {
-            name = nam;
+            displayName = nam;
             numbers = new ArrayList<String>();
+        }
+
+        public PhoneContact(ServerFriend friend) {
+            displayName = friend.display;
+            userName = friend.name;
         }
     }
 }

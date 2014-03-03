@@ -4,9 +4,11 @@ import com.nickstephen.opensnap.global.Contacts;
 import com.nickstephen.opensnap.global.LocalSnaps;
 import com.nickstephen.opensnap.global.Statistics;
 import com.nickstephen.opensnap.main.ContactViewerListFrag;
+import com.nickstephen.opensnap.main.FindContactsListFrag;
 import com.nickstephen.opensnap.main.LaunchActivity;
 import com.nickstephen.opensnap.main.MainMenuFrag;
 import com.nickstephen.opensnap.main.SnapViewerListFrag;
+import com.nickstephen.opensnap.util.tasks.ContactLoader;
 import com.nickstephen.opensnap.util.tasks.IOnObjectReady;
 
 import org.jetbrains.annotations.NotNull;
@@ -25,6 +27,7 @@ public final class Broadcast {
     private static List<IOnObjectReady<LocalSnaps>> mSnapWaiters = new ArrayList<IOnObjectReady<LocalSnaps>>();
     private static List<IOnObjectReady<Contacts>> mContactWaiters = new ArrayList<IOnObjectReady<Contacts>>();
     private static List<IOnObjectReady<Statistics>> mStatisticsWaiters = new ArrayList<IOnObjectReady<Statistics>>();
+    private static FindContactsListFrag mFindContactsFrag;
 
     private Broadcast() {
         // Never called
@@ -58,6 +61,24 @@ public final class Broadcast {
         }
 
         mContactWaiters.clear();
+    }
+
+    public static void onFindFriendsFailure(int errCode) {
+        if (mFindContactsFrag != null) {
+            mFindContactsFrag.onContactFailure(errCode);
+        }
+    }
+
+    public static void onFindFriendsFinished(List<ContactLoader.PhoneContact> contacts) {
+        if (mFindContactsFrag != null) {
+            mFindContactsFrag.onContactsFinished(contacts);
+        }
+    }
+
+    public static void onNewContactsReady(List<ContactLoader.PhoneContact> contacts) {
+        if (mFindContactsFrag != null) {
+            mFindContactsFrag.objectReady(contacts);
+        }
     }
 
     public static void onSnapsReady() {
@@ -98,6 +119,10 @@ public final class Broadcast {
         mContactViewer = frag;
     }
 
+    public static void registerFindContactsFrag(@NotNull FindContactsListFrag frag) {
+        mFindContactsFrag = frag;
+    }
+
     public static void registerLaunchActivity(@NotNull LaunchActivity activity) {
         mLaunchActivity = activity;
     }
@@ -118,6 +143,10 @@ public final class Broadcast {
 
     public static void unregisterContactViewer() {
         mContactViewer = null;
+    }
+
+    public static void unregisterFindContactsFrag() {
+        mFindContactsFrag = null;
     }
 
     public static void unregisterLaunchActivity() {

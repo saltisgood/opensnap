@@ -18,7 +18,7 @@ public abstract class BaseRequestTask extends AsyncTask<String, Void, ServerResp
 	protected String mFailureMessage;
 	protected String mResultJson;
 	private long mStartMillis;
-	private int mStatusCode;
+	protected int mStatusCode;
     protected boolean mReuseAuthToken = true;
 
 	public BaseRequestTask(Context paramContext)
