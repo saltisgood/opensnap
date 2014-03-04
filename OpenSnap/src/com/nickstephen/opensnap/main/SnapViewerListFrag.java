@@ -77,6 +77,7 @@ public class SnapViewerListFrag extends ListFragment implements IRefresh, IOnObj
 	private SoftReference<BitmapDrawable> mDrawable;
 	private final GuiHandler mHandler = new GuiHandler();
     private PullToRefreshLayout mPTRLayout;
+    private String mFileToDelete;
 	
 	public SnapViewerListFrag() {
 		mActiveAnims = new SparseArray<ValueAnimator>();
@@ -189,97 +190,6 @@ public class SnapViewerListFrag extends ListFragment implements IRefresh, IOnObj
         });
     }
 
-	private void localSnapListClick(int snapId, View view) {
-		LocalSnap snap = LocalSnaps.getInstanceUnsafe().getSnapAt(snapId);
-		boolean allowSaves = SettingsAccessor.getAllowSaves(this.getActivity()), isPhoto = snap.isPhoto(),
-			isOpened = snap.isOpened();
-		String path;
-		try {
-			path = snap.getSnapPath(this.getActivity());
-		} catch (IOException e) {
-			Twig.warning("SnapViewerListFrag", "External storage not available");
-			StatMethods.hotBread(this.getActivity(), "External storage not available! Connect storage and retry!", Toast.LENGTH_LONG);
-			return;
-		}
-		if (snap.isDownloading()) {
-			// Is currently downloading, ignore click
-		} else if (snap.getSnapExists(this.getActivity())) {
-			// Not downloading and exists. Good.
-			if (allowSaves || !isOpened) {
-				// If saves are allowed you can re-open it. Otherwise make sure it's not already opened
-				Intent viewIntent;
-				if (SettingsAccessor.getExternalPreviewPref(this.getActivity())) {
-					// Want external opening
-					Uri uri = Uri.fromFile(new File(path));
-					viewIntent = isPhoto ? new Intent(Intent.ACTION_VIEW).setDataAndType(uri, "image/*") : 
-						new Intent(Intent.ACTION_VIEW).setDataAndType(uri, "video/*");
-				} else {
-					// Want internal opening
-					viewIntent = isPhoto ? new Intent(this.getActivity(), MediaPreview.class) : new Intent(this.getActivity(), VideoPreview.class);
-					if (SettingsAccessor.getSnapTiming(this.getActivity()) && LocalSnaps.getInstanceUnsafe().hasDisplayTime(snapId)) {
-						viewIntent.putExtra(PreviewConstants.TIME_KEY, LocalSnaps.getInstanceUnsafe().getDisplayTime(snapId));
-					}
-					String caption;
-					if (!StatMethods.IsStringNullOrEmpty((caption = snap.getCaption()))) {
-						viewIntent.putExtra(PreviewConstants.CAPTION_KEY, caption).putExtra(PreviewConstants.CAPTION_LOC_KEY, snap.getCaptionLocation())
-							.putExtra(PreviewConstants.CAPTION_ORI_KEY, snap.getCaptionOrientation());
-					}
-					viewIntent.putExtra(PreviewConstants.PATH_KEY, path);
-				}
-				
-				if (allowSaves) {
-					// Saves allowed so we don't need a callback on return
-					this.startActivity(viewIntent);
-				} else {
-					// Saves not allowed so delete on return
-					this.startActivityForResult(viewIntent, RETURN_AND_DELETE);
-				}
-				
-				if (!isOpened && !snap.getSent() && (!allowSaves || !SettingsAccessor.getPrivateMode(this.getActivity()))) {
-					// To return true the snap MUST NOT BE opened, MUST BE RECEIVED, and if saves are allowed MUST NOT be in private mode
-					new OpenSnapTask(this.getActivity(), snap, GlobalVars.getUsername(getActivity())).execute(new String[] {});
-					mHandler.sendMessageDelayed(mHandler.obtainMessage(GuiHandler.OPEN_SNAP, GuiHandler.LOCALSNAP, 
-							TempSnaps.getInstanceUnsafe().getCount() + snapId, snap.getSnapId()), 200);
-				}
-			} else {
-				// Saves aren't allowed and it's already been opened. Ignore click.
-			}
-		} else if (snap.getSnapAvailable()) {
-			if (StatMethods.isNetworkAvailable(this.getActivity(), true)) {
-				new SnapDownload(this.getSupportApplication(), snap)
-					.execute(GlobalVars.getUsername(this.getActivity()), GlobalVars.getAuthToken(this.getActivity()));
-				mHandler.sendMessage(mHandler.obtainMessage(GuiHandler.REPEAT_REFRESH_VIEW, GuiHandler.LOCALSNAP, 
-						TempSnaps.getInstanceUnsafe().getCount() + snapId, snap.getSnapId()));
-			}
-		} else {
-			StatMethods.hotBread(this.getActivity(), "Snap not available", Toast.LENGTH_SHORT);
-		}
-	}
-
-	private void tempSnapClick(int snapID, View view) {
-		// TODO: tempsnap click mHandler
-		if (TempSnaps.getInstanceUnsafe().isSending(snapID)) {
-			// ignore for the momento
-		} else if (TempSnaps.getInstanceUnsafe().isSent(snapID)) {
-			// also ignore for the momento
-		} else {
-			String filePath = TempSnaps.getInstanceUnsafe().getFilePath(snapID);
-			Message toPost;
-			if (!new File(filePath).exists()) {
-				StatMethods.hotBread(this.getActivity(), "Error! File missing!", Toast.LENGTH_SHORT);
-				TempSnaps.getInstanceUnsafe().setIsError(snapID, true);
-				toPost = mHandler.obtainMessage(GuiHandler.REFRESH_VIEW, GuiHandler.TEMPSNAP, snapID, TempSnaps.getInstanceUnsafe().getId(snapID));
-			} else {
-				TempSnap snap = TempSnaps.getInstanceUnsafe().get(snapID);
-				snap.setIsSending(true).setError(false).setUploadPercent(-1);
-				new SnapUpload(this.getSupportApplication(), snap).execute(
-						new String[] { null, GlobalVars.getUsername(getActivity()), GlobalVars.getAuthToken(getActivity()) });
-				toPost = mHandler.obtainMessage(GuiHandler.REPEAT_REFRESH_VIEW, GuiHandler.TEMPSNAP, snapID, TempSnaps.getInstanceUnsafe().getId(snapID));
-			}
-			mHandler.sendMessage(toPost);
-		}
-	}
-
     private void tempSnapClick(TempSnap snap, int position) {
         if (snap.isSending()) {
             // ignore for the moment
@@ -358,6 +268,7 @@ public class SnapViewerListFrag extends ListFragment implements IRefresh, IOnObj
                     this.startActivity(viewIntent);
                 } else {
                     // Saves not allowed so delete on return
+                    mFileToDelete = path;
                     this.startActivityForResult(viewIntent, RETURN_AND_DELETE);
                 }
 
@@ -389,7 +300,12 @@ public class SnapViewerListFrag extends ListFragment implements IRefresh, IOnObj
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		if (requestCode == RETURN_AND_DELETE) {
-			String filePath = data.getStringExtra(PreviewConstants.PATH_KEY);
+            String filePath;
+            if (data != null) {
+			    filePath = data.getStringExtra(PreviewConstants.PATH_KEY);
+            } else {
+                filePath = mFileToDelete;
+            }
 			if (filePath != null) {
 				File file = new File(filePath);
 				if (file.exists()) {

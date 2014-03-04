@@ -17,6 +17,7 @@
         android:showAsAction="ifRoom" />
     <item
         android:id="@+id/add_friend"
+        android:icon="@drawable/add_friend"
         android:title="@string/add_friends"
         android:orderInCategory="4"
         android:showAsAction="ifRoom" />

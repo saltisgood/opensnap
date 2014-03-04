@@ -30,6 +30,8 @@ public class LoadFiles extends AsyncTask<Void, Void, Void> {
             Twig.debug(NAME, "Contacts init failed");
         }
 
+        TempSnaps.init(mContext);
+
         if (!LocalSnaps.init(mContext)) {
             Twig.debug(NAME, "LocalSnaps init failed");
         }
@@ -38,8 +40,6 @@ public class LoadFiles extends AsyncTask<Void, Void, Void> {
         if ((errCode = Statistics.init(mContext)) < 0) {
             Twig.debug(NAME, "Statistics init failed: " + errCode);
         }
-
-        TempSnaps.init(mContext);
 
         Stories.init(mContext);
 

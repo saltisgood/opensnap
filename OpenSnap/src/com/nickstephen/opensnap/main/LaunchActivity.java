@@ -77,6 +77,7 @@ import com.nickstephen.opensnap.util.misc.CameraUtil;
 import com.nickstephen.opensnap.util.misc.FileIO;
 import com.nickstephen.opensnap.util.play.SKU;
 import com.nickstephen.opensnap.util.tasks.ClearFeedTask;
+import com.nickstephen.opensnap.util.tasks.FriendTask;
 import com.nickstephen.opensnap.util.tasks.IOnObjectReady;
 import com.nickstephen.opensnap.util.tasks.LoadFiles;
 import com.nickstephen.opensnap.util.tasks.LoginTask;
@@ -289,6 +290,7 @@ public class LaunchActivity extends Activity implements IOnObjectReady<Statistic
                         .commit();
                 return true;
             case R.id.add_friend:
+                if (StatMethods.isNetworkAvailable(this, true)) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
                 builder.setItems(R.array.add_friend_options_dialog, new DialogInterface.OnClickListener() {
                     @Override
@@ -297,15 +299,36 @@ public class LaunchActivity extends Activity implements IOnObjectReady<Statistic
                             case 0: // From Phone Contacts
                                 LaunchActivity.this.getSupportFragmentManager().beginTransaction()
                                         .setCustomAnimations(R.anim.push_down_in, R.anim.push_down_out, R.anim.push_up_in, R.anim.push_up_out)
-                                        .replace(R.id.launch_container, new FindContactsListFrag(), FindContactsListFrag.FRAG_TAG)
+                                        .add(R.id.launch_container, new FindContactsListFrag(), FindContactsListFrag.FRAG_TAG)
                                         .addToBackStack(null).commit();
                                 break;
                             case 1: // By Username
-                                //TODO: Implement this
+                                AlertDialog.Builder subbuild = new AlertDialog.Builder(LaunchActivity.this);
+                                final EditText editor = new EditText(LaunchActivity.this);
+                                subbuild.setView(editor).setTitle("Enter the username to add")
+                                        .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                dialog.cancel();
+                                            }
+                                        })
+                                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                String text = editor.getText().toString().trim();
+                                                if (StatMethods.IsStringNullOrEmpty(text)) {
+                                                    StatMethods.hotBread(LaunchActivity.this, "Enter a username", Toast.LENGTH_SHORT);
+                                                } else {
+                                                    new FriendTask(LaunchActivity.this,
+                                                            GlobalVars.getUsername(LaunchActivity.this),
+                                                            text, FriendTask.FriendAction.ADD).execute();
+                                                }
+                                            }
+                                        }).create().show();
                                 break;
                         }
                     }
-                })
+                        })
                         .setTitle("Add a Friend")
                         .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                             @Override
@@ -314,6 +337,7 @@ public class LaunchActivity extends Activity implements IOnObjectReady<Statistic
                             }
                         })
                         .create().show();
+                }
 
                 return true;
 			default:
@@ -388,6 +412,12 @@ public class LaunchActivity extends Activity implements IOnObjectReady<Statistic
 			listfrag.popFragment();
 			return;
 		}
+
+        listfrag = (ListFragment)this.getSupportFragmentManager().findFragmentByTag(FindContactsListFrag.FRAG_TAG);
+        if (listfrag != null && listfrag.isFocused()) {
+            listfrag.popFragment();
+            return;
+        }
 		
 		frag = (Fragment)this.getSupportFragmentManager().findFragmentByTag(MainFrag.FRAGTAG);
 		if (frag != null && frag.isFocused()) {

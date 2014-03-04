@@ -4,15 +4,10 @@ import android.content.Context;
 import android.os.Bundle;
 import android.widget.Toast;
 
-import com.google.gson.Gson;
-import com.nickstephen.lib.Twig;
 import com.nickstephen.lib.misc.StatMethods;
 import com.nickstephen.opensnap.global.Contacts;
 import com.nickstephen.opensnap.util.Broadcast;
 import com.nickstephen.opensnap.util.http.ServerResponse;
-import com.nickstephen.opensnap.util.misc.CustomJSON;
-
-import org.json.JSONException;
 
 /**
  * Created by Nick Stephen on 27/02/14.
@@ -23,7 +18,7 @@ public class FriendTask extends BaseRequestTask {
     private final String mUsername;
     private final String mFriend;
     private final FriendAction mAction;
-    private String mFriendDisplay;
+    private final String mFriendDisplay;
 
     public FriendTask(Context paramContext, String user, String friend, FriendAction action) {
         super(paramContext);
@@ -34,10 +29,13 @@ public class FriendTask extends BaseRequestTask {
         mFriendDisplay = null;
     }
 
-    public FriendTask(Context paramContext, String user, String friend, String display) {
-        this(paramContext, user, friend, FriendAction.DISPLAY);
+    public FriendTask(Context paramContext, String user, String friend, String display, FriendAction action) {
+        super(paramContext);
 
+        mUsername = user;
+        mFriend = friend;
         mFriendDisplay = display;
+        mAction = action;
     }
 
     @Override
@@ -73,28 +71,27 @@ public class FriendTask extends BaseRequestTask {
 
     @Override
     protected void onSuccess(ServerResponse response) {
-        Gson gson = new Gson();
-        Test test = gson.fromJson(this.mResultJson, Test.class);
         if (mAction == FriendAction.DISPLAY) {
             Contacts.getInstanceUnsafe().setDisplayName(mFriend, mFriendDisplay);
             Contacts.getInstanceUnsafe().sort();
-            StatMethods.hotBread(mContext, "Name changed successfully", Toast.LENGTH_SHORT);
+        } else if (mAction == FriendAction.ADD) {
+            if (response.object == null) { // User couldn't be found
+                StatMethods.hotBread(mContext, response.message, Toast.LENGTH_SHORT);
+                return;
+            } else {
+                Contacts.getInstanceUnsafe().addFriend(response.object);
+
+                if (mFriendDisplay != null) {
+                    new FriendTask(mContext, mUsername, mFriend, mFriendDisplay, FriendAction.DISPLAY)
+                            .execute();
+                    StatMethods.hotBread(mContext, mFriendDisplay + " is now your friend!", Toast.LENGTH_SHORT);
+                } else {
+                    StatMethods.hotBread(mContext, mFriend + " is now your friend!", Toast.LENGTH_SHORT);
+                }
+            }
+
         }
         Broadcast.refreshContactViewer();
-        test = null;
-    }
-
-    public class Test {
-        private boolean logged;
-        private String message;
-        private TestContact object;
-    }
-
-    public class TestContact {
-        private boolean can_see_custom_stories;
-        private String name;
-        private String display;
-        private int type;
     }
 
     public enum FriendAction {

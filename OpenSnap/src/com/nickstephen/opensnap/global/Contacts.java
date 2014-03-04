@@ -148,6 +148,17 @@ public class Contacts {
 			throw e;
 		}
 	}
+
+    public boolean addFriend(ServerFriend friend) {
+        for (Contact c : mContacts) {
+            if (friend.name.compareTo(c.mUsername) == 0) {
+                return false;
+            }
+        }
+
+        mContacts.add(new Contact(friend));
+        return true;
+    }
 	
 	/**
 	 * Save the contacts to file

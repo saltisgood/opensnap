@@ -1,15 +1,21 @@
 package com.nickstephen.opensnap.main;
 
 import android.content.Context;
+import android.graphics.Shader;
+import android.graphics.drawable.BitmapDrawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.nickstephen.lib.misc.StatMethods;
 import com.nickstephen.opensnap.R;
 import com.nickstephen.opensnap.global.GlobalVars;
+import com.nickstephen.opensnap.gui.DragTouchListener;
+import com.nickstephen.opensnap.settings.SettingsAccessor;
 import com.nickstephen.opensnap.util.Broadcast;
 import com.nickstephen.opensnap.util.tasks.ContactLoader;
 import com.nickstephen.opensnap.util.tasks.FindFriendsTask;
@@ -40,8 +46,28 @@ public class FindContactsListFrag extends ListFragment implements IOnObjectReady
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        switch (SettingsAccessor.getThemePref(this.getActivity())) {
+            case snapchat:
+            case ori:
+                break;
+            case black:
+            case def:
+            default:
+                BitmapDrawable background = (BitmapDrawable)this.getResources().getDrawable(R.drawable.main_menu_default_background);
+                background.setTileModeXY(Shader.TileMode.REPEAT, Shader.TileMode.REPEAT);
+                if (Build.VERSION.SDK_INT < 16) {
+                    view.setBackgroundDrawable(background);
+                } else {
+                    view.setBackground(background);
+                }
+                break;
+        }
+
         new ContactLoader(this.getActivity()).execute();
     }
+
+
 
     @Override
     public void objectReady(List<ContactLoader.PhoneContact> obj) {
@@ -102,15 +128,19 @@ public class FindContactsListFrag extends ListFragment implements IOnObjectReady
             txt = (TextView) view.findViewById(R.id.contact_number);
             txt.setText(getItem(position).userName);
 
+            final View img = view.findViewById(R.id.friend_added_check);
+
             View butt = view.findViewById(R.id.add_friend_button);
             butt.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     new FriendTask(FindContactsListFrag.this.getActivity(),
                             GlobalVars.getUsername(FindContactsListFrag.this.getActivity()),
-                            getItem(position).userName, FriendTask.FriendAction.ADD).execute();
+                            getItem(position).userName, getItem(position).displayName,
+                            FriendTask.FriendAction.ADD).execute();
                     StatMethods.hotBread(FindContactsListFrag.this.getActivity(),
                             "Adding friend...", Toast.LENGTH_SHORT);
+                    img.setVisibility(View.VISIBLE);
                 }
             });
 

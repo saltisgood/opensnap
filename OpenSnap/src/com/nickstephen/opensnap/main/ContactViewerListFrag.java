@@ -161,7 +161,8 @@ public class ContactViewerListFrag extends ListFragment implements IRefresh, IOn
                                     dialog.dismiss();
                                     new FriendTask(ContactViewerListFrag.this.getActivity(),
                                             GlobalVars.getUsername(ContactViewerListFrag.this.getActivity()),
-                                            Contacts.getInstanceUnsafe().getUsernameAt(contactPosition), newName)
+                                            Contacts.getInstanceUnsafe().getUsernameAt(contactPosition), newName,
+                                            FriendTask.FriendAction.DISPLAY)
                                             .execute();
                                 }
                             });

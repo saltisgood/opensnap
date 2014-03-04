@@ -69,6 +69,7 @@ public class ServerResponse {
 	public SnapOrStoryDoublePostResponse snap_response;
 	public String snapchat_phone_number;
 	public List<ServerSnap> snaps;
+    public int status;
 	public String story_privacy;
 	public SnapOrStoryDoublePostResponse story_response;
     public String token;
