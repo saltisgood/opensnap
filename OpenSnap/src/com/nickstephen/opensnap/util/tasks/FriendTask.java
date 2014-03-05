@@ -63,23 +63,18 @@ public class FriendTask extends BaseRequestTask {
     }
 
     @Override
-    protected void onPreExecute() {
-        super.onPreExecute();
-
-        StatMethods.hotBread(mContext, "Working...", Toast.LENGTH_SHORT);
-    }
-
-    @Override
     protected void onSuccess(ServerResponse response) {
         if (mAction == FriendAction.DISPLAY) {
             Contacts.getInstanceUnsafe().setDisplayName(mFriend, mFriendDisplay);
             Contacts.getInstanceUnsafe().sort();
+            Contacts.getInstanceUnsafe().serialiseToFile(mContext);
         } else if (mAction == FriendAction.ADD) {
             if (response.object == null) { // User couldn't be found
                 StatMethods.hotBread(mContext, response.message, Toast.LENGTH_SHORT);
                 return;
             } else {
                 Contacts.getInstanceUnsafe().addFriend(response.object);
+                Contacts.getInstanceUnsafe().serialiseToFile(mContext);
 
                 if (mFriendDisplay != null) {
                     new FriendTask(mContext, mUsername, mFriend, mFriendDisplay, FriendAction.DISPLAY)

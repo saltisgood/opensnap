@@ -3,6 +3,7 @@ package com.nickstephen.opensnap.util.tasks;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.widget.Toast;
 
 import com.nickstephen.lib.Twig;
 import com.nickstephen.lib.http.NetException;
@@ -76,9 +77,8 @@ public abstract class BaseRequestTask extends AsyncTask<String, Void, ServerResp
 
 	protected void on401Code()
 	{
-		//TODO: Logout
-		//BusProvider.getInstance().post(new LogoutEvent());
-		//new LogoutTask(this.mContext).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, new String[0]);
+		StatMethods.hotBread(mContext, "Login expired. Attempting to re-login", Toast.LENGTH_SHORT);
+        new LoginTask(mContext, GlobalVars.getUsername(mContext), GlobalVars.getPassword(mContext), false).execute();
 	}
 
 	protected void onFail(String paramString)
@@ -91,7 +91,7 @@ public abstract class BaseRequestTask extends AsyncTask<String, Void, ServerResp
 
 	protected final void onPostExecute(ServerResponse response)
 	{
-		Twig.info("OpenSnap RequestTask", getTaskName() + " completed in " + (int) (System.currentTimeMillis() - this.mStartMillis) + " milliseconds");
+		Twig.info("OpenSnap RequestTask", getTaskName() + " completed in " + (int) (System.currentTimeMillis() - this.mStartMillis) + " milliseconds with code: " + this.mStatusCode);
 		if (getTaskName().equalsIgnoreCase("GetProfileInfoTask")) {
 			if (this.mStatusCode == 200) {
 				onSuccessBFF(this.mResultJson);

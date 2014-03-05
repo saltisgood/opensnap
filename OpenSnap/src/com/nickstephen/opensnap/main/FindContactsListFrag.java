@@ -47,21 +47,12 @@ public class FindContactsListFrag extends ListFragment implements IOnObjectReady
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        switch (SettingsAccessor.getThemePref(this.getActivity())) {
-            case snapchat:
-            case ori:
-                break;
-            case black:
-            case def:
-            default:
-                BitmapDrawable background = (BitmapDrawable)this.getResources().getDrawable(R.drawable.main_menu_default_background);
-                background.setTileModeXY(Shader.TileMode.REPEAT, Shader.TileMode.REPEAT);
-                if (Build.VERSION.SDK_INT < 16) {
-                    view.setBackgroundDrawable(background);
-                } else {
-                    view.setBackground(background);
-                }
-                break;
+        BitmapDrawable background = (BitmapDrawable)this.getResources().getDrawable(R.drawable.main_menu_default_background);
+        background.setTileModeXY(Shader.TileMode.REPEAT, Shader.TileMode.REPEAT);
+        if (Build.VERSION.SDK_INT < 16) {
+            view.setBackgroundDrawable(background);
+        } else {
+            view.setBackground(background);
         }
 
         new ContactLoader(this.getActivity()).execute();

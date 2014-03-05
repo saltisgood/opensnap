@@ -69,11 +69,4 @@ public class UpdateTask extends LoginTask {
 
         Broadcast.finishUpdate();
     }
-
-    @Override
-    protected void on401Code() {
-        GlobalVars.setLoggedIn(mContext, false);
-        StatMethods.hotBread(mContext, "Login expired. Attempting to re-login", Toast.LENGTH_SHORT);
-        new LoginTask(mContext, mUsername, GlobalVars.getPassword(mContext), false).execute();
-    }
 }

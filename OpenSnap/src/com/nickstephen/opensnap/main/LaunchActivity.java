@@ -46,6 +46,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
+import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.nickstephen.lib.Twig;
 import com.nickstephen.lib.misc.StatMethods;
@@ -93,6 +94,8 @@ import com.nickstephen.opensnap.util.tasks.UpdateTask;
 public class LaunchActivity extends Activity implements IOnObjectReady<Statistics> {
     public static final String TAG = "OpenSnap LaunchActivity";
 
+    public static final int REQUEST_PLAY_SERVICES_UPDATE = 9614;
+
 	private boolean mIsRunning = true;
 	private ActionBarDrawerToggle mDrawerToggle;
 	private MenuItem mRefreshItem;
@@ -116,9 +119,6 @@ public class LaunchActivity extends Activity implements IOnObjectReady<Statistic
             public void onIabSetupFinished(IabResult result) {
                 if (!result.isSuccess()) {
                     Twig.debug("OpenSnap Vending", "Problem setting up IAB: " + result);
-                    if (result.getResponse() == IabHelper.BILLING_RESPONSE_RESULT_BILLING_UNAVAILABLE) {
-                        SettingsAccessor.setPlaySupported(LaunchActivity.this, false);
-                    }
                 } else {
                     List<String> additionalSkuList = new ArrayList<String>();
                     additionalSkuList.add(SKU.PREMIUM_FEATURES);
@@ -265,8 +265,8 @@ public class LaunchActivity extends Activity implements IOnObjectReady<Statistic
             case R.id.purchase_premium:
                 if (SettingsAccessor.getPremium(this)) {
                     StatMethods.hotBread(this, "Premium access already purchased!", Toast.LENGTH_SHORT);
-                } else if (!SettingsAccessor.getPlaySupported(this)) {
-                    StatMethods.hotBread(this, "Sorry! It seems Google Play services are not supported by your device!", Toast.LENGTH_SHORT);
+                } else if (!checkPlayServices(true)) {
+                    //StatMethods.hotBread(this, "Sorry! It seems Google Play services are not supported by your device!", Toast.LENGTH_SHORT);
                 } else {
                     if (mPlayHelper != null) {
                         try {
@@ -375,10 +375,20 @@ public class LaunchActivity extends Activity implements IOnObjectReady<Statistic
         }
 	}
 	
-	private boolean checkPlayServices() {
-        GooglePlayServicesUtil.isGooglePlayServicesAvailable(this);
-		//int resultCode = GooglePlayServicesUtil.isGooglePlayServicesAvailable(this);
-		return false;
+	private boolean checkPlayServices(boolean showDialogOnFailure) {
+        int result = GooglePlayServicesUtil.isGooglePlayServicesAvailable(this);
+        if (result == ConnectionResult.SUCCESS) {
+            return true;
+        } else {
+            Twig.debug(TAG, "Google Play Services unavailable: " + GooglePlayServicesUtil.getErrorString(result));
+
+            if (showDialogOnFailure && GooglePlayServicesUtil.isUserRecoverableError(result)) {
+                GooglePlayServicesUtil.getErrorDialog(result, this, REQUEST_PLAY_SERVICES_UPDATE).show();
+            }
+
+            return false;
+        }
+
 	}
 	
 	/**
@@ -479,8 +489,8 @@ public class LaunchActivity extends Activity implements IOnObjectReady<Statistic
 						this.recreate();
 					}
 				} else if (resultCode == Settings.RESULT_PURCHASE_PREMIUM) {
-                    if (!SettingsAccessor.getPlaySupported(this)) {
-                        StatMethods.hotBread(this, "Sorry! It seems Google Play services are not supported by your device!", Toast.LENGTH_SHORT);
+                    if (!checkPlayServices(true)) {
+                        //StatMethods.hotBread(this, "Sorry! It seems Google Play services are not supported by your device!", Toast.LENGTH_SHORT);
                     } else if (mPlayHelper != null) {
                         try {
                             mPlayHelper.launchPurchaseFlow(this, SKU.PREMIUM_FEATURES, SKU.REQUEST_PREMIUM, mPurchaseListener, null);
@@ -656,7 +666,9 @@ public class LaunchActivity extends Activity implements IOnObjectReady<Statistic
             if (purchaseListener == null) {
                 purchaseListener = mPurchaseListener;
             }
-            mPlayHelper.launchPurchaseFlow(this, SKU.PREMIUM_FEATURES, SKU.REQUEST_PREMIUM, purchaseListener, null);
+            if (checkPlayServices(true)) {
+                mPlayHelper.launchPurchaseFlow(this, SKU.PREMIUM_FEATURES, SKU.REQUEST_PREMIUM, purchaseListener, null);
+            }
         }
     }
 
