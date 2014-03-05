@@ -14,7 +14,7 @@
         android:textStyle="bold"
         android:text="@string/time_picker_title" />
 
-    <NumberPicker
+    <org.holoeverywhere.widget.NumberPicker
         android:id="@+id/no_picker_time"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

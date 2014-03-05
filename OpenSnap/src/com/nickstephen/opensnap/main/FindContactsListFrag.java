@@ -1,5 +1,6 @@
 package com.nickstephen.opensnap.main;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Shader;
 import android.graphics.drawable.BitmapDrawable;
@@ -44,6 +45,7 @@ public class FindContactsListFrag extends ListFragment implements IOnObjectReady
     }
 
     @Override
+    @SuppressLint("NewApi")
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
